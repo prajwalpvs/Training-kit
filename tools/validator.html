@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Validator - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Content Validator Specific Styles */
+        .validator-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .validator-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .validator-option {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .option-card {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            height: 100%;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+        }
+        
+        .option-card:hover {
+            background-color: var(--neutral-300);
+        }
+        
+        .option-card.selected {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+            color: var(--neutral-100);
+        }
+        
+        .option-card h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        
+        .validator-input {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .validator-input h3 {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .input-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-300);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .input-tab {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .input-tab.active {
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .input-content {
+            display: none;
+        }
+        
+        .input-content.active {
+            display: block;
+        }
+        
+        .text-input {
+            width: 100%;
+            min-height: 200px;
+            padding: var(--spacing-md);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-md);
+            font-family: var(--font-primary);
+            resize: vertical;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-md);
+            font-family: var(--font-primary);
+        }
+        
+        .file-input-area {
+            border: 2px dashed var(--neutral-400);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+        
+        .file-input-area:hover {
+            border-color: var(--primary-color);
+            background-color: var(--neutral-200);
+        }
+        
+        .file-input-area p {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        #file-upload {
+            display: none;
+        }
+        
+        .validation-settings {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .setting-group {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+        }
+        
+        .setting-group h4 {
+            margin-top: 0;
+            margin-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--neutral-300);
+            padding-bottom: var(--spacing-xs);
+        }
+        
+        .setting-item {
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+        }
+        
+        .setting-item label {
+            margin-left: var(--spacing-xs);
+            user-select: none;
+        }
+        
+        .validate-btn-container {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .validator-results {
+            display: none;
+        }
+        
+        .validator-results.active {
+            display: block;
+        }
+        
+        .results-summary {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .summary-stats {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+        }
+        
+        .error-stat {
+            color: #d32f2f;
+        }
+        
+        .warning-stat {
+            color: #f57c00;
+        }
+        
+        .passed-stat {
+            color: #388e3c;
+        }
+        
+        .summary-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .results-issues {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .issues-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .issues-filter {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .filter-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--neutral-300);
+            background-color: var(--neutral-100);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--neutral-200);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            border-color: var(--primary-color);
+        }
+        
+        .issue-item {
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+        
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            background-color: var(--neutral-200);
+            cursor: pointer;
+        }
+        
+        .issue-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .issue-type {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            color: var(--neutral-100);
+            font-weight: bold;
+        }
+        
+        .error-type {
+            background-color: #d32f2f;
+        }
+        
+        .warning-type {
+            background-color: #f57c00;
+        }
+        
+        .info-type {
+            background-color: #0288d1;
+        }
+        
+        .issue-content {
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-300);
+            display: none;
+        }
+        
+        .issue-content.active {
+            display: block;
+        }
+        
+        .issue-description {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .issue-location {
+            background-color: var(--neutral-200);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+            overflow-x: auto;
+        }
+        
+        .issue-fix {
+            background-color: #e8f5e9;
+            border-left: 4px solid #388e3c;
+            padding: var(--spacing-md);
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+        }
+        
+        .issue-fix h4 {
+            margin-top: 0;
+            color: #388e3c;
+        }
+        
+        .issue-fix ul {
+            margin-bottom: 0;
+        }
+        
+        .results-recommendations {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+        }
+        
+        .recommendation-card {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .recommendation-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .validation-spinner {
+            display: none;
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--neutral-300);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--spacing-md);
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .summary-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--spacing-md);
+            }
+            
+            .summary-actions {
+                width: 100%;
+                justify-content: center;
+                margin-top: var(--spacing-sm);
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools" class="active">Tools</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li aria-current="page">Content Validator</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>Content Validator</h1>
+                <p>Check your content against WCAG 2.1 guidelines and receive actionable recommendations.</p>
+            </header>
+            
+            <div class="validator-container">
+                <h2>What would you like to validate?</h2>
+                
+                <div class="validator-options">
+                    <div class="validator-option">
+                        <div class="option-card selected" data-option="html">
+                            <h3>HTML Content</h3>
+                            <p>Validate HTML markup for accessibility issues.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="validator-option">
+                        <div class="option-card" data-option="text">
+                            <h3>Text Content</h3>
+                            <p>Analyze text for readability and clarity.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="validator-option">
+                        <div class="option-card" data-option="image">
+                            <h3>Image Description</h3>
+                            <p>Evaluate image alt text for effectiveness.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="validator-input">
+                    <h3>Input Your Content</h3>
+                    
+                    <div class="input-tabs">
+                        <div class="input-tab active" data-tab="direct">Direct Input</div>
+                        <div class="input-tab" data-tab="url">URL</div>
+                        <div class="input-tab" data-tab="file">File Upload</div>
+                    </div>
+                    
+                    <div id="direct-input" class="input-content active">
+                        <textarea id="content-input" class="text-input" placeholder="Paste your HTML or text content here..."></textarea>
+                    </div>
+                    
+                    <div id="url-input" class="input-content">
+                        <input type="url" id="url-field" class="url-input" placeholder="Enter URL to validate (e.g., https://example.com)">
+                        <p class="note">Note: URL validation may be limited based on the website's security settings.</p>
+                    </div>
+                    
+                    <div id="file-input" class="input-content">
+                        <div class="file-input-area" tabindex="0" role="button" aria-controls="file-upload">
+                            <svg width="48" height="48" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" fill="#666"/>
+                            </svg>
+                            <p>Drag and drop your file here, or click to select</p>
+                            <p class="small">Supported formats: HTML, TXT, MD, DOC, DOCX</p>
+                            <input type="file" id="file-upload" accept=".html,.txt,.md,.doc,.docx">
+                        </div>
+                        <p id="file-name" style="text-align: center; margin-top: 10px; display: none;"></p>
+                    </div>
+                </div>
+                
+                <div class="validation-settings">
+                    <h3>Validation Settings</h3>
+                    
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <h4>WCAG Conformance Level</h4>
+                            <div class="setting-item">
+                                <input type="radio" id="level-a" name="wcag-level" value="a" checked>
+                                <label for="level-a">Level A (minimum)</label>
+                            </div>
+                            <div class="setting-item">
+                                <input type="radio" id="level-aa" name="wcag-level" value="aa">
+                                <label for="level-aa">Level AA (recommended)</label>
+                            </div>
+                            <div class="setting-item">
+                                <input type="radio" id="level-aaa" name="wcag-level" value="aaa">
+                                <label for="level-aaa">Level AAA (enhanced)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h4>Issue Types</h4>
+                            <div class="setting-item">
+                                <input type="checkbox" id="check-errors" name="issue-types" value="errors" checked>
+                                <label for="check-errors">Errors (critical issues)</label>
+                            </div>
+                            <div class="setting-item">
+                                <input type="checkbox" id="check-warnings" name="issue-types" value="warnings" checked>
+                                <label for="check-warnings">Warnings (potential issues)</label>
+                            </div>
+                            <div class="setting-item">
+                                <input type="checkbox" id="check-info" name="issue-types" value="info" checked>
+                                <label for="check-info">Information (best practices)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h4>Validation Options</h4>
+                            <div class="setting-item">
+                                <input type="checkbox" id="check-readability" name="validation-options" value="readability" checked>
+                                <label for="check-readability">Check readability</label>
+                            </div>
+                            <div class="setting-item">
+                                <input type="checkbox" id="check-contrast" name="validation-options" value="contrast" checked>
+                                <label for="check-contrast">Check color contrast</label>
+                            </div>
+                            <div class="setting-item">
+                                <input type="checkbox" id="check-structure" name="validation-options" value="structure" checked>
+                                <label for="check-structure">Check document structure</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="validate-btn-container">
+                    <button id="validate-btn" class="button primary">Validate Content</button>
+                </div>
+                
+                <div class="validation-spinner" id="validation-spinner">
+                    <div class="spinner"></div>
+                    <p>Validating your content...</p>
+                </div>
+                
+                <div class="validator-results" id="validator-results">
+                    <div class="results-summary">
+                        <div class="summary-stats">
+                            <div class="stat-item">
+                                <div class="stat-value error-stat" id="error-count">5</div>
+                                <div class="stat-label">Errors</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-value warning-stat" id="warning-count">3</div>
+                                <div class="stat-label">Warnings</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-value passed-stat" id="passed-count">12</div>
+                                <div class="stat-label">Passed</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-value" id="score">68/100</div>
+                                <div class="stat-label">Accessibility Score</div>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-actions">
+                            <button class="button secondary" id="export-results">Export Results</button>
+                            <button class="button primary" id="fix-all">Fix All Issues</button>
+                        </div>
+                    </div>
+                    
+                    <div class="results-issues">
+                        <div class="issues-header">
+                            <h3>Found Issues</h3>
+                            
+                            <div class="issues-filter">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="error">Errors</button>
+                                <button class="filter-btn" data-filter="warning">Warnings</button>
+                                <button class="filter-btn" data-filter="info">Info</button>
+                            </div>
+                        </div>
+                        
+                        <div class="issues-list">
+                            <!-- Example Error Issue -->
+                            <div class="issue-item" data-issue-type="error">
+                                <div class="issue-header">
+                                    <div class="issue-title">
+                                        <span class="issue-type error-type">!</span>
+                                        <span>Missing alt attribute on image</span>
+                                    </div>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                
+                                <div class="issue-content">
+                                    <div class="issue-description">
+                                        <p>All images must have an alternative text description to be accessible to screen reader users. Missing alt attributes violate WCAG 2.1 Success Criterion 1.1.1 (Level A).</p>
+                                    </div>
+                                    
+                                    <div class="issue-location">
+                                        <code>&lt;img src="company-logo.png"&gt;</code>
+                                    </div>
+                                    
+                                    <div class="issue-fix">
+                                        <h4>How to Fix</h4>
+                                        <p>Add a descriptive alt attribute to the image that conveys the same information:</p>
+                                        <pre><code>&lt;img src="company-logo.png" alt="Company Name Logo"&gt;</code></pre>
+                                        <ul>
+                                            <li>If the image is decorative, use an empty alt attribute: <code>alt=""</code></li>
+                                            <li>Do not include "image of" or "picture of" in the alt text</li>
+                                            <li>Keep alt text concise but descriptive</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Example Warning Issue -->
+                            <div class="issue-item" data-issue-type="warning">
+                                <div class="issue-header">
+                                    <div class="issue-title">
+                                        <span class="issue-type warning-type">!</span>
+                                        <span>Generic link text</span>
+                                    </div>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                
+                                <div class="issue-content">
+                                    <div class="issue-description">
+                                        <p>Links should have descriptive text that makes sense out of context. Generic link text like "click here" or "read more" does not provide sufficient context for screen reader users who navigate by links.</p>
+                                    </div>
+                                    
+                                    <div class="issue-location">
+                                        <code>&lt;a href="services.html"&gt;Click here&lt;/a&gt; to view our services.</code>
+                                    </div>
+                                    
+                                    <div class="issue-fix">
+                                        <h4>How to Fix</h4>
+                                        <p>Rewrite the link to use descriptive text:</p>
+                                        <pre><code>View our &lt;a href="services.html"&gt;complete list of services&lt;/a&gt;.</code></pre>
+                                        <ul>
+                                            <li>Avoid phrases like "click here," "read more," "learn more," etc.</li>
+                                            <li>Make the link text clearly indicate where the link will take the user</li>
+                                            <li>If the same link text is used multiple times, ensure each link goes to the same place</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Example Info Issue -->
+                            <div class="issue-item" data-issue-type="info">
+                                <div class="issue-header">
+                                    <div class="issue-title">
+                                        <span class="issue-type info-type">i</span>
+                                        <span>Consider adding more headings</span>
+                                    </div>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                
+                                <div class="issue-content">
+                                    <div class="issue-description">
+                                        <p>Long blocks of text without headings can be difficult to navigate, especially for users with cognitive disabilities or those using screen readers. Adding appropriate heading structure makes content more scannable and accessible.</p>
+                                    </div>
+                                    
+                                    <div class="issue-location">
+                                        <code>Large paragraph block (253 words) without headings</code>
+                                    </div>
+                                    
+                                    <div class="issue-fix">
+                                        <h4>Best Practice</h4>
+                                        <p>Break up content with descriptive headings:</p>
+                                        <ul>
+                                            <li>Use headings to separate different topics or sections</li>
+                                            <li>Maintain a proper heading hierarchy (h1 → h2 → h3)</li>
+                                            <li>Aim for paragraphs of 3-5 sentences for better readability</li>
+                                            <li>Consider using lists for related items or steps</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-recommendations">
+                        <h3>Recommendations for Improvement</h3>
+                        <p>Based on the validation results, here are some recommendations to improve your content's accessibility:</p>
+                        
+                        <div class="recommendations-grid">
+                            <div class="recommendation-card">
+                                <h4>Structure & Semantics</h4>
+                                <ul>
+                                    <li>Use proper heading hierarchy (h1-h6) to organize content</li>
+                                    <li>Use semantic HTML elements like <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, etc.</li>
+                                    <li>Ensure proper list markup for all lists</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <h4>Text Content</h4>
+                                <ul>
+                                    <li>Improve reading level to around 8th grade</li>
+                                    <li>Break up long paragraphs into shorter chunks</li>
+                                    <li>Use clear and descriptive link text</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <h4>Images & Media</h4>
+                                <ul>
+                                    <li>Add descriptive alt text to all non-decorative images</li>
+                                    <li>Use empty alt text (alt="") for decorative images</li>
+                                    <li>Ensure all media has appropriate captions or transcripts</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <h4>Forms & Controls</h4>
+                                <ul>
+                                    <li>Associate all form controls with labels</li>
+                                    <li>Add clear error messages for form validation</li>
+                                    <li>Ensure all interactive elements are keyboard accessible</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>Web Accessibility Training Toolkit</h2>
+                    <p>A comprehensive solution for training staff on content accessibility standards and best practices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="../index.html#overview">Overview</a></li>
+                        <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                        <li><a href="../index.html#tools">Tools</a></li>
+                        <li><a href="../index.html#resources">Resources</a></li>
+                        <li><a href="../index.html#documentation">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For support or inquiries regarding this toolkit, please contact the accessibility team.</p>
+                    <a href="mailto:accessibility@example.com" class="contact-link">accessibility@example.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Web Accessibility Training Toolkit. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Option card selection
+            const optionCards = document.querySelectorAll('.option-card');
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    optionCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Input tabs
+            const inputTabs = document.querySelectorAll('.input-tab');
+            inputTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    inputTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    const tabContents = document.querySelectorAll('.input-content');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show selected tab content
+                    const tabId = `${this.dataset.tab}-input`;
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // File upload functionality
+            const fileInput = document.getElementById('file-upload');
+            const fileInputArea = document.querySelector('.file-input-area');
+            const fileNameDisplay = document.getElementById('file-name');
+            
+            fileInputArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            fileInputArea.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+            
+            fileInputArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                fileInputArea.style.borderColor = 'var(--primary-color)';
+                fileInputArea.style.backgroundColor = 'var(--neutral-200)';
+            });
+            
+            fileInputArea.addEventListener('dragleave', function() {
+                fileInputArea.style.borderColor = 'var(--neutral-400)';
+                fileInputArea.style.backgroundColor = '';
+            });
+            
+            fileInputArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                fileInputArea.style.borderColor = 'var(--neutral-400)';
+                fileInputArea.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    showFileName(fileInput.files[0]);
+                }
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    showFileName(fileInput.files[0]);
+                }
+            });
+            
+            function showFileName(file) {
+                fileNameDisplay.textContent = `Selected file: ${file.name}`;
+                fileNameDisplay.style.display = 'block';
+            }
+            
+            // Filter buttons in results
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all filters
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked filter
+                    this.classList.add('active');
+                    
+                    // Filter issues
+                    const filterType = this.dataset.filter;
+                    const issues = document.querySelectorAll('.issue-item');
+                    
+                    issues.forEach(issue => {
+                        if (filterType === 'all' || issue.dataset.issueType === filterType) {
+                            issue.style.display = 'block';
+                        } else {
+                            issue.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Issue accordion functionality
+            const issueHeaders = document.querySelectorAll('.issue-header');
+            issueHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const issueContent = this.nextElementSibling;
+                    
+                    if (issueContent.classList.contains('active')) {
+                        issueContent.classList.remove('active');
+                        this.querySelector('svg').style.transform = '';
+                    } else {
+                        issueContent.classList.add('active');
+                        this.querySelector('svg').style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+            
+            // Validate button
+            const validateBtn = document.getElementById('validate-btn');
+            validateBtn.addEventListener('click', function() {
+                // Show spinner
+                document.getElementById('validation-spinner').style.display = 'block';
+                
+                // Hide results if already visible
+                document.getElementById('validator-results').classList.remove('active');
+                
+                // Simulate validation delay
+                setTimeout(function() {
+                    // Hide spinner
+                    document.getElementById('validation-spinner').style.display = 'none';
+                    
+                    // Show results
+                    document.getElementById('validator-results').classList.add('active');
+                    
+                    // Scroll to results
+                    document.getElementById('validator-results').scrollIntoView({ behavior: 'smooth' });
+                }, 2000);
+            });
+            
+            // Export results button
+            const exportBtn = document.getElementById('export-results');
+            exportBtn.addEventListener('click', function() {
+                alert('Export functionality would generate a detailed PDF or HTML report in a real implementation.');
+            });
+            
+            // Fix all button
+            const fixAllBtn = document.getElementById('fix-all');
+            fixAllBtn.addEventListener('click', function() {
+                alert('In a real implementation, this would apply automated fixes where possible and provide guidance for manual fixes.');
+            });
+        });
+    </script>
+</body>
+</html>

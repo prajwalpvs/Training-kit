@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Content Templates - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Templates specific styles */
+        .templates-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .templates-intro {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .template-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .category-pill {
+            background-color: var(--neutral-200);
+            border-radius: 20px;
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-pill:hover, .category-pill:focus {
+            background-color: var(--neutral-300);
+        }
+        
+        .category-pill.active {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .template-card {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .template-card:hover, .template-card:focus-within {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .template-preview {
+            height: 160px;
+            background-color: var(--neutral-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md);
+        }
+        
+        .preview-content {
+            width: 100%;
+            height: 100%;
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            flex-direction: column;
+            padding: var(--spacing-sm);
+            overflow: hidden;
+        }
+        
+        .preview-content .header {
+            height: 20px;
+            background-color: var(--primary-light);
+            border-radius: 3px;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .preview-content .body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .preview-content .line {
+            height: 8px;
+            background-color: var(--neutral-300);
+            border-radius: 3px;
+            width: 100%;
+        }
+        
+        .preview-content .line.short {
+            width: 60%;
+        }
+        
+        .template-info {
+            padding: var(--spacing-md);
+            background-color: var(--neutral-100);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .template-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .template-description {
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+            flex-grow: 1;
+        }
+        
+        .template-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .template-tag {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background-color: var(--neutral-200);
+        }
+        
+        .template-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .template-detail {
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            border-top: 1px solid var(--neutral-300);
+            padding-top: var(--spacing-xl);
+            scroll-margin-top: 100px;
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+        
+        .detail-title-section {
+            max-width: 700px;
+        }
+        
+        .detail-title {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .detail-description {
+            color: var(--neutral-600);
+        }
+        
+        .detail-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .template-preview-full {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            border: 1px solid var(--neutral-300);
+        }
+        
+        .template-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-300);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .template-tab {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .template-tab.active {
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .template-content {
+            display: none;
+        }
+        
+        .template-content.active {
+            display: block;
+        }
+        
+        .template-features {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+        }
+        
+        .feature-item {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .feature-text {
+            font-size: 0.95rem;
+        }
+        
+        .template-instructions {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .instruction-step {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .code-block {
+            font-family: var(--font-mono);
+            background-color: var(--neutral-800);
+            color: var(--neutral-100);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+        }
+        
+        .tip-box {
+            background-color: var(--neutral-200);
+            border-left: 4px solid var(--secondary-color);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .tip-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .tip-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover, .back-to-top:focus {
+            background-color: var(--primary-dark);
+            color: var(--neutral-100);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .detail-header {
+                flex-direction: column;
+            }
+            
+            .detail-actions {
+                width: 100%;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li><a href="../index.html#documentation" class="active">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                    <li aria-current="page">Accessible Content Templates</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>Accessible Content Templates</h1>
+                <p>Pre-built, accessible templates to help you create content that meets accessibility guidelines.</p>
+            </header>
+            
+            <div class="templates-container">
+                <div class="templates-intro">
+                    <h2>About Our Templates</h2>
+                    <p>These templates have been designed with accessibility in mind, following WCAG 2.1 guidelines. Each template includes proper semantic structure, keyboard navigation, appropriate color contrast, and other accessibility features.</p>
+                    
+                    <p>Using these templates as a starting point for your content helps ensure accessibility is built in from the beginning, making it easier to maintain accessible content throughout its lifecycle.</p>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title">
+                            <svg class="tip-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z" fill="currentColor"/>
+                            </svg>
+                            Template Benefits
+                        </div>
+                        <ul>
+                            <li><strong>Save time:</strong> Avoid recreating accessible structures for common content types</li>
+                            <li><strong>Ensure consistency:</strong> Maintain a consistent approach to accessibility across content</li>
+                            <li><strong>Reduce errors:</strong> Templates include built-in accessibility features to prevent common mistakes</li>
+                            <li><strong>Learn by example:</strong> See how accessibility features are implemented in real content</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="template-categories">
+                    <button class="category-pill active" data-category="all">All Templates</button>
+                    <button class="category-pill" data-category="web">Web Pages</button>
+                    <button class="category-pill" data-category="document">Documents</button>
+                    <button class="category-pill" data-category="email">Email</button>
+                    <button class="category-pill" data-category="form">Forms</button>
+                    <button class="category-pill" data-category="multimedia">Multimedia</button>
+                </div>
+                
+                <div class="template-search">
+                    <input type="text" id="template-search" placeholder="Search templates..." aria-label="Search templates">
+                </div>
+                
+                <div class="template-grid">
+                    <!-- Web Page Templates -->
+                    <article class="template-card" data-category="web">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Basic Web Page Template</h3>
+                            <p class="template-description">A simple, accessible web page structure with proper semantic HTML elements.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">HTML</span>
+                                <span class="template-tag">CSS</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#basic-web-page" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="template-card" data-category="web">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Blog Post Template</h3>
+                            <p class="template-description">A template for creating accessible blog posts with proper heading structure and multimedia support.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">HTML</span>
+                                <span class="template-tag">WordPress</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#blog-post" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="template-card" data-category="web">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Product Page Template</h3>
+                            <p class="template-description">An accessible template for showcasing products with details, images, and purchase options.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">HTML</span>
+                                <span class="template-tag">eCommerce</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Document Templates -->
+                    <article class="template-card" data-category="document">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible Word Document</h3>
+                            <p class="template-description">Microsoft Word template with proper heading structure, alt text, and other accessibility features.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Word</span>
+                                <span class="template-tag">Office</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="template-card" data-category="document">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible PowerPoint Presentation</h3>
+                            <p class="template-description">PowerPoint template with accessible slide layouts, reading order, and alt text for images.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">PowerPoint</span>
+                                <span class="template-tag">Presentation</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="template-card" data-category="document">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible PDF Template</h3>
+                            <p class="template-description">Pre-structured PDF template with proper tagging, reading order, and other accessibility features.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">PDF</span>
+                                <span class="template-tag">Document</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Email Templates -->
+                    <article class="template-card" data-category="email">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible Email Newsletter</h3>
+                            <p class="template-description">Email template with accessible structure, proper contrast, and text alternatives for images.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Email</span>
+                                <span class="template-tag">HTML</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Form Templates -->
+                    <article class="template-card" data-category="form">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible Contact Form</h3>
+                            <p class="template-description">Form template with proper labels, error handling, and keyboard accessibility.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Form</span>
+                                <span class="template-tag">HTML</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="template-card" data-category="form">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible Survey Form</h3>
+                            <p class="template-description">Survey template with accessible form controls, grouping, and clear instructions.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Form</span>
+                                <span class="template-tag">Survey</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Multimedia Templates -->
+                    <article class="template-card" data-category="multimedia">
+                        <div class="template-preview">
+                            <div class="preview-content">
+                                <div class="header"></div>
+                                <div class="body">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                    <div class="line short"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Accessible Video Player Page</h3>
+                            <p class="template-description">Template for embedding videos with captions, transcripts, and accessible controls.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Video</span>
+                                <span class="template-tag">HTML</span>
+                                <span class="template-tag">Level AA</span>
+                            </div>
+                            <div class="template-actions">
+                                <a href="#" class="button small">View Details</a>
+                                <a href="#" class="button primary small">Download</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Template Details Sections -->
+                <div id="basic-web-page" class="template-detail">
+                    <div class="detail-header">
+                        <div class="detail-title-section">
+                            <h2 class="detail-title">Basic Web Page Template</h2>
+                            <p class="detail-description">A simple, accessible web page structure with proper semantic HTML elements.</p>
+                        </div>
+                        <div class="detail-actions">
+                            <a href="#" class="button primary">Download Template</a>
+                            <a href="#" class="button secondary">Preview</a>
+                        </div>
+                    </div>
+                    
+                    <div class="template-tabs">
+                        <div class="template-tab active" data-tab="overview">Overview</div>
+                        <div class="template-tab" data-tab="code">Code</div>
+                        <div class="template-tab" data-tab="usage">Usage Instructions</div>
+                    </div>
+                    
+                    <div id="overview-content" class="template-content active">
+                        <div class="template-preview-full">
+                            <img src="../images/templates/basic-web-page-preview.png" alt="Preview of the basic web page template showing header, navigation, main content, and footer sections">
+                        </div>
+                        
+                        <div class="template-features">
+                            <h3>Accessibility Features</h3>
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <div class="feature-icon">✓</div>
+                                    <div class="feature-text">Proper semantic HTML structure with header, nav, main, and footer elements</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">✓</div>
+                                    <div class="feature-text">Keyboard-accessible navigation with focus styles</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">✓</div>
+                                    <div class="feature-text">Skip to main content link

@@ -1,0 +1,182 @@
+/* Accessibility Specific Styles */
+
+/* Focus Styles */
+:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Skip-to-content link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px;
+    z-index: 1000;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* High Contrast Mode Styles */
+body.high-contrast {
+    --primary-color: #0060df;
+    --primary-dark: #003e9a;
+    --primary-light: #5698ff;
+    --secondary-color: #008000;
+    --secondary-dark: #005700;
+    --secondary-light: #45b345;
+    --neutral-100: #000000;
+    --neutral-200: #0a0a0a;
+    --neutral-300: #141414;
+    --neutral-400: #262626;
+    --neutral-500: #3d3d3d;
+    --neutral-600: #666666;
+    --neutral-700: #a6a6a6;
+    --neutral-800: #d8d8d8;
+    --neutral-900: #ffffff;
+    
+    background-color: #000;
+    color: #fff;
+}
+
+body.high-contrast .button.primary {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #fff;
+}
+
+body.high-contrast .button.secondary {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+body.high-contrast .button.secondary:hover,
+body.high-contrast .button.secondary:focus {
+    background-color: #fff;
+    color: #000;
+}
+
+body.high-contrast a {
+    color: #55aaff;
+    text-decoration: underline;
+}
+
+body.high-contrast .main-header,
+body.high-contrast .a11y-settings,
+body.high-contrast .module-card,
+body.high-contrast .tool-card,
+body.high-contrast .resource-card,
+body.high-contrast .doc-card {
+    background-color: #000;
+    border: 2px solid #fff;
+}
+
+body.high-contrast .hero-section {
+    background-color: #000;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+body.high-contrast .metrics-dashboard {
+    background-color: #1a1a1a;
+    border: 2px solid #fff;
+}
+
+body.high-contrast .metric-card {
+    background-color: #000;
+    border: 1px solid #fff;
+}
+
+/* Dyslexia-friendly Font */
+body.dyslexia-font {
+    --font-primary: 'Open Dyslexic', 'Comic Sans MS', sans-serif;
+    --font-heading: 'Open Dyslexic', 'Comic Sans MS', sans-serif;
+    letter-spacing: 0.5px;
+    word-spacing: 2px;
+    line-height: 1.8;
+}
+
+/* Reduce Motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+body.reduce-motion * {
+    transition: none !important;
+    animation: none !important;
+}
+
+body.reduce-motion .module-card:hover,
+body.reduce-motion .tool-card:hover,
+body.reduce-motion .resource-card:hover,
+body.reduce-motion .doc-card:hover {
+    transform: none;
+}
+
+/* Larger Font Sizes */
+body.font-size-110 {
+    font-size: 17.6px; /* 110% of 16px */
+}
+
+body.font-size-120 {
+    font-size: 19.2px; /* 120% of 16px */
+}
+
+body.font-size-130 {
+    font-size: 20.8px; /* 130% of 16px */
+}
+
+body.font-size-140 {
+    font-size: 22.4px; /* 140% of 16px */
+}
+
+body.font-size-150 {
+    font-size: 24px; /* 150% of 16px */
+}
+
+body.font-size-160 {
+    font-size: 25.6px; /* 160% of 16px */
+}
+
+body.font-size-170 {
+    font-size: 27.2px; /* 170% of 16px */
+}
+
+body.font-size-180 {
+    font-size: 28.8px; /* 180% of 16px */
+}
+
+body.font-size-190 {
+    font-size: 30.4px; /* 190% of 16px */
+}
+
+body.font-size-200 {
+    font-size: 32px; /* 200% of 16px */
+}
+
+/* Enhanced visible focus for keyboard navigation */
+body.keyboard-focus a:focus,
+body.keyboard-focus button:focus,
+body.keyboard-focus input:focus,
+body.keyboard-focus select:focus,
+body.keyboard-focus textarea:focus {
+    outline: 4px solid var(--primary-color);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 2px white, 0 0 0 6px var(--primary-color);
+}
+
+/* Link styles */
+a:focus {
+    text-decoration: underline;
+}
+
+a.button:focus {
+    text-decoration: none;
+}

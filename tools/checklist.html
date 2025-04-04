@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Checklist - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Checklist Specific Styles */
+        .checklist-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .checklist-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+        
+        .checklist-filters {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .checklist-search {
+            flex-grow: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .checklist-search input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            padding-left: calc(var(--spacing-md) + 24px);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-600);
+            width: 16px;
+            height: 16px;
+        }
+        
+        .checklist-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .checklist-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .category-pill {
+            background-color: var(--neutral-200);
+            border-radius: 20px;
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-pill:hover, .category-pill:focus {
+            background-color: var(--neutral-300);
+        }
+        
+        .category-pill.active {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+        }
+        
+        .checklist-progress {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .progress-stats {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+        }
+        
+        .progress-bar-container {
+            height: 8px;
+            background-color: var(--neutral-300);
+            border-radius: 4px;
+            overflow: hidden;
+            flex-grow: 1;
+            min-width: 200px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .checklist-item {
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            transition: all var(--transition-fast);
+        }
+        
+        .checklist-item:hover {
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .checklist-item.completed {
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .item-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .item-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .item-tag {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 3px;
+            background-color: var(--neutral-200);
+        }
+        
+        .item-tag.wcag {
+            background-color: #e0f7fa;
+            color: #006064;
+        }
+        
+        .item-tag.level-a {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        .item-tag.level-aa {
+            background-color: #fff8e1;
+            color: #ff6f00;
+        }
+        
+        .item-tag.level-aaa {
+            background-color: #ffebee;
+            color: #b71c1c;
+        }
+        
+        .item-category {
+            font-size: 0.8rem;
+            color: var(--neutral-600);
+        }
+        
+        .item-description {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .item-details {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            display: none;
+        }
+        
+        .item-details.active {
+            display: block;
+        }
+        
+        .details-section {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .details-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .details-heading {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .example-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-300);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .example-tab {
+            padding: var(--spacing-xs) var(--spacing-md);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+        
+        .example-tab.active {
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .example-content {
+            display: none;
+            padding: var(--spacing-sm);
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--neutral-300);
+        }
+        
+        .example-content.active {
+            display: block;
+        }
+        
+        .code-block {
+            font-family: var(--font-mono);
+            background-color: var(--neutral-800);
+            color: var(--neutral-100);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+        }
+        
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .toggle-details {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .toggle-details:hover {
+            text-decoration: underline;
+        }
+        
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-details[aria-expanded="true"] .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .item-checkbox {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neutral-400);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .custom-checkbox.checked {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .custom-checkbox.checked::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .custom-checkbox-label {
+            font-size: 0.9rem;
+        }
+        
+        /* Export modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .export-options {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .export-option {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .checklist-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .checklist-search {
+                max-width: 100%;
+            }
+            
+            .progress-stats {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools" class="active">Tools</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li aria-current="page">Accessibility Checklist</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>Accessibility Checklist</h1>
+                <p>A comprehensive checklist to help ensure your content meets accessibility standards.</p>
+            </header>
+            
+            <div class="checklist-container">
+                <div class="checklist-controls">
+                    <div class="checklist-filters">
+                        <div class="filter-group">
+                            <label for="level-filter">WCAG Level:</label>
+                            <select id="level-filter" class="filter-select">
+                                <option value="all">All Levels</option>
+                                <option value="a">Level A</option>
+                                <option value="aa">Level AA</option>
+                                <option value="aaa">Level AAA</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="status-filter">Status:</label>
+                            <select id="status-filter" class="filter-select">
+                                <option value="all">All Items</option>
+                                <option value="completed">Completed</option>
+                                <option value="incomplete">Incomplete</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-search">
+                        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                        </svg>
+                        <input type="text" id="search-checklist" placeholder="Search checklist items...">
+                    </div>
+                    
+                    <div class="checklist-actions">
+                        <button id="export-btn" class="button secondary">Export Checklist</button>
+                        <button id="reset-btn" class="button primary">Reset Checklist</button>
+                    </div>
+                </div>
+                
+                <div class="checklist-categories">
+                    <button class="category-pill active" data-category="all">All Categories</button>
+                    <button class="category-pill" data-category="perceivable">Perceivable</button>
+                    <button class="category-pill" data-category="operable">Operable</button>
+                    <button class="category-pill" data-category="understandable">Understandable</button>
+                    <button class="category-pill" data-category="robust">Robust</button>
+                </div>
+                
+                <div class="checklist-progress">
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="completed-count">0</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-count">25</div>
+                            <div class="stat-label">Total Items</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="completion-percentage">0%</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="checklist-items" id="checklist-container">
+                    <!-- Perceivable Items -->
+                    <div class="checklist-item" data-category="perceivable" data-level="a">
+                        <div class="item-header">
+                            <h3 class="item-title">Provide text alternatives for non-text content</h3>
+                            <div class="item-checkbox">
+                                <div class="custom-checkbox" tabindex="0" role="checkbox" aria-checked="false"></div>
+                                <span class="custom-checkbox-label">Mark as completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="item-meta">
+                            <span class="item-tag wcag">WCAG 1.1.1</span>
+                            <span class="item-tag level-a">Level A</span>
+                            <span class="item-category">Perceivable</span>
+                        </div>
+                        
+                        <p class="item-description">All non-text content (images, icons, charts, etc.) must have a text alternative that serves the equivalent purpose.</p>
+                        
+                        <div class="item-footer">
+                            <button class="toggle-details" aria-expanded="false">
+                                <span>Show details</span>
+                                <svg class="toggle-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="item-details">
+                            <div class="details-section">
+                                <h4 class="details-heading">Why this matters</h4>
+                                <p>Text alternatives are essential for people who cannot see images, such as screen reader users. They provide the same information conveyed by the image in an accessible format.</p>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">How to implement</h4>
+                                <ul>
+                                    <li>Add descriptive alt text to images that convey meaning</li>
+                                    <li>Use empty alt text (alt="") for decorative images</li>
+                                    <li>Provide text alternatives for complex images like charts or diagrams</li>
+                                    <li>Ensure form image buttons have descriptive alt text</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">Examples</h4>
+                                <div class="example-tabs">
+                                    <div class="example-tab active" data-tab="good-1">Good Example</div>
+                                    <div class="example-tab" data-tab="bad-1">Bad Example</div>
+                                </div>
+                                
+                                <div id="good-1" class="example-content active">
+                                    <p>Good example with descriptive alt text:</p>
+                                    <div class="code-block">&lt;img src="chart.png" alt="Bar chart showing sales growth of 25% in Q1, 15% in Q2, and 30% in Q3"&gt;</div>
+                                </div>
+                                
+                                <div id="bad-1" class="example-content">
+                                    <p>Bad example with missing or inadequate alt text:</p>
+                                    <div class="code-block">&lt;img src="chart.png" alt="Chart"&gt;
+&lt;img src="logo.png"&gt; &lt;!-- Missing alt attribute --&gt;</div>
+                                </div>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">Testing</h4>
+                                <ol>
+                                    <li>Turn off images in your browser or use a screen reader to check if the information conveyed by images is still available</li>
+                                    <li>Inspect the HTML to ensure all images have appropriate alt attributes</li>
+                                    <li>Verify that decorative images have empty alt text (alt="")</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" data-category="perceivable" data-level="a">
+                        <div class="item-header">
+                            <h3 class="item-title">Provide captions for videos</h3>
+                            <div class="item-checkbox">
+                                <div class="custom-checkbox" tabindex="0" role="checkbox" aria-checked="false"></div>
+                                <span class="custom-checkbox-label">Mark as completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="item-meta">
+                            <span class="item-tag wcag">WCAG 1.2.2</span>
+                            <span class="item-tag level-a">Level A</span>
+                            <span class="item-category">Perceivable</span>
+                        </div>
+                        
+                        <p class="item-description">Captions must be provided for all prerecorded audio content in synchronized media.</p>
+                        
+                        <div class="item-footer">
+                            <button class="toggle-details" aria-expanded="false">
+                                <span>Show details</span>
+                                <svg class="toggle-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="item-details">
+                            <div class="details-section">
+                                <h4 class="details-heading">Why this matters</h4>
+                                <p>Captions make video content accessible to people who are deaf or hard of hearing. They also benefit people in noisy environments, those who are not fluent in the language spoken, and people who process written information better than audio.</p>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">How to implement</h4>
+                                <ul>
+                                    <li>Provide synchronized captions for all video content with audio</li>
+                                    <li>Ensure captions include all spoken dialogue and important sound effects</li>
+                                    <li>Use a video player that supports captions</li>
+                                    <li>Consider using platforms like YouTube that offer automatic captioning as a starting point (but always review and edit for accuracy)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Operable Items -->
+                    <div class="checklist-item" data-category="operable" data-level="a">
+                        <div class="item-header">
+                            <h3 class="item-title">Ensure all functionality is operable via keyboard</h3>
+                            <div class="item-checkbox">
+                                <div class="custom-checkbox" tabindex="0" role="checkbox" aria-checked="false"></div>
+                                <span class="custom-checkbox-label">Mark as completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="item-meta">
+                            <span class="item-tag wcag">WCAG 2.1.1</span>
+                            <span class="item-tag level-a">Level A</span>
+                            <span class="item-category">Operable</span>
+                        </div>
+                        
+                        <p class="item-description">All functionality must be operable through a keyboard interface without requiring specific timings for individual keystrokes.</p>
+                        
+                        <div class="item-footer">
+                            <button class="toggle-details" aria-expanded="false">
+                                <span>Show details</span>
+                                <svg class="toggle-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="item-details">
+                            <div class="details-section">
+                                <h4 class="details-heading">Why this matters</h4>
+                                <p>Many users rely on a keyboard to navigate websites, including people with motor disabilities, blind users, and power users. Ensuring keyboard operability also improves compatibility with other assistive technologies.</p>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">How to implement</h4>
+                                <ul>
+                                    <li>Ensure all interactive elements can be accessed and activated using Tab, Enter, and other keyboard controls</li>
+                                    <li>Avoid keyboard traps where focus can get stuck</li>
+                                    <li>Provide visible focus indicators</li>
+                                    <li>Don't rely on mouse-specific events like hover or drag without keyboard alternatives</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Understandable Items -->
+                    <div class="checklist-item" data-category="understandable" data-level="aa">
+                        <div class="item-header">
+                            <h3 class="item-title">Make text content readable and understandable</h3>
+                            <div class="item-checkbox">
+                                <div class="custom-checkbox" tabindex="0" role="checkbox" aria-checked="false"></div>
+                                <span class="custom-checkbox-label">Mark as completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="item-meta">
+                            <span class="item-tag wcag">WCAG 3.1.2</span>
+                            <span class="item-tag level-aa">Level AA</span>
+                            <span class="item-category">Understandable</span>
+                        </div>
+                        
+                        <p class="item-description">The language of parts of content that differ from the default language of the page must be programmatically determined.</p>
+                        
+                        <div class="item-footer">
+                            <button class="toggle-details" aria-expanded="false">
+                                <span>Show details</span>
+                                <svg class="toggle-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="item-details">
+                            <div class="details-section">
+                                <h4 class="details-heading">Why this matters</h4>
+                                <p>Identifying the language of content allows screen readers and other assistive technologies to process text correctly, ensuring proper pronunciation and understanding.</p>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">Examples</h4>
+                                <div class="example-tabs">
+                                    <div class="example-tab active" data-tab="good-2">Good Example</div>
+                                    <div class="example-tab" data-tab="bad-2">Bad Example</div>
+                                </div>
+                                
+                                <div id="good-2" class="example-content active">
+                                    <p>Good example with language attributes:</p>
+                                    <div class="code-block">&lt;html lang="en"&gt;
+  &lt;head&gt;...&lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;The French word for book is &lt;span lang="fr"&gt;livre&lt;/span&gt;.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+                                </div>
+                                
+                                <div id="bad-2" class="example-content">
+                                    <p>Bad example missing language attributes:</p>
+                                    <div class="code-block">&lt;html&gt;
+  &lt;head&gt;...&lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;The French word for book is livre.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Robust Items -->
+                    <div class="checklist-item" data-category="robust" data-level="a">
+                        <div class="item-header">
+                            <h3 class="item-title">Use valid, semantic HTML</h3>
+                            <div class="item-checkbox">
+                                <div class="custom-checkbox" tabindex="0" role="checkbox" aria-checked="false"></div>
+                                <span class="custom-checkbox-label">Mark as completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="item-meta">
+                            <span class="item-tag wcag">WCAG 4.1.1</span>
+                            <span class="item-tag level-a">Level A</span>
+                            <span class="item-category">Robust</span>
+                        </div>
+                        
+                        <p class="item-description">In content implemented using markup languages, elements have complete start and end tags, are nested according to their specifications, and do not contain duplicate attributes.</p>
+                        
+                        <div class="item-footer">
+                            <button class="toggle-details" aria-expanded="false">
+                                <span>Show details</span>
+                                <svg class="toggle-icon" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="item-details">
+                            <div class="details-section">
+                                <h4 class="details-heading">Why this matters</h4>
+                                <p>Valid, well-formed HTML helps ensure that user agents, including assistive technologies, can accurately interpret and parse content. Using semantic HTML also provides additional contextual information about the purpose and structure of content.</p>
+                            </div>
+                            
+                            <div class="details-section">
+                                <h4 class="details-heading">How to implement</h4>
+                                <ul>
+                                    <li>Use HTML according to specification (proper nesting, complete tags, no duplicate attributes)</li>
+                                    <li>Validate your HTML using the W3C Validator</li>
+                                    <li>Use semantic HTML elements like <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code></li>
+                                    <li>Use <code>&lt;button&gt;</code> for clickable controls and <code>&lt;a&gt;</code> for navigation links</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="export-modal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Export Checklist</h2>
+                        <button class="modal-close" aria-label="Close export modal">&times;</button>
+                    </div>
+                    
+                    <div class="export-options">
+                        <h3>Choose Export Format</h3>
+                        
+                        <div class="export-option">
+                            <input type="radio" id="export-pdf" name="export-format" value="pdf" checked>
+                            <label for="export-pdf">PDF Document</label>
+                        </div>
+                        
+                        <div class="export-option">
+                            <input type="radio" id="export-html" name="export-format" value="html">
+                            <label for="export-html">HTML Document</label>
+                        </div>
+                        
+                        <div class="export-option">
+                            <input type="radio" id="export-csv" name="export-format" value="csv">
+                            <label for="export-csv">CSV Spreadsheet</label>
+                        </div>
+                    </div>
+                    
+                    <div class="export-options">
+                        <h3>Include</h3>
+                        
+                        <div class="export-option">
+                            <input type="checkbox" id="include-all" name="include" value="all" checked>
+                            <label for="include-all">All items</label>
+                        </div>
+                        
+                        <div class="export-option">
+                            <input type="checkbox" id="include-completed" name="include" value="completed">
+                            <label for="include-completed">Completed items only</label>
+                        </div>
+                        
+                        <div class="export-option">
+                            <input type="checkbox" id="include-details" name="include-details" value="true" checked>
+                            <label for="include-details">Include detailed instructions</label>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="button secondary" id="cancel-export">Cancel</button>
+                        <button class="button primary" id="confirm-export">Export</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>Web Accessibility Training Toolkit</h2>
+                    <p>A comprehensive solution for training staff on content accessibility standards and best practices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="../index.html#overview">Overview</a></li>
+                        <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                        <li><a href="../index.html#tools">Tools</a></li>
+                        <li><a href="../index.html#resources">Resources</a></li>
+                        <li><a href="../index.html#documentation">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For support or inquiries regarding this toolkit, please contact the accessibility team.</p>
+                    <a href="mailto:accessibility@example.com" class="contact-link">accessibility@example.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Web Accessibility Training Toolkit. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const checklistContainer = document.getElementById('checklist-container');
+            const completedCount = document.getElementById('completed-count');
+            const totalCount = document.getElementById('total-count');
+            const completionPercentage = document.getElementById('completion-percentage');
+            const progressBar = document.getElementById('progress-bar');
+            const searchInput = document.getElementById('search-checklist');
+            const levelFilter = document.getElementById('level-filter');
+            const statusFilter = document.getElementById('status-filter');
+            const categoryPills = document.querySelectorAll('.category-pill');
+            const exportBtn = document.getElementById('export-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const exportModal = document.getElementById('export-modal');
+            const modalClose = document.querySelector('.modal-close');
+            const cancelExport = document.getElementById('cancel-export');
+            const confirmExport = document.getElementById('confirm-export');
+            
+            // Initialize checklist
+            const checklistItems = document.querySelectorAll('.checklist-item');
+            const total = checklistItems.length;
+            totalCount.textContent = total;
+            updateProgress();
+            
+            // Toggle details
+            const detailsToggles = document.querySelectorAll('.toggle-details');
+            detailsToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const detailsSection = this.closest('.checklist-item').querySelector('.item-details');
+                    const expanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    if (expanded) {
+                        detailsSection.classList.remove('active');
+                        this.setAttribute('aria-expanded', 'false');
+                        this.querySelector('span').textContent = 'Show details';
+                    } else {
+                        detailsSection.classList.add('active');
+                        this.setAttribute('aria-expanded', 'true');
+                        this.querySelector('span').textContent = 'Hide details';
+                    }
+                });
+            });
+            
+            // Example tabs
+            const exampleTabs = document.querySelectorAll('.example-tab');
+            exampleTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Get the parent tab container
+                    const tabContainer = this.parentElement;
+                    
+                    // Remove active class from all tabs in this container
+                    tabContainer.querySelectorAll('.example-tab').forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Get the content ID from the data-tab attribute
+                    const contentId = this.getAttribute('data-tab');
+                    
+                    // Get all example contents in the same section
+                    const exampleContents = this.closest('.details-section').querySelectorAll('.example-content');
+                    
+                    // Hide all example contents
+                    exampleContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show the selected content
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            
+            // Custom checkbox functionality
+            const checkboxes = document.querySelectorAll('.custom-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    toggleCheckbox(this);
+                    updateProgress();
+                    applyFilters();
+                });
+                
+                checkbox.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        toggleCheckbox(this);
+                        updateProgress();
+                        applyFilters();
+                    }
+                });
+            });
+            
+            function toggleCheckbox(checkbox) {
+                const checked = checkbox.classList.contains('checked');
+                const checklistItem = checkbox.closest('.checklist-item');
+                
+                if (checked) {
+                    checkbox.classList.remove('checked');
+                    checkbox.setAttribute('aria-checked', 'false');
+                    checklistItem.classList.remove('completed');
+                } else {
+                    checkbox.classList.add('checked');
+                    checkbox.setAttribute('aria-checked', 'true');
+                    checklistItem.classList.add('completed');
+                }
+            }
+            
+            function updateProgress() {
+                const completed = document.querySelectorAll('.checklist-item.completed').length;
+                completedCount.textContent = completed;
+                
+                const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+                completionPercentage.textContent = `${percentage}%`;
+                progressBar.style.width = `${percentage}%`;
+            }
+            
+            // Search functionality
+            searchInput.addEventListener('input', applyFilters);
+            
+            // Filters
+            levelFilter.addEventListener('change', applyFilters);
+            statusFilter.addEventListener('change', applyFilters);
+            
+            // Category pills
+            categoryPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    categoryPills.forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    applyFilters();
+                });
+            });
+            
+            function applyFilters() {
+                const searchText = searchInput.value.toLowerCase();
+                const selectedLevel = levelFilter.value;
+                const selectedStatus = statusFilter.value;
+                const selectedCategory = document.querySelector('.category-pill.active').getAttribute('data-category');
+                
+                checklistItems.forEach(item => {
+                    const title = item.querySelector('.item-title').textContent.toLowerCase();
+                    const description = item.querySelector('.item-description').textContent.toLowerCase();
+                    const category = item.getAttribute('data-category');
+                    const level = item.getAttribute('data-level');
+                    const completed = item.classList.contains('completed');
+                    
+                    // Search text filter
+                    const matchesSearch = title.includes(searchText) || description.includes(searchText);
+                    
+                    // Level filter
+                    const matchesLevel = selectedLevel === 'all' || level === selectedLevel;
+                    
+                    // Status filter
+                    const matchesStatus = selectedStatus === 'all' || 
+                                         (selectedStatus === 'completed' && completed) || 
+                                         (selectedStatus === 'incomplete' && !completed);
+                    
+                    // Category filter
+                    const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+                    
+                    // Show/hide based on all filters
+                    if (matchesSearch && matchesLevel && matchesStatus && matchesCategory) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Export functionality
+            exportBtn.addEventListener('click', function() {
+                exportModal.classList.add('active');
+            });
+            
+            modalClose.addEventListener('click', function() {
+                exportModal.classList.remove('active');
+            });
+            
+            cancelExport.addEventListener('click', function() {
+                exportModal.classList.remove('active');
+            });
+            
+            confirmExport.addEventListener('click', function() {
+                alert('In a real implementation, this would generate a report based on your selected export options.');
+                exportModal.classList.remove('active');
+            });
+            
+            // Reset functionality
+            resetBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset all checklist items? This will mark all items as incomplete.')) {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.classList.remove('checked');
+                        checkbox.setAttribute('aria-checked', 'false');
+                        checkbox.closest('.checklist-item').classList.remove('completed');
+                    });
+                    
+                    updateProgress();
+                    applyFilters();
+                }
+            });
+            
+            // Close modal when clicking outside
+            exportModal.addEventListener('click', function(e) {
+                if (e.target === exportModal) {
+                    exportModal.classList.remove('active');
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && exportModal.classList.contains('active')) {
+                    exportModal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

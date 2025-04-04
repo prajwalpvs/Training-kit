@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management Process - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Content Management specific styles */
+        .process-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .process-intro {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .process-diagram {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            overflow-x: auto;
+        }
+        
+        .process-stages {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            min-width: 800px;
+        }
+        
+        .process-stage {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .process-stage::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -25px;
+            width: 50px;
+            height: 10px;
+            background-color: var(--primary-light);
+            clip-path: polygon(0 30%, 90% 30%, 90% 0%, 100% 50%, 90% 100%, 90% 70%, 0 70%);
+        }
+        
+        .process-stage:last-child::after {
+            display: none;
+        }
+        
+        .stage-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-sm);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .stage-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .stage-description {
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+        }
+        
+        .process-section {
+            margin-bottom: var(--spacing-xl);
+            scroll-margin-top: 100px;
+        }
+        
+        .process-section h3 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .process-step {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .step-description {
+            margin-left: calc(36px + var(--spacing-md));
+        }
+        
+        .checklist {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .checklist-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .checklist-items {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .checklist-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .checklist-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--primary-color);
+            border-radius: 3px;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .tool-card {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .tool-title {
+            margin-top: 0;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .responsibility-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-lg);
+        }
+        
+        .responsibility-table th,
+        .responsibility-table td {
+            padding: var(--spacing-sm);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-300);
+        }
+        
+        .responsibility-table th {
+            background-color: var(--neutral-200);
+            font-weight: 600;
+        }
+        
+        .responsibility-table tr:nth-child(even) {
+            background-color: var(--neutral-200);
+        }
+        
+        .responsibility-table tr:hover {
+            background-color: var(--neutral-300);
+        }
+        
+        .tip-box {
+            background-color: var(--neutral-200);
+            border-left: 4px solid var(--secondary-color);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .tip-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .tip-icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover, .back-to-top:focus {
+            background-color: var(--primary-dark);
+            color: var(--neutral-100);
+            text-decoration: none;
+        }
+        
+        /* For printing */
+        @media print {
+            .back-to-top {
+                display: none;
+            }
+            
+            .process-container {
+                box-shadow: none;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .process-diagram {
+                overflow-x: auto;
+            }
+            
+            .step-description {
+                margin-left: 0;
+                margin-top: var(--spacing-sm);
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li><a href="../index.html#documentation" class="active">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                    <li aria-current="page">Content Management Process</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>Accessible Content Management Process</h1>
+                <p>A comprehensive guide to creating, reviewing, and maintaining accessible content throughout its lifecycle.</p>
+            </header>
+            
+            <div class="process-container">
+                <div class="process-intro">
+                    <h2>Overview</h2>
+                    <p>This document outlines a standardized process for managing accessible content from planning to publication and maintenance. Following this process ensures that accessibility is integrated throughout the content lifecycle rather than treated as an afterthought.</p>
+                    
+                    <p>The process is designed to be flexible enough to adapt to different types of content while providing clear guidelines and checkpoints to maintain accessibility standards. By integrating accessibility from the beginning, you can save time, reduce costs, and ensure all users can access your content.</p>
+                    
+                    <div class="tip-box">
+                        <div class="tip-title">
+                            <svg class="tip-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z" fill="currentColor"/>
+                            </svg>
+                            Key Principles
+                        </div>
+                        <ul>
+                            <li><strong>Accessibility by design:</strong> Include accessibility considerations from the planning stage</li>
+                            <li><strong>Test early and often:</strong> Identify accessibility issues throughout the process</li>
+                            <li><strong>Continuous learning:</strong> Regularly update knowledge about accessibility best practices</li>
+                            <li><strong>Clear responsibilities:</strong> Everyone involved understands their role in creating accessible content</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="process-diagram">
+                    <h2>Content Lifecycle</h2>
+                    <div class="process-stages">
+                        <div class="process-stage">
+                            <div class="stage-icon">1</div>
+                            <div class="stage-title">Planning</div>
+                            <div class="stage-description">Define content requirements and accessibility goals</div>
+                        </div>
+                        
+                        <div class="process-stage">
+                            <div class="stage-icon">2</div>
+                            <div class="stage-title">Creation</div>
+                            <div class="stage-description">Develop content following accessibility guidelines</div>
+                        </div>
+                        
+                        <div class="process-stage">
+                            <div class="stage-icon">3</div>
+                            <div class="stage-title">Review</div>
+                            <div class="stage-description">Evaluate content against accessibility criteria</div>
+                        </div>
+                        
+                        <div class="process-stage">
+                            <div class="stage-icon">4</div>
+                            <div class="stage-title">Remediation</div>
+                            <div class="stage-description">Fix identified accessibility issues</div>
+                        </div>
+                        
+                        <div class="process-stage">
+                            <div class="stage-icon">5</div>
+                            <div class="stage-title">Publication</div>
+                            <div class="stage-description">Release content to users</div>
+                        </div>
+                        
+                        <div class="process-stage">
+                            <div class="stage-icon">6</div>
+                            <div class="stage-title">Maintenance</div>
+                            <div class="stage-description">Monitor and update content as needed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="planning" class="process-section">
+                    <h3>1. Planning</h3>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Define Content Requirements</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Start by clearly defining the purpose, audience, and objectives of the content. Consider accessibility requirements from the beginning of the planning process.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Planning Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Identify target audience, including users with disabilities</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Define the minimum accessibility level (e.g., WCAG 2.1 Level AA)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document specific accessibility requirements for the content type</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Identify content that requires alternatives (videos, images, etc.)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Allocate resources for creating accessible alternatives</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Create Content Structure</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Develop a clear content structure that supports accessibility, including headings, sections, and navigation that will make the content easy to navigate and understand.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Structure Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Plan logical heading structure (H1-H6)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Organize content in a clear, sequential order</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Identify areas that need lists, tables, or other structured elements</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Plan navigation aids for longer content</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Select Accessible Templates and Tools</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Choose content templates, authoring tools, and resources that support accessibility features and make it easier to create accessible content.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Template and Tools Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Select pre-approved accessible templates where available</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify that authoring tools support accessibility features</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure templates include proper semantic structure</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Configure accessibility checking tools</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="creation" class="process-section">
+                    <h3>2. Creation</h3>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Develop Content Following Accessibility Guidelines</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Create content with accessibility in mind, implementing best practices for your content type.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Content Creation Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Write clear, simple content with plain language</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Use proper heading structure (H1-H6)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Provide descriptive link text (no "click here" or "read more")</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Add meaningful alt text for all non-decorative images</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Use proper list markup for lists</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Create proper table structure with headers</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure sufficient color contrast</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Do not use color alone to convey information</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Create Accessible Multimedia</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Develop accessible alternatives for multimedia content such as videos, audio, and interactive elements.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Multimedia Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Create captions for videos</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Provide transcripts for audio content</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Add audio descriptions for videos when needed</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure interactive elements are keyboard accessible</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Provide alternatives for complex interactions</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Initial Self-Testing</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Perform basic accessibility checks during content creation to catch issues early.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Self-Testing Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Use built-in accessibility checkers in authoring tools</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Review content with the accessibility checklist</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test keyboard navigation for interactive elements</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify reading order makes logical sense</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Check readability level of content</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="review" class="process-section">
+                    <h3>3. Review</h3>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Automated Accessibility Testing</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Use automated tools to check for common accessibility issues that can be detected programmatically.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Automated Testing Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Run content through appropriate accessibility checking tools</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document all issues identified by automated tests</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Prioritize issues by severity and impact</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify false positives and document for review</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Manual Accessibility Review</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Perform a detailed manual review to catch issues that automated tools might miss and verify the user experience.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Manual Review Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Review all alt text for accuracy and usefulness</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify logical reading and navigation order</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test keyboard accessibility for all interactive elements</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Check color contrast with tools and visual inspection</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify that form elements have proper labels</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure content is understandable and logically organized</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Assistive Technology Testing</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Test content with assistive technologies to ensure it works properly for users with disabilities.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Assistive Technology Testing Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test with screen readers (e.g., NVDA, VoiceOver, JAWS)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test with keyboard navigation only</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test with screen magnification</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify functionality with speech recognition</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document issues experienced with assistive technologies</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="remediation" class="process-section">
+                    <h3>4. Remediation</h3>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Prioritize Issues</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Organize identified accessibility issues by severity, impact, and complexity to create an effective remediation plan.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Issue Prioritization Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Categorize issues by WCAG conformance level (A, AA, AAA)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Identify issues that completely block access for certain users</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Assess effort required to fix each issue</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Develop a timeline for addressing all issues</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Fix Accessibility Issues</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Address identified issues following best practices and accessibility guidelines.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Issue Resolution Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Fix critical Level A issues first</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Implement fixes according to WCAG guidelines</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document all changes made</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Consult accessibility experts for complex issues</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Verification Testing</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Re-test after fixes to ensure issues have been properly addressed and no new issues have been introduced.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Verification Testing Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Re-test each fixed issue to confirm resolution</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Perform regression testing to ensure no new issues</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify fixes work across different browsers and devices</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Retest with assistive technologies</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="publication" class="process-section">
+                    <h3>5. Publication</h3>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Final Accessibility Review</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Conduct a final check of the content in its publication environment to ensure all accessibility features work as expected.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Final Review Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify content accessibility in the actual publishing environment</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Check that accessibility features weren't affected by the publishing process</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test with multiple browsers and devices</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure content integrates properly with the surrounding website or platform</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Prepare Accessibility Documentation</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Document the accessibility features of the content and any known limitations for transparency.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Documentation Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Create an accessibility statement if needed</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document any known accessibility limitations</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document alternative formats or access methods available</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Provide contact information for accessibility support</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Publish Content</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Release the accessible content to users, ensuring all accessibility features are properly included.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Publication Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure all accessibility-related files are included (captions, transcripts, etc.)</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Verify metadata includes accessibility information</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Make sure accessibility documentation is published alongside content</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test the published content one final time</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="maintenance" class="process-section">
+                    <h3>6. Maintenance</h3>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Monitor Accessibility Feedback</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Actively collect and respond to feedback about accessibility issues from users.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Feedback Monitoring Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Provide clear channels for accessibility feedback</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Regularly review accessibility complaints and issues</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Prioritize and address reported accessibility problems</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Document common issues for future content improvements</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Conduct Regular Accessibility Audits</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Perform periodic checks to ensure content remains accessible over time, especially after updates or changes to the surrounding platform.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Audit Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Schedule regular accessibility reviews</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Recheck content after platform updates</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Review content against updated accessibility standards</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Test with newer versions of assistive technologies</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Update Content as Needed</h4>
+                        </div>
+                        <div class="step-description">
+                            <p>Make ongoing improvements to content accessibility based on feedback, audits, and evolving accessibility standards.</p>
+                            
+                            <div class="checklist">
+                                <h5 class="checklist-title">Content Update Checklist</h5>
+                                <ul class="checklist-items">
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Apply accessibility improvements when updating content</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Ensure any new content elements follow accessibility guidelines</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Update accessibility documentation as needed</div>
+                                    </li>
+                                    <li class="checklist-item">
+                                        <div class="checklist-checkbox"></div>
+                                        <div>Communicate significant accessibility improvements to users</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tools" class="process-section">
+                    <h3>Recommended Tools</h3>
+                    <p>Here are some recommended tools to support your accessible content management process:</p>
+                    
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <h4 class="tool-title">Accessibility Checkers</h4>
+                            <ul>
+                                <li>WAVE Web Accessibility Evaluation Tool</li>
+                                <li>axe Accessibility Testing Tool</li>
+                                <li>Microsoft Accessibility Checker</li>
+                                <li>Accessibility Insights</li>
+                                <li>Google Lighthouse</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4 class="tool-title">Color and Contrast Tools</h4>
+                            <ul>
+                                <li>WebAIM Color Contrast Checker</li>
+                                <li>Colour Contrast Analyser</li>
+                                <li>Contrast Checker Browser Extensions</li>
+                                <li>Adobe Color Accessibility Tools</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4 class="tool-title">Screen Readers</h4>
+                            <ul>
+                                <li>NVDA (Free, Windows)</li>
+                                <li>VoiceOver (Built into macOS and iOS)</li>
+                                <li>JAWS (Commercial, Windows)</li>
+                                <li>TalkBack (Android)</li>
+                                <li>Screen Reader Browser Extensions</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <h4 class="tool-title">Multimedia Tools</h4>
+                            <ul>
+                                <li>Closed Caption Creation Tools</li>
+                                <li>Audio Description Services</li>
+                                <li>Transcript Generators</li>
+                                <li>Accessible Media Players</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="responsibilities" class="process-section">
+                    <h3>Roles and Responsibilities</h3>
+                    <p>Clear definition of roles and responsibilities is essential for an effective accessibility process. Here's a breakdown of typical responsibilities:</p>
+                    
+                    <table class="responsibility-table">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Responsibilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Content Creator</td>
+                                <td>
+                                    <ul>
+                                        <li>Follow accessibility guidelines when creating content</li>
+                                        <li>Add proper alt text, headings, and structure</li>
+                                        <li>Perform initial accessibility self-checks</li>
+                                        <li>Address basic accessibility issues</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Content Editor/Reviewer</td>
+                                <td>
+                                    <ul>
+                                        <li>Review content for accessibility compliance</li>
+                                        <li>Use accessibility checkers during review</li>
+                                        <li>Provide feedback on accessibility issues</li>
+                                        <li>Verify compliance with accessibility standards</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Accessibility Specialist</td>
+                                <td>
+                                    <ul>
+                                        <li>Provide expert guidance on complex accessibility issues</li>
+                                        <li>Conduct advanced accessibility testing</li>
+                                        <li>Test with assistive technologies</li>
+                                        <li>Stay updated on accessibility standards and best practices</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Content Manager</td>
+                                <td>
+                                    <ul>
+                                        <li>Ensure accessibility is integrated into the content workflow</li>
+                                        <li>Allocate resources for accessibility needs</li>
+                                        <li>Monitor overall accessibility compliance</li>
+                                        <li>Address accessibility feedback from users</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Developer/Technical Support</td>
+                                <td>
+                                    <ul>
+                                        <li>Implement technical accessibility solutions</li>
+                                        <li>Ensure content platforms support accessibility</li>
+                                        <li>Create accessible templates and components</li>
+                                        <li>Address technical accessibility issues</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" aria-label="Back to top">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" fill="currentColor"/>
+                </svg>
+            </a>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>Web Accessibility Training Toolkit</h2>
+                    <p>A comprehensive solution for training staff on content accessibility standards and best practices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="../index.html#overview">Overview</a></li>
+                        <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                        <li><a href="../index.html#tools">Tools</a></li>
+                        <li><a href="../index.html#resources">Resources</a></li>
+                        <li><a href="../index.html#documentation">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For support or inquiries regarding this toolkit, please contact the accessibility team.</p>
+                    <a href="mailto:accessibility@example.com" class="contact-link">accessibility@example.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Web Accessibility Training Toolkit. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Back to top button functionality
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            // Smooth scroll to top when button is clicked
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Check for prefers-reduced-motion
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const reduceMotion = document.body.classList.contains('reduce-motion') || prefersReducedMotion;
+                
+                // Scroll behavior based on user preference
+                if (reduceMotion) {
+                    window.scrollTo(0, 0);
+                } else {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            // Make checklist items interactive (for demo purposes)
+            const checklistCheckboxes = document.querySelectorAll('.checklist-checkbox');
+            
+            checklistCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    
+                    if (this.classList.contains('checked')) {
+                        // Add checkmark
+                        this.style.backgroundColor = '#3cb44b';
+                        this.style.borderColor = '#3cb44b';
+                        this.innerHTML = '✓';
+                        this.style.color = 'white';
+                        this.style.textAlign = 'center';
+                        this.style.fontWeight = 'bold';
+                    } else {
+                        // Remove checkmark
+                        this.style.backgroundColor = '';
+                        this.style.borderColor = '';
+                        this.innerHTML = '';
+                    }
+                });
+                
+                // Make keyboard accessible
+                checkbox.setAttribute('tabindex', '0');
+                checkbox.setAttribute('role', 'checkbox');
+                checkbox.setAttribute('aria-checked', 'false');
+                
+                checkbox.addEventListener('keydown', function(e) {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        this.click();
+                        
+                        if (this.classList.contains('checked')) {
+                            this.setAttribute('aria-checked', 'true');
+                        } else {
+                            this.setAttribute('aria-checked', 'false');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
