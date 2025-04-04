@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Glossary - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Glossary specific styles */
+        .glossary-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .glossary-intro {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .alphabet-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-300);
+            padding-bottom: var(--spacing-md);
+        }
+        
+        .alphabet-nav a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+        
+        .alphabet-nav a:hover, .alphabet-nav a:focus {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            text-decoration: none;
+        }
+        
+        .alphabet-nav a.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .glossary-search {
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+        }
+        
+        .glossary-search input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-sm) calc(var(--spacing-lg) + 20px);
+            border: 1px solid var(--neutral-400);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-600);
+            width: 20px;
+            height: 20px;
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: none;
+        }
+        
+        .clear-search.visible {
+            display: block;
+        }
+        
+        .letter-section {
+            margin-bottom: var(--spacing-xl);
+            scroll-margin-top: 100px;
+        }
+        
+        .letter-heading {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .term-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .term-item {
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+            padding-bottom: var(--spacing-md);
+        }
+        
+        .term-item:last-child {
+            border-bottom: none;
+        }
+        
+        .term {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            display: flex;
+            align-items: baseline;
+            position: relative;
+        }
+        
+        .term-name {
+            color: var(--primary-color);
+            margin-right: var(--spacing-sm);
+        }
+        
+        .term-abbr {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+        }
+        
+        .term-definition {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .related-terms {
+            font-size: 0.9rem;
+            color: var(--neutral-600);
+            margin-top: var(--spacing-xs);
+        }
+        
+        .related-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-right: var(--spacing-xs);
+        }
+        
+        .related-link:hover, .related-link:focus {
+            text-decoration: underline;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover, .back-to-top:focus {
+            background-color: var(--primary-dark);
+            color: var(--neutral-100);
+            text-decoration: none;
+        }
+        
+        .no-results {
+            padding: var(--spacing-lg);
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            display: none;
+        }
+        
+        .no-results.visible {
+            display: block;
+        }
+        
+        /* For printing */
+        @media print {
+            .alphabet-nav, .glossary-search, .back-to-top {
+                display: none;
+            }
+            
+            .letter-heading {
+                background-color: transparent;
+                color: black;
+                border-bottom: 2px solid black;
+                border-radius: 0;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .alphabet-nav {
+                gap: 3px;
+            }
+            
+            .alphabet-nav a {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li><a href="../index.html#resources" class="active">Resources</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li aria-current="page">Accessibility Glossary</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>Accessibility Glossary</h1>
+                <p>A comprehensive reference of accessibility terminology, definitions, and concepts.</p>
+            </header>
+            
+            <div class="glossary-container">
+                <div class="glossary-intro">
+                    <h2>About This Glossary</h2>
+                    <p>This glossary contains key terms and concepts related to digital accessibility, particularly web accessibility. Use it as a reference to better understand accessibility guidelines, practices, and technologies.</p>
+                    <p>Navigate through the glossary using the alphabetical navigation below or use the search function to find specific terms.</p>
+                </div>
+                
+                <nav aria-label="Glossary alphabetical navigation" class="alphabet-nav">
+                    <a href="#section-a">A</a>
+                    <a href="#section-b">B</a>
+                    <a href="#section-c">C</a>
+                    <a href="#section-d">D</a>
+                    <a href="#section-e">E</a>
+                    <a href="#section-f">F</a>
+                    <a href="#section-g">G</a>
+                    <a href="#section-h">H</a>
+                    <a href="#section-i">I</a>
+                    <a href="#section-j" class="disabled">J</a>
+                    <a href="#section-k">K</a>
+                    <a href="#section-l">L</a>
+                    <a href="#section-m">M</a>
+                    <a href="#section-n">N</a>
+                    <a href="#section-o">O</a>
+                    <a href="#section-p">P</a>
+                    <a href="#section-q" class="disabled">Q</a>
+                    <a href="#section-r">R</a>
+                    <a href="#section-s">S</a>
+                    <a href="#section-t">T</a>
+                    <a href="#section-u">U</a>
+                    <a href="#section-v">V</a>
+                    <a href="#section-w">W</a>
+                    <a href="#section-x" class="disabled">X</a>
+                    <a href="#section-y" class="disabled">Y</a>
+                    <a href="#section-z" class="disabled">Z</a>
+                </nav>
+                
+                <div class="glossary-search">
+                    <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>
+                    </svg>
+                    <input type="text" id="glossary-search" placeholder="Search glossary terms..." aria-label="Search glossary terms">
+                    <button class="clear-search" id="clear-search" aria-label="Clear search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="no-results" id="no-results">
+                    <h3>No terms found</h3>
+                    <p>No terms match your search. Try different keywords or browse the glossary alphabetically.</p>
+                </div>
+                
+                <div id="section-a" class="letter-section">
+                    <h2 class="letter-heading">A</h2>
+                    <ul class="term-list">
+                        <li class="term-item" data-term="Accessibility">
+                            <div class="term">
+                                <span class="term-name">Accessibility</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>The design and development of digital content (websites, apps, documents) so that people with disabilities can perceive, understand, navigate, interact with, and contribute to it. Web accessibility means that people with disabilities can use the web equally.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-wcag" class="related-link">WCAG</a>
+                                <a href="#term-aria" class="related-link">ARIA</a>
+                                <a href="#term-universal-design" class="related-link">Universal Design</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="Accessible Name">
+                            <div class="term">
+                                <span class="term-name">Accessible Name</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>The name of a user interface element as exposed to assistive technologies. The accessible name is calculated using various attributes and elements, such as labels, aria-label, aria-labelledby, and content, depending on the element.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-aria-label" class="related-link">aria-label</a>
+                                <a href="#term-aria-labelledby" class="related-link">aria-labelledby</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="Alternative Text" data-term-alt="Alt Text">
+                            <div class="term">
+                                <span class="term-name">Alternative Text</span>
+                                <span class="term-abbr">(Alt Text)</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>Text that serves as a semantic equivalent for non-text content, such as images. Alt text is read by screen readers to describe images to users who cannot see them. Well-written alt text should concisely convey the content and function of the image.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-non-text-content" class="related-link">Non-text Content</a>
+                                <a href="#term-screen-reader" class="related-link">Screen Reader</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="ARIA" data-term-alt="Accessible Rich Internet Applications">
+                            <div class="term" id="term-aria">
+                                <span class="term-name">ARIA</span>
+                                <span class="term-abbr">(Accessible Rich Internet Applications)</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>A set of attributes that define ways to make web content and web applications more accessible to people with disabilities. ARIA attributes can be added to HTML to provide additional information about the purpose, state, and functionality of elements to assistive technologies.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-aria-landmark" class="related-link">ARIA Landmark</a>
+                                <a href="#term-aria-live" class="related-link">ARIA Live Regions</a>
+                                <a href="#term-wai-aria" class="related-link">WAI-ARIA</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="Assistive Technology" data-term-alt="AT">
+                            <div class="term">
+                                <span class="term-name">Assistive Technology</span>
+                                <span class="term-abbr">(AT)</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>Hardware or software that is used to increase, maintain, or improve the functional capabilities of individuals with disabilities. Examples include screen readers, screen magnifiers, alternative keyboards, switches, and voice recognition software.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-screen-reader" class="related-link">Screen Reader</a>
+                                <a href="#term-screen-magnifier" class="related-link">Screen Magnifier</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="section-c" class="letter-section">
+                    <h2 class="letter-heading">C</h2>
+                    <ul class="term-list">
+                        <li class="term-item" data-term="Caption" data-term-alt="Closed Caption">
+                            <div class="term">
+                                <span class="term-name">Caption</span>
+                                <span class="term-abbr">(Closed Caption)</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>Text synchronized with multimedia content (video, animation) that provides a textual alternative to the audio content. Captions not only include dialogue but also identify speakers and include non-speech information like sound effects and music.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-transcript" class="related-link">Transcript</a>
+                                <a href="#term-audio-description" class="related-link">Audio Description</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="Color Contrast">
+                            <div class="term">
+                                <span class="term-name">Color Contrast</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>The difference in perceived brightness between two colors, typically measured as a ratio. Adequate color contrast between text and its background is essential for readability, especially for users with low vision or color vision deficiencies.</p>
+                                <p>WCAG 2.1 requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text at Level AA.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-color-vision-deficiency" class="related-link">Color Vision Deficiency</a>
+                                <a href="#term-wcag" class="related-link">WCAG</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="section-k" class="letter-section">
+                    <h2 class="letter-heading">K</h2>
+                    <ul class="term-list">
+                        <li class="term-item" data-term="Keyboard Accessibility">
+                            <div class="term">
+                                <span class="term-name">Keyboard Accessibility</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>The ability to navigate and interact with a website or application using only a keyboard, without requiring a mouse or other pointing device. Keyboard accessibility is essential for users with motor disabilities who cannot use a mouse and for those who use alternative input devices that emulate keyboard functionality.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-focus" class="related-link">Focus</a>
+                                <a href="#term-keyboard-trap" class="related-link">Keyboard Trap</a>
+                                <a href="#term-tabindex" class="related-link">tabindex</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="Keyboard Trap">
+                            <div class="term" id="term-keyboard-trap">
+                                <span class="term-name">Keyboard Trap</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>A situation where keyboard focus gets stuck on a particular element, making it impossible for the user to navigate away using only the keyboard. Keyboard traps prevent users who rely on keyboard navigation from accessing all parts of a website or application.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-keyboard-accessibility" class="related-link">Keyboard Accessibility</a>
+                                <a href="#term-focus" class="related-link">Focus</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="section-s" class="letter-section">
+                    <h2 class="letter-heading">S</h2>
+                    <ul class="term-list">
+                        <li class="term-item" data-term="Screen Reader">
+                            <div class="term" id="term-screen-reader">
+                                <span class="term-name">Screen Reader</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>Assistive technology that converts text and other visual elements on a screen to speech or braille output. Screen readers enable blind and low-vision users to access and interact with digital content by converting visual information into non-visual formats.</p>
+                                <p>Common screen readers include JAWS, NVDA, VoiceOver, and TalkBack.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-assistive-technology" class="related-link">Assistive Technology</a>
+                                <a href="#term-alternative-text" class="related-link">Alternative Text</a>
+                                <a href="#term-aria" class="related-link">ARIA</a>
+                            </div>
+                        </li>
+                        
+                        <li class="term-item" data-term="Semantic HTML">
+                            <div class="term">
+                                <span class="term-name">Semantic HTML</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>The use of HTML elements that convey meaning about the structure and content of a web page, rather than just its appearance. Semantic HTML provides important information to browsers, search engines, and assistive technologies about the purpose and relationships of different page elements.</p>
+                                <p>Examples of semantic elements include &lt;header&gt;, &lt;nav&gt;, &lt;main&gt;, &lt;article&gt;, &lt;section&gt;, and &lt;footer&gt;.</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-accessibility" class="related-link">Accessibility</a>
+                                <a href="#term-aria" class="related-link">ARIA</a>
+                                <a href="#term-screen-reader" class="related-link">Screen Reader</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="section-w" class="letter-section">
+                    <h2 class="letter-heading">W</h2>
+                    <ul class="term-list">
+                        <li class="term-item" data-term="WCAG" data-term-alt="Web Content Accessibility Guidelines">
+                            <div class="term" id="term-wcag">
+                                <span class="term-name">WCAG</span>
+                                <span class="term-abbr">(Web Content Accessibility Guidelines)</span>
+                            </div>
+                            <div class="term-definition">
+                                <p>A set of guidelines developed by the Web Accessibility Initiative (WAI) of the World Wide Web Consortium (W3C) that explain how to make web content more accessible to people with disabilities. WCAG is organized around four principles: Perceivable, Operable, Understandable, and Robust (POUR).</p>
+                                <p>The current version is WCAG 2.1, with three levels of conformance: A (minimum), AA (recommended), and AAA (enhanced).</p>
+                            </div>
+                            <div class="related-terms">
+                                <strong>Related:</strong>
+                                <a href="#term-w3c" class="related-link">W3C</a>
+                                <a href="#term-wai" class="related-link">WAI</a>
+                                <a href="#term-accessibility" class="related-link">Accessibility</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" aria-label="Back to top">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" fill="currentColor"/>
+                </svg>
+            </a>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>Web Accessibility Training Toolkit</h2>
+                    <p>A comprehensive solution for training staff on content accessibility standards and best practices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="../index.html#overview">Overview</a></li>
+                        <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                        <li><a href="../index.html#tools">Tools</a></li>
+                        <li><a href="../index.html#resources">Resources</a></li>
+                        <li><a href="../index.html#documentation">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For support or inquiries regarding this toolkit, please contact the accessibility team.</p>
+                    <a href="mailto:accessibility@example.com" class="contact-link">accessibility@example.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Web Accessibility Training Toolkit. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Back to top button functionality
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            // Smooth scroll to top when button is clicked
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Check for prefers-reduced-motion
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const reduceMotion = document.body.classList.contains('reduce-motion') || prefersReducedMotion;
+                
+                // Scroll behavior based on user preference
+                if (reduceMotion) {
+                    window.scrollTo(0, 0);
+                } else {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            // Glossary search functionality
+            const searchInput = document.getElementById('glossary-search');
+            const clearSearchButton = document.getElementById('clear-search');
+            const noResultsMessage = document.getElementById('no-results');
+            const termItems = document.querySelectorAll('.term-item');
+            const letterSections = document.querySelectorAll('.letter-section');
+            
+            searchInput.addEventListener('input', filterTerms);
+            
+            clearSearchButton.addEventListener('click', function() {
+                searchInput.value = '';
+                clearSearchButton.classList.remove('visible');
+                noResultsMessage.classList.remove('visible');
+                filterTerms();
+                searchInput.focus();
+            });
+            
+            function filterTerms() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                
+                // Show/hide clear button
+                if (searchTerm) {
+                    clearSearchButton.classList.add('visible');
+                } else {
+                    clearSearchButton.classList.remove('visible');
+                }
+                
+                let foundResults = false;// Check each term item
+                termItems.forEach(function(item) {
+                    // Get term names (including alternate terms)
+                    const primaryTerm = item.getAttribute('data-term').toLowerCase();
+                    const alternateTerm = item.getAttribute('data-term-alt') ? item.getAttribute('data-term-alt').toLowerCase() : '';
+                    const definition = item.querySelector('.term-definition').textContent.toLowerCase();
+                    
+                    // Check if the search term matches any of these
+                    if (searchTerm === '' || 
+                        primaryTerm.includes(searchTerm) || 
+                        alternateTerm.includes(searchTerm) ||
+                        definition.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        foundResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide letter sections based on visible items
+                letterSections.forEach(function(section) {
+                    const visibleItems = section.querySelectorAll('.term-item[style="display: block"]');
+                    if (visibleItems.length > 0) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                if (searchTerm && !foundResults) {
+                    noResultsMessage.classList.add('visible');
+                } else {
+                    noResultsMessage.classList.remove('visible');
+                }
+            }
+            
+            // Smooth scroll for alphabet navigation
+            const alphabetLinks = document.querySelectorAll('.alphabet-nav a:not(.disabled)');
+            alphabetLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get the target section ID
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        // Check for prefers-reduced-motion
+                        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        const reduceMotion = document.body.classList.contains('reduce-motion') || prefersReducedMotion;
+                        
+                        // Scroll behavior based on user preference
+                        if (reduceMotion) {
+                            targetSection.scrollIntoView();
+                        } else {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

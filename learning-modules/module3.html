@@ -1,0 +1,1837 @@
+<main>
+    <div class="container">
+        <div class="module-header">
+            <h1>Module 3: Content Creation Best Practices</h1>
+            <div class="progress-indicator">
+                <span class="current">3</span> of <span class="total">5</span> modules
+            </div>
+        </div>
+
+        <section class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this module, you will be able to:</p>
+            <ul>
+                <li>Apply accessibility best practices to different types of web content</li>
+                <li>Write effective alternative text for images and other non-text content</li>
+                <li>Create accessible links, headings, and document structures</li>
+                <li>Understand color contrast requirements and tools for checking compliance</li>
+                <li>Implement accessible tables, forms, and multimedia content</li>
+            </ul>
+        </section>
+
+        <section class="module-content">
+            <h2>Creating Accessible Content</h2>
+            <p>Accessibility starts with well-structured, clearly written content that follows best practices. This module will guide you through the process of creating accessible content across different types of media and formats.</p>
+            
+            <div class="practice-areas">
+                <div class="practice-card">
+                    <h3>Document Structure</h3>
+                    <p>How to organize content with proper headings, lists, and semantic structures.</p>
+                </div>
+                <div class="practice-card">
+                    <h3>Text Content</h3>
+                    <p>Making your text readable, understandable, and accessible to all users.</p>
+                </div>
+                <div class="practice-card">
+                    <h3>Images & Graphics</h3>
+                    <p>Providing alternatives for visual content so everyone can access the information.</p>
+                </div>
+                <div class="practice-card">
+                    <h3>Links & Navigation</h3>
+                    <p>Creating clear pathways through your content that work for all users.</p>
+                </div>
+                <div class="practice-card">
+                    <h3>Tables & Data</h3>
+                    <p>Structuring data in ways that are accessible to screen readers and other assistive technologies.</p>
+                </div>
+                <div class="practice-card">
+                    <h3>Forms & Interactions</h3>
+                    <p>Building accessible input methods that everyone can use successfully.</p>
+                </div>
+            </div>
+            
+            <div class="note">
+                <h3>Content First Approach</h3>
+                <p>Accessibility is most effective when considered from the beginning of the content creation process, not as an afterthought. When you plan your content with accessibility in mind, you'll create better experiences for all users.</p>
+            </div>
+
+            <h2>Document Structure</h2>
+            <p>A well-structured document provides a clear roadmap for all users, especially those using assistive technologies. Here's how to create proper document structure:</p>
+            
+            <div class="best-practice">
+                <div class="best-practice-header">
+                    <div class="best-practice-icon">1</div>
+                    <h3>Use Proper Heading Hierarchy</h3>
+                </div>
+                <p>Headings create a table of contents for your page, helping users understand its organization and navigate efficiently. Screen reader users often navigate by headings.</p>
+                
+                <div class="example">
+                    <h4>Heading Structure Example</h4>
+                    <div class="do-dont">
+                        <div class="do">
+                            <h5>Do</h5>
+                            <code>&lt;h1&gt;Main Page Title&lt;/h1&gt;<br>
+&lt;h2&gt;First Section&lt;/h2&gt;<br>
+&lt;p&gt;Content here...&lt;/p&gt;<br>
+&lt;h3&gt;Subsection&lt;/h3&gt;<br>
+&lt;p&gt;More content...&lt;/p&gt;<br>
+&lt;h2&gt;Second Section&lt;/h2&gt;</code>
+                            <p>Uses a logical heading hierarchy that reflects the content structure.</p>
+                        </div>
+                        <div class="dont">
+                            <h5>Don't</h5>
+                            <code>&lt;div class="title"&gt;Main Page Title&lt;/div&gt;<br>
+&lt;h3&gt;First Section&lt;/h3&gt;<br>
+&lt;p&gt;Content here...&lt;/p&gt;<br>
+&lt;h2&gt;Subsection&lt;/h2&gt;<br>
+&lt;h4&gt;Second Section&lt;/h4&gt;</code>
+                            <p>Uses headings based on appearance rather than hierarchy, skipping levels and using non-semantic elements.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="checklist">
+                    <li>Start with a single h1 element that describes the page's main topic</li>
+                    <li>Don't skip heading levels (e.g., don't jump from h2 to h4)</li>
+                    <li>Use headings to outline content, not for styling text</li>
+                    <li>Keep headings concise and descriptive</li>
+                </ul>
+            </div>
+            
+            <div class="best-practice">
+                <div class="best-practice-header">
+                    <div class="best-practice-icon">2</div>
+                    <h3>Use Semantic HTML</h3>
+                </div>
+                <p>Semantic HTML communicates meaning to browsers and assistive technologies, making content more accessible and easier to style and maintain.</p>
+                
+                <div class="example">
+                    <h4>Semantic HTML Example</h4>
+                    <div class="do-dont">
+                        <div class="do">
+                            <h5>Do</h5>
+                            <code>&lt;article&gt;<br>
+&lt;header&gt;<br>
+&lt;h2&gt;Article Title&lt;/h2&gt;<br>
+&lt;p&gt;Posted on &lt;time datetime="2023-06-15"&gt;June 15, 2023&lt;/time&gt;&lt;/p&gt;<br>
+&lt;/header&gt;<br>
+&lt;p&gt;Introduction paragraph...&lt;/p&gt;<br>
+&lt;section&gt;<br>
+&lt;h3&gt;Section Heading&lt;/h3&gt;<br>
+&lt;p&gt;Section content...&lt;/p&gt;<br>
+&lt;/section&gt;<br>
+&lt;footer&gt;<br>
+&lt;p&gt;Author: Jane Smith&lt;/p&gt;<br>
+&lt;/footer&gt;<br>
+&lt;/article&gt;</code>
+                        </div>
+                        <div class="dont">
+                            <h5>Don't</h5>
+                            <code>&lt;div class="article"&gt;<br>
+&lt;div class="header"&gt;<br>
+&lt;div class="title"&gt;Article Title&lt;/div&gt;<br>
+&lt;div class="date"&gt;Posted on June 15, 2023&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;div class="content"&gt;<br>
+&lt;div&gt;Introduction paragraph...&lt;/div&gt;<br>
+&lt;div class="section"&gt;<br>
+  &lt;div class="section-title"&gt;Section Heading&lt;/div&gt;<br>
+  &lt;div&gt;Section content...&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;div class="footer"&gt;<br>
+&lt;div&gt;Author: Jane Smith&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="checklist">
+                    <li>Use semantic elements like <code>article</code>, <code>section</code>, <code>nav</code>, <code>header</code>, <code>footer</code>, etc.</li>
+                    <li>Use appropriate list elements (<code>ul</code>, <code>ol</code>, <code>dl</code>) for list content</li><li>Use <code>blockquote</code> for extended quotations</li>
+                        <li>Use <code>figure</code> and <code>figcaption</code> for images with captions</li>
+                        <li>Use <code>table</code> for tabular data (not for layout)</li>
+                    </ul>
+                </div>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">3</div>
+                        <h3>Create Logical Reading Order</h3>
+                    </div>
+                    <p>Content should be presented in a logical, intuitive sequence that makes sense when read aloud. Screen readers navigate through content in the order it appears in the HTML, not as it's visually arranged with CSS.</p>
+                    
+                    <ul class="checklist">
+                        <li>Structure HTML to follow a logical reading order from top to bottom</li>
+                        <li>Don't rely solely on visual layout to convey relationships between content</li>
+                        <li>Test your content with a screen reader to ensure it reads in a sensible order</li>
+                        <li>Be careful with CSS positioning that changes visual order without changing the HTML order</li>
+                    </ul>
+                </div>
+
+                <h2>Text Content</h2>
+                <p>The way you write and format text has a significant impact on accessibility. Here are best practices for creating accessible text content:</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">4</div>
+                        <h3>Write Clear, Simple Content</h3>
+                    </div>
+                    <p>Clear, straightforward language benefits all users but is especially important for those with cognitive disabilities or who use translation tools.</p>
+                    
+                    <ul class="checklist">
+                        <li>Use plain language and avoid jargon when possible</li>
+                        <li>Break up long paragraphs into shorter chunks</li>
+                        <li>Use bulleted or numbered lists for complex information</li>
+                        <li>Provide definitions for technical terms</li>
+                        <li>Use active voice most of the time</li>
+                    </ul>
+                </div>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">5</div>
+                        <h3>Ensure Sufficient Color Contrast</h3>
+                    </div>
+                    <p>Color contrast affects the readability of text for all users, especially those with low vision or color blindness.</p>
+                    
+                    <div class="contrast-demo">
+                        <h4>Color Contrast Demonstration</h4>
+                        <div class="contrast-controls">
+                            <div>
+                                <label for="text-color">Text Color:</label>
+                                <input type="color" id="text-color" value="#333333">
+                            </div>
+                            <div>
+                                <label for="bg-color">Background Color:</label>
+                                <input type="color" id="bg-color" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="contrast-text" id="contrast-sample">
+                            This text demonstrates the visual contrast between text and background colors.
+                        </div>
+                        <div class="contrast-result" id="contrast-result"></div>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Normal text needs a contrast ratio of at least 4.5:1</li>
+                        <li>Large text (18pt+ or 14pt+ bold) needs a contrast ratio of at least 3:1</li>
+                        <li>Use contrast checking tools to verify your color combinations</li>
+                        <li>Don't use color as the only way to convey information</li>
+                    </ul>
+                </div>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">6</div>
+                        <h3>Make Text Resizable</h3>
+                    </div>
+                    <p>Users should be able to enlarge text without breaking the layout or losing content.</p>
+                    
+                    <ul class="checklist">
+                        <li>Use relative units like em, rem, or percentages for text sizes</li>
+                        <li>Avoid using fixed-size text that can't be resized by the browser</li>
+                        <li>Test your content by zooming to 200% to ensure it remains readable</li>
+                        <li>Ensure line height is sufficient for readability when text is enlarged</li>
+                    </ul>
+                </div>
+
+                <h2>Images & Graphics</h2>
+                <p>Visual content needs text alternatives to be accessible to people who can't see it.</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">7</div>
+                        <h3>Write Effective Alt Text</h3>
+                    </div>
+                    <p>Alternative text provides a textual alternative to non-text content like images, diagrams, and charts.</p>
+                    
+                    <div class="example">
+                        <h4>Alt Text Examples</h4>
+                        <div class="do-dont">
+                            <div class="do">
+                                <h5>Do</h5>
+                                <p><strong>Image:</strong> Company logo</p>
+                                <code>&lt;img src="logo.png" alt="Acme Corporation logo"&gt;</code>
+                                <br><br>
+                                <p><strong>Image:</strong> Chart showing data</p>
+                                <code>&lt;img src="sales-chart.png" alt="Bar chart showing sales increasing by 25% in Q2 2023"&gt;</code>
+                                <br><br>
+                                <p><strong>Image:</strong> Decorative divider</p>
+                                <code>&lt;img src="divider.png" alt=""&gt;</code>
+                            </div>
+                            <div class="dont">
+                                <h5>Don't</h5>
+                                <p><strong>Image:</strong> Company logo</p>
+                                <code>&lt;img src="logo.png"&gt;</code> <em>(Missing alt text)</em>
+                                <br><br>
+                                <p><strong>Image:</strong> Chart showing data</p>
+                                <code>&lt;img src="sales-chart.png" alt="Chart"&gt;</code> <em>(Too vague)</em>
+                                <br><br>
+                                <p><strong>Image:</strong> Decorative divider</p>
+                                <code>&lt;img src="divider.png" alt="Decorative line"&gt;</code> <em>(Should be empty for decorative images)</em>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Be concise but descriptive about the purpose or content of the image</li>
+                        <li>For complex images like charts or graphs, include the key information they convey</li>
+                        <li>For decorative images that don't add meaning, use empty alt text (<code>alt=""</code>)</li>
+                        <li>Don't start alt text with "Image of" or "Picture of" (screen readers already announce it's an image)</li>
+                        <li>For linked images, describe the destination or purpose of the link in the alt text</li>
+                    </ul>
+                </div>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">8</div>
+                        <h3>Handle Complex Images</h3>
+                    </div>
+                    <p>Complex images like infographics, diagrams, or complex charts need more detailed descriptions.</p>
+                    
+                    <ul class="checklist">
+                        <li>Provide a brief alt text summary and a more detailed description elsewhere</li>
+                        <li>For complex diagrams, consider using the <code>figure</code> and <code>figcaption</code> elements</li>
+                        <li>For infographics, provide the same information in an accessible text format</li>
+                        <li>Complex charts might need a separate table of data and a text description</li>
+                    </ul>
+                    
+                    <div class="example">
+                        <h4>Complex Image Example</h4>
+                        <code>&lt;figure&gt;<br>
+  &lt;img src="process-diagram.png" alt="Four-step accessibility workflow"&gt;<br>
+  &lt;figcaption&gt;<br>
+    Our accessibility workflow involves four steps: 1) Planning with accessibility in mind, 2) Creating content following best practices, 3) Testing with accessibility tools, and 4) Reviewing and improving based on feedback.<br>
+  &lt;/figcaption&gt;<br>
+&lt;/figure&gt;</code>
+                    </div>
+                </div>
+
+                <h2>Links & Navigation</h2>
+                <p>Links and navigation elements should be clear and usable by all visitors.</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">9</div>
+                        <h3>Write Descriptive Link Text</h3>
+                    </div>
+                    <p>Link text should make sense out of context and clearly indicate where the link will take the user.</p>
+                    
+                    <div class="example">
+                        <h4>Link Text Examples</h4>
+                        <div class="do-dont">
+                            <div class="do">
+                                <h5>Do</h5>
+                                <code>&lt;a href="policy.html"&gt;Read our privacy policy&lt;/a&gt;</code>
+                                <br><br>
+                                <code>&lt;a href="report.pdf"&gt;Download the 2023 Annual Report (PDF, 2.5MB)&lt;/a&gt;</code>
+                            </div>
+                            <div class="dont">
+                                <h5>Don't</h5>
+                                <code>&lt;a href="policy.html"&gt;Click here&lt;/a&gt; to read our privacy policy</code>
+                                <br><br>
+                                <code>&lt;a href="report.pdf"&gt;Here&lt;/a&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Avoid vague link text like "click here," "read more," or "learn more"</li>
+                        <li>Make link text that can stand on its own and describes the destination</li>
+                        <li>Indicate if links open in a new window or download files</li>
+                        <li>Include file type and size information for downloadable files</li>
+                        <li>Don't use the same link text for different destinations</li>
+                    </ul>
+                </div>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">10</div>
+                        <h3>Provide Skip Links</h3>
+                    </div>
+                    <p>Skip links help keyboard users bypass repetitive navigation menus and jump directly to the main content.</p>
+                    
+                    <div class="example">
+                        <h4>Skip Link Example</h4>
+                        <code>&lt;body&gt;<br>
+  &lt;a href="#main-content" class="skip-link"&gt;Skip to main content&lt;/a&gt;<br>
+  &lt;header&gt;...&lt;/header&gt;<br>
+  &lt;nav&gt;...&lt;/nav&gt;<br>
+  &lt;main id="main-content"&gt;<br>
+    &lt;h1&gt;Page Title&lt;/h1&gt;<br>
+    ...<br>
+  &lt;/main&gt;<br>
+&lt;/body&gt;</code>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Place skip links at the beginning of the page</li>
+                        <li>Make skip links visible when focused for keyboard users</li>
+                        <li>Ensure the target of the skip link has a tabindex="-1" if it's not naturally focusable</li>
+                        <li>Consider adding multiple skip links for pages with complex structures</li>
+                    </ul>
+                </div>
+
+                <h2>Tables & Data</h2>
+                <p>Tables should be used for data, not layout, and need proper structure to be accessible.</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">11</div>
+                        <h3>Structure Tables Properly</h3>
+                    </div>
+                    <p>Well-structured tables help screen reader users understand the relationships between data cells and headers.</p>
+                    
+                    <div class="example">
+                        <h4>Accessible Table Example</h4>
+                        <code>&lt;table&gt;<br>
+  &lt;caption&gt;Quarterly Sales by Region, 2023&lt;/caption&gt;<br>
+  &lt;thead&gt;<br>
+    &lt;tr&gt;<br>
+      &lt;th scope="col"&gt;Region&lt;/th&gt;<br>
+      &lt;th scope="col"&gt;Q1&lt;/th&gt;<br>
+      &lt;th scope="col"&gt;Q2&lt;/th&gt;<br>
+      &lt;th scope="col"&gt;Q3&lt;/th&gt;<br>
+      &lt;th scope="col"&gt;Q4&lt;/th&gt;<br>
+    &lt;/tr&gt;<br>
+  &lt;/thead&gt;<br>
+  &lt;tbody&gt;<br>
+    &lt;tr&gt;<br>
+      &lt;th scope="row"&gt;North&lt;/th&gt;<br>
+      &lt;td&gt;$10,000&lt;/td&gt;<br>
+      &lt;td&gt;$12,500&lt;/td&gt;<br>
+      &lt;td&gt;$15,000&lt;/td&gt;<br>
+      &lt;td&gt;$18,000&lt;/td&gt;<br>
+    &lt;/tr&gt;<br>
+    &lt;!-- Additional rows --&gt;<br>
+  &lt;/tbody&gt;<br>
+&lt;/table&gt;</code>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Include a caption that describes the table's content</li>
+                        <li>Use <code>thead</code>, <code>tbody</code>, and <code>tfoot</code> to group rows</li>
+                        <li>Use <code>th</code> for header cells with appropriate scope attributes</li>
+                        <li>For complex tables, use <code>id</code> and <code>headers</code> attributes to associate data cells with headers</li>
+                        <li>Avoid merged cells when possible as they complicate screen reader navigation</li>
+                    </ul>
+                </div>
+
+                <h2>Forms & Interactions</h2>
+                <p>Forms should be accessible to all users, including those using assistive technologies.</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">12</div>
+                        <h3>Label Form Controls</h3>
+                    </div>
+                    <p>All form controls need properly associated labels so users understand what information is required.</p>
+                    
+                    <div class="example">
+                        <h4>Form Labeling Examples</h4>
+                        <div class="do-dont">
+                            <div class="do">
+                                <h5>Do</h5>
+                                <code>&lt;label for="name"&gt;Full Name&lt;/label&gt;<br>
+&lt;input type="text" id="name" name="name"&gt;</code>
+                                <br><br>
+                                <code>&lt;fieldset&gt;<br>
+  &lt;legend&gt;Subscription Type&lt;/legend&gt;<br>
+  &lt;input type="radio" id="basic" name="subscription"&gt;<br>
+  &lt;label for="basic"&gt;Basic&lt;/label&gt;<br>
+  &lt;input type="radio" id="premium" name="subscription"&gt;<br>
+  &lt;label for="premium"&gt;Premium&lt;/label&gt;<br>
+&lt;/fieldset&gt;</code>
+                            </div>
+                            <div class="dont">
+                                <h5>Don't</h5>
+                                <code>Full Name<br>
+&lt;input type="text" name="name"&gt;</code>
+                                <br><br>
+                                <code>Subscription Type<br>
+&lt;input type="radio" name="subscription"&gt; Basic<br>
+&lt;input type="radio" name="subscription"&gt; Premium</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Use the <code>label</code> element with a <code>for</code> attribute that matches the input's <code>id</code></li>
+                        <li>Group related form controls with <code>fieldset</code> and <code>legend</code></li>
+                        <li>Provide instructions and expectations (like required fields or format constraints)</li>
+                        <li>Ensure labels are descriptive and concise</li>
+                    </ul>
+                </div>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">
+                        <div class="best-practice-icon">13</div>
+                        <h3>Provide Clear Error Messages</h3>
+                    </div>
+                    <p>Error messages should help users identify and fix problems with their form submissions.</p>
+                    
+                    <div class="example">
+                        <h4>Error Message Example</h4>
+                        <div class="do-dont">
+                            <div class="do">
+                                <h5>Do</h5>
+                                <code>&lt;label for="email"&gt;Email Address&lt;/label&gt;<br>
+&lt;input type="email" id="email" name="email" aria-describedby="email-error" aria-invalid="true"&gt;<br>
+&lt;p id="email-error" class="error"&gt;Please enter a valid email address in the format name@example.com&lt;/p&gt;</code>
+                            </div>
+                            <div class="dont">
+                                <h5>Don't</h5>
+                                <code>&lt;input type="email" name="email" class="error"&gt;<br>
+&lt;p class="error"&gt;Invalid!&lt;/p&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>Be specific about what went wrong and how to fix it</li>
+                        <li>Use <code>aria-describedby</code> to associate error messages with form fields</li>
+                        <li>Use <code>aria-invalid="true"</code> on fields with errors</li>
+                        <li>Provide both visual and programmatic indication of errors</li>
+                        <li>Ensure error messages are announced by screen readers</li>
+                    </ul>
+                </div>
+
+                <h2>Tools for Content Creators</h2>
+                <p>These tools can help you evaluate and improve the accessibility of your content:</p>
+                
+                <div class="tools-container">
+                    <div class="tool-tab">
+                        <button class="tool-tab-btn active" data-tab="color-tools">Color Tools</button>
+                        <button class="tool-tab-btn" data-tab="text-tools">Text Analysis</button>
+                        <button class="tool-tab-btn" data-tab="image-tools">Image Alt Text</button>
+                        <button class="tool-tab-btn" data-tab="general-tools">General Checkers</button>
+                    </div>
+                    
+                    <div id="color-tools" class="tool-content active">
+                        <h3>Color Contrast Tools</h3>
+                        <p>These tools help check if your text and background colors meet WCAG contrast requirements:</p>
+                        <ul>
+                            <li><strong>WebAIM Contrast Checker</strong> - A simple tool for checking color contrast ratios</li>
+                            <li><strong>Colour Contrast Analyser</strong> - Desktop application for checking color contrasts</li>
+                            <li><strong>Accessible Color Palette Builder</strong> - Create color palettes that meet contrast requirements</li>
+                        </ul>
+                        <a href="https://webaim.org/resources/contrastchecker/" class="resource-link" target="_blank" rel="noopener">Try WebAIM Contrast Checker</a>
+                    </div>
+                    
+                    <div id="text-tools" class="tool-content">
+                        <h3>Text Analysis Tools</h3>
+                        <p>These tools help you evaluate and improve your text content:</p>
+                        <ul>
+                            <li><strong>Hemingway Editor</strong> - Highlights complex sentences, passive voice, and difficult reading levels</li>
+                            <li><strong>Grammarly</strong> - Checks grammar and readability</li>
+                            <li><strong>Readability Test Tool</strong> - Analyzes text for readability scores</li>
+                        </ul>
+                        <a href="https://hemingwayapp.com/" class="resource-link" target="_blank" rel="noopener">Try Hemingway Editor</a>
+                    </div>
+                    
+                    <div id="image-tools" class="tool-content">
+                        <h3>Image Alt Text Tools</h3>
+                        <p>These tools help you create better alt text for images:</p>
+                        <ul>
+                            <li><strong>Alt Text Decision Tree</strong> - Guides you through decisions about appropriate alt text</li>
+                            <li><strong>WebAIM Alternative Text Guide</strong> - Comprehensive guide to writing effective alt text</li>
+                            <li><strong>Alt Text Tester</strong> - Test how your alt text sounds with a screen reader</li>
+                        </ul>
+                        <a href="https://www.w3.org/WAI/tutorials/images/decision-tree/" class="resource-link" target="_blank" rel="noopener">Try Alt Text Decision Tree</a>
+                    </div>
+                    
+                    <div id="general-tools" class="tool-content">
+                        <h3>General Accessibility Checkers</h3>
+                        <p>These tools help identify a range of accessibility issues:</p>
+                        <ul>
+                            <li><strong>WAVE</strong> - Web Accessibility Evaluation Tool from WebAIM</li>
+                            <li><strong>Axe</strong> - Accessibility testing engine and browser extensions</li>
+                            <li><strong>Lighthouse</strong> - Built into Chrome DevTools</li>
+                        </ul>
+                        <a href="https://wave.webaim.org/" class="resource-link" target="_blank" rel="noopener">Try WAVE</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="knowledge-check">
+                <h2>Knowledge Check</h2>
+                <p>Test your understanding of this module with these questions:</p>
+                
+                <div class="quiz" id="module3-quiz">
+                    <div class="question" data-question-id="1">
+                        <h3>Question 1 of 5</h3>
+                        <p>Which of the following is an example of a proper heading structure?</p>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q1-a" name="q1" value="a">
+                                <label for="q1-a">h1 → h3 → h2 → h4</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q1-b" name="q1" value="b">
+                                <label for="q1-b">h2 → h1 → h3 → h2</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q1-c" name="q1" value="c">
+                                <label for="q1-c">h1 → h2 → h2 → h3</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q1-d" name="q1" value="d">
+                                <label for="q1-d">h1 → h1 → h2 → h3</label>
+                            </div>
+                        </div>
+                        <div class="feedback hidden"></div>
+                    </div>
+                    
+                    <div class="question hidden" data-question-id="2">
+                        <h3>Question 2 of 5</h3>
+                        <p>What's the minimum contrast ratio required for normal-sized text under WCAG AA standards?</p>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q2-a" name="q2" value="a">
+                                <label for="q2-a">3:1</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q2-b" name="q2" value="b">
+                                <label for="q2-b">4.5:1</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q2-c" name="q2" value="c">
+                                <label for="q2-c">7:1</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q2-d" name="q2" value="d">
+                                <label for="q2-d">2:1</label>
+                            </div>
+                        </div>
+                        <div class="feedback hidden"></div>
+                    </div>
+                    
+                    <div class="question hidden" data-question-id="3">
+                        <h3>Question 3 of 5</h3>
+                        <p>Which is an example of good alt text for a decorative image?</p>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q3-a" name="q3" value="a">
+                                <label for="q3-a">alt="Decorative image"</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q3-b" name="q3" value="b">
+                                <label for="q3-b">alt=""</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q3-c" name="q3" value="c">
+                                <label for="q3-c">alt="Image"</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q3-d" name="q3" value="d">
+                                <label for="q3-d">(omitting the alt attribute entirely)</label>
+                            </div>
+                        </div>
+                        <div class="feedback hidden"></div>
+                    </div>
+                    
+                    <div class="question hidden" data-question-id="4">
+                        <h3>Question 4 of 5</h3>
+                        <p>Which is an example of descriptive link text?</p>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q4-a" name="q4" value="a">
+                                <label for="q4-a">&lt;a href="report.pdf"&gt;Click here&lt;/a&gt; to download the annual report</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q4-b" name="q4" value="b">
+                                <label for="q4-b">&lt;a href="report.pdf"&gt;Download the 2023 Annual Report (PDF, 2.5MB)&lt;/a&gt;</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q4-c" name="q4" value="c">
+                                <label for="q4-c">&lt;a href="report.pdf"&gt;Read more&lt;/a&gt;</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q4-d" name="q4" value="d">
+                                <label for="q4-d">&lt;a href="report.pdf"&gt;report.pdf&lt;/a&gt;</label>
+                            </div>
+                        </div>
+                        <div class="feedback hidden"></div>
+                    </div>
+                    
+                    <div class="question hidden" data-question-id="5">
+                        <h3>Question 5 of 5</h3>
+                        <p>What's the proper way to associate a label with a form input?</p>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q5-a" name="q5" value="a">
+                                <label for="q5-a">Place the label text next to the input element</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q5-b" name="q5" value="b">
+                                <label for="q5-b">Use the "label" attribute on the input element</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q5-c" name="q5" value="c">
+                                <label for="q5-c">Use the &lt;label for="input-id"&gt; element that matches the input's id</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q5-d" name="q5" value="d">
+                                <label for="q5-d">Add a title attribute to the input element</label>
+                            </div>
+                        </div>
+                        <div class="feedback hidden"></div>
+                    </div>
+                    
+                    <div class="quiz-controls">
+                        <button id="submit-answer" disabled>Submit Answer</button>
+                        <button id="next-question" class="hidden">Next Question</button>
+                        <button id="show-results" class="hidden">Show Results</button>
+                    </div>
+                    
+                    <div class="quiz-results hidden">
+                        <h3>Quiz Results</h3>
+                        <p>Your score: <span id="score">0</span> out of 5</p>
+                        <div id="results-feedback"></div>
+                        <button id="retry-quiz">Retry Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="module-resources">
+                <h2>Additional Resources</h2>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h3>Plain Language Guidelines</h3>
+                        <p>Guidelines for writing clear, concise content that's easier for everyone to understand.</p>
+                        <a href="https://www.plainlanguage.gov/guidelines/" target="_blank" rel="noopener">Plain Language Guidelines</a>
+                    </div>
+                    <div class="resource-card">
+                        <h3>WebAIM's Alternative Text Guide</h3>
+                        <p>Comprehensive guide to writing effective alt text for images.</p>
+                        <a href="https://webaim.org/techniques/alttext/" target="_blank" rel="noopener">Alt Text Guide</a>
+                    </div>
+                    <div class="resource-card">
+                        <h3>A11y Style Guide</h3>
+                        <p>A style guide with accessible components and patterns.</p>
+                        <a href="https://a11y-style-guide.com/style-guide/" target="_blank" rel="noopener">A11y Style Guide</a>
+                    </div>
+                    <div class="resource-card">
+                        <h3>Accessible Forms Guide</h3>
+                        <p>Detailed guide to creating accessible forms.</p>
+                        <a href="https://www.w3.org/WAI/tutorials/forms/" target="_blank" rel="noopener">W3C Forms Tutorial</a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="module-navigation">
+                <a href="module2.html" class="back-link">Previous Module: WCAG 2.1 Guidelines</a>
+                <a href="module4.html" class="next-module">Next Module: Testing and Validation</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>Web Accessibility Training Toolkit</h2>
+                    <p>A comprehensive resource for creating accessible web content.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../tools/checklist.html">Accessibility Checklist</a></li>
+                        <li><a href="../resources/guidelines.html">Guidelines</a></li>
+                        <li><a href="../documentation/content-management.html">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For questions or support regarding this toolkit, please reach out to our team.</p>
+                    <a href="mailto:accessibility@example.com">accessibility@example.com</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Web Accessibility Training Toolkit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * Initialize mobile menu functionality
+         */
+        function initMobileMenu() {
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mainMenu = document.getElementById('main-menu');
+            
+            if (menuToggle && mainMenu) {
+                menuToggle.addEventListener('click', () => {
+                    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                    menuToggle.setAttribute('aria-expanded', !expanded);
+                    mainMenu.classList.toggle('show');
+                });
+            }
+        }
+
+        /**
+         * Initialize color contrast demo
+         */
+        function initContrastDemo() {
+            const textColorInput = document.getElementById('text-color');
+            const bgColorInput = document.getElementById('bg-color');
+            const contrastSample = document.getElementById('contrast-sample');
+            const contrastResult = document.getElementById('contrast-result');
+            
+            if (!textColorInput || !bgColorInput || !contrastSample || !contrastResult) return;
+            
+            // Function to calculate contrast ratio
+            function calculateContrastRatio(color1, color2) {
+                // Convert hex to RGB
+                function hexToRgb(hex) {
+                    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                    return result ? {
+                        r: parseInt(result[1], 16),
+                        g: parseInt(result[2], 16),
+                        b: parseInt(result[3], 16)
+                    } : null;
+                }
+                
+                // Calculate luminance
+                function luminance(r, g, b) {
+                    const a = [r, g, b].map(function(v) {
+                        v /= 255;
+                        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+                    });
+                    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+                }
+                
+                const rgb1 = hexToRgb(color1);
+                const rgb2 = hexToRgb(color2);
+                const lum1 = luminance(rgb1.r, rgb1.g, rgb1.b);
+                const lum2 = luminance(rgb2.r, rgb2.g, rgb2.b);
+                
+                const brightest = Math.max(lum1, lum2);
+                const darkest = Math.min(lum1, lum2);
+                
+                return (brightest + 0.05) / (darkest + 0.05);
+            }
+            
+            // Function to update contrast demo
+            function updateContrastDemo() {
+                const textColor = textColorInput.value;
+                const bgColor = bgColorInput.value;
+                
+                contrastSample.style.color = textColor;
+                contrastSample.style.backgroundColor = bgColor;
+                
+                const ratio = calculateContrastRatio(textColor, bgColor);
+                const roundedRatio = Math.round(ratio * 100) / 100;
+                
+                contrastResult.textContent = `Contrast Ratio: ${roundedRatio}:1`;
+                
+                // Normal text requirements
+                if (roundedRatio >= 7) {
+                    contrastResult.className = 'contrast-result pass';
+                    contrastResult.textContent += ' - Passes AAA';
+                } else if (roundedRatio >= 4.5) {
+                    contrastResult.className = 'contrast-result pass';
+                    contrastResult.textContent += ' - Passes AA';
+                } else if (roundedRatio >= 3) {
+                    contrastResult.className = 'contrast-result fail';
+                    contrastResult.textContent += ' - Passes AA for large text only';
+                } else {
+                    contrastResult.className = 'contrast-result fail';
+                    contrastResult.textContent += ' - Fails all requirements';
+                }
+            }
+            
+            // Add event listeners
+            textColorInput.addEventListener('input', updateContrastDemo);
+            bgColorInput.addEventListener('input', updateContrastDemo);
+            
+            // Initialize with default values
+            updateContrastDemo();
+        }
+
+        /**
+         * Initialize tab functionality for tools
+         */
+        function initToolTabs() {
+            const tabButtons = document.querySelectorAll('.tool-tab-btn');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and content
+                    document.querySelectorAll('.tool-tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tool-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to current button and content
+                    button.classList.add('active');
+                    const tabId = button.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        /**
+         * Initialize quiz functionality
+         */
+        function initQuiz() {
+            const quiz = document.getElementById('module3-quiz');
+            if (!quiz) return;
+            
+            const questions = quiz.querySelectorAll('.question');
+            const submitBtn = document.getElementById('submit-answer');
+            const nextBtn = document.getElementById('next-question');
+            const showResultsBtn = document.getElementById('show-results');
+            const retryBtn = document.getElementById('retry-quiz');
+            const resultsSection = quiz.querySelector('.quiz-results');
+            const scoreDisplay = document.getElementById('score');
+            const resultsFeedback = document.getElementById('results-feedback');
+            
+            let currentQuestionIndex = 0;
+            let score = 0;
+            const answers = {
+                '1': 'c', // h1 → h2 → h2 → h3
+                '2': 'b', // 4.5:1
+                '3': 'b', // alt=""
+                '4': 'b', // Download the 2023 Annual Report (PDF, 2.5MB)
+                '5': 'c'  // Use the <label for="input-id"> element that matches the input's id
+            };
+
+            // Enable submit button when an answer is selected
+            questions.forEach(question => {
+                const options = question.querySelectorAll('input[type="radio"]');
+                options.forEach(option => {
+                    option.addEventListener('change', () => {
+                        submitBtn.disabled = false;
+                    });
+                });
+            });
+
+            // Submit answer handler
+            submitBtn.addEventListener('click', () => {
+                const currentQuestion = questions[currentQuestionIndex];
+                const questionId = currentQuestion.getAttribute('data-question-id');
+                const selectedOption = currentQuestion.querySelector('input[type="radio"]:checked');
+                
+                if (selectedOption) {
+                    const userAnswer = selectedOption.value;
+                    const correctAnswer = answers[questionId];
+                    const feedbackElement = currentQuestion.querySelector('.feedback');
+                    
+                    feedbackElement.classList.remove('hidden');
+                    
+                    if (userAnswer === correctAnswer) {
+                        feedbackElement.textContent = 'Correct! Great job!';
+                        feedbackElement.className = 'feedback feedback-correct';
+                        score++;
+                    } else {
+                        feedbackElement.textContent = 'Incorrect. The correct answer is highlighted.';
+                        feedbackElement.className = 'feedback feedback-incorrect';
+                    }
+                    
+                    // Highlight the correct answer
+                    const options = currentQuestion.querySelectorAll('.option');
+                    options.forEach(option => {
+                        const input = option.querySelector('input');
+                        if (input.value === correctAnswer) {
+                            option.classList.add('correct-answer');
+                        } else if (input.value === userAnswer && userAnswer !== correctAnswer) {
+                            option.classList.add('incorrect-answer');
+                        }
+                    });
+                    
+                    // Disable all options
+                    currentQuestion.querySelectorAll('input[type="radio"]').forEach(input => {
+                        input.disabled = true;
+                    });
+                    
+                    // Hide submit button and show next/results button
+                    submitBtn.classList.add('hidden');
+                    
+                    if (currentQuestionIndex < questions.length - 1) {
+                        nextBtn.classList.remove('hidden');
+                    } else {
+                        showResultsBtn.classList.remove('hidden');
+                    }
+                }
+            });
+
+            // Next question handler
+            nextBtn.addEventListener('click', () => {
+                questions[currentQuestionIndex].classList.add('hidden');
+                currentQuestionIndex++;
+                questions[currentQuestionIndex].classList.remove('hidden');
+                
+                submitBtn.disabled = true;
+                submitBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+            });
+
+            // Show results handler
+            showResultsBtn.addEventListener('click', () => {
+                questions[currentQuestionIndex].classList.add('hidden');
+                resultsSection.classList.remove('hidden');
+                showResultsBtn.classList.add('hidden');
+                
+                scoreDisplay.textContent = score;
+                
+                // Provide feedback based on score
+                if (score === 5) {
+                    resultsFeedback.textContent = 'Perfect score! You have an excellent understanding of content creation best practices for accessibility.';
+                } else if (score >= 3) {
+                    resultsFeedback.textContent = 'Good job! You have a solid understanding of accessible content creation, but there\'s still more to learn.';
+                } else {
+                    resultsFeedback.textContent = 'You might want to review this module again to strengthen your understanding of accessible content creation practices.';
+                }
+            });
+
+            // Retry quiz handler
+            retryBtn.addEventListener('click', () => {
+                // Reset quiz state
+                score = 0;
+                currentQuestionIndex = 0;
+                
+                // Show first question, hide results
+                questions.forEach((question, index) => {
+                    if (index === 0) {
+                        question.classList.remove('hidden');
+                    } else {
+                        question.classList.add('hidden');
+                    }
+                });
+                
+                // Reset all questions
+                questions.forEach(question => {
+                    // Uncheck all radio buttons
+                    question.querySelectorAll('input[type="radio"]').forEach(input => {
+                        input.checked = false;
+                        input.disabled = false;
+                    });
+                    
+                    // Reset feedback
+                    const feedbackElement = question.querySelector('.feedback');
+                    feedbackElement.classList.add('hidden');
+                    feedbackElement.textContent = '';
+                    feedbackElement.className = 'feedback hidden';
+                    
+                    // Reset answer highlighting
+                    question.querySelectorAll('.option').forEach(option => {
+                        option.classList.remove('correct-answer', 'incorrect-answer');
+                    });
+                });
+                
+                // Reset buttons
+                submitBtn.disabled = true;
+                submitBtn.classList.remove('hidden');
+                retryBtn.classList.add('hidden');
+                showResultsBtn.classList.add('hidden');
+                resultsSection.classList.add('hidden');
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize mobile menu
+            initMobileMenu();
+            
+            // Initialize contrast demo
+            initContrastDemo();
+            
+            // Initialize tool tabs
+            initToolTabs();
+            
+            // Initialize quiz functionality
+            initQuiz();
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Creation Best Practices | Web Accessibility Training Toolkit</title>
+    <style>
+        /* Base styles and reset */
+        :root {
+            --primary-color: #2c7be5;
+            --secondary-color: #6c757d;
+            --success-color: #00b791;
+            --warning-color: #f0ad4e;
+            --danger-color: #d9534f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --border-radius: 4px;
+            --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --transition: all 0.2s ease-in-out;
+            --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: #1a68d1;
+            text-decoration: underline;
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+
+        button, .button {
+            display: inline-block;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        button:hover, .button:hover {
+            background-color: #1a68d1;
+            text-decoration: none;
+        }
+
+        button:focus, .button:focus {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(44, 123, 229, 0.25);
+        }
+
+        button:disabled, .button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        code {
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            padding: 0.2rem 0.4rem;
+            font-size: 87.5%;
+            color: #e83e8c;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        #mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu-toggle {
+                display: block;
+            }
+            
+            #main-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--box-shadow);
+            }
+            
+            #main-menu.show {
+                display: flex;
+            }
+            
+            #main-menu > li {
+                margin-left: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            #main-menu > li > ul {
+                position: static;
+                display: block;
+                box-shadow: none;
+                border: none;
+                padding-left: 1rem;
+            }
+        }
+
+        .hamburger {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: var(--text-color);
+            position: relative;
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+            left: 0;
+        }
+
+        .hamburger::before {
+            top: -6px;
+        }
+
+        .hamburger::after {
+            bottom: -6px;
+        }
+
+        #main-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #main-menu > li {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+
+        #main-menu > li > a {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        #main-menu > li > a[aria-current="page"] {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        #main-menu > li > ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            min-width: 200px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 10;
+            list-style: none;
+        }
+
+        #main-menu > li:hover > ul,
+        #main-menu > li:focus-within > ul {
+            display: block;
+        }
+
+        #main-menu > li > ul > li > a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text-color);
+        }
+
+        #main-menu > li > ul > li > a:hover,
+        #main-menu > li > ul > li > a[aria-current="page"] {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        /* Main content area */
+        main {
+            padding: 2rem 0;
+        }
+
+        .module-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin: 2rem 0 1rem;
+            color: var(--dark-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--dark-color);
+        }
+
+        .progress-indicator {
+            display: inline-block;
+            background-color: var(--light-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+
+        .progress-indicator .current {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .learning-objectives ul {
+            margin-top: 1rem;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 0.5rem;
+        }
+
+        .practice-areas,
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .practice-card,
+        .resource-card {
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .practice-card:hover,
+        .resource-card:hover {
+            box-shadow: var(--box-shadow);
+            transform: translateY(-3px);
+        }
+
+        .practice-card {
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .note {
+            background-color: #e6f2ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .note h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .example {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .example h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .do-dont {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .do, .dont {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .do {
+            background-color: rgba(92, 184, 92, 0.1);
+            border-left: 3px solid #5cb85c;
+        }
+
+        .dont {
+            background-color: rgba(217, 83, 79, 0.1);
+            border-left: 3px solid #d9534f;
+        }
+
+        .do h5, .dont h5 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .do h5::before, .dont h5::before {
+            content: '';
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .do h5::before {
+            background-color: #5cb85c;
+        }
+
+        .dont h5::before {
+            background-color: #d9534f;
+        }
+
+        .best-practice {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: #f8f9fa;
+        }
+
+        .best-practice-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .best-practice-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .best-practice h3 {
+            margin: 0;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .tools-container {
+            margin: 2rem 0;
+        }
+
+        .tool-tab {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-tab button {
+            padding: 0.75rem 1.5rem;
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .tool-tab button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tool-content {
+            display: none;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+
+        .tool-content.active {
+            display: block;
+        }
+
+        .resource-link {
+            display: block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            color: var(--primary-color);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .resource-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Quiz styles */
+        .quiz {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+        }
+
+        .options {
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .feedback-correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback-incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .correct-answer {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .incorrect-answer {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .quiz-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .quiz-results {
+            padding: 1.5rem;
+            background-color: #e6f2ff;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
+
+        #results-feedback {
+            margin: 1rem 0;
+        }
+
+        /* Color contrast demo */
+        .contrast-demo {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+
+        .contrast-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contrast-text {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1.25rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .contrast-result {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Module navigation */
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .back-link, .next-module {
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .back-link::before {
+            content: '←';
+            margin-right: 0.5rem;
+        }
+
+        .next-module::after {
+            content: '→';
+            margin-left: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h2, .footer-section h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #9bb8e8;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            border-top: 1px solid #555;
+            padding-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .module-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .practice-areas,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .do-dont {
+                flex-direction: column;
+            }
+            
+            .tool-tab {
+                flex-wrap: wrap;
+            }
+            
+            .module-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav aria-label="Main Navigation">
+                <a href="../index.html" class="logo">Web Accessibility Toolkit</a>
+                <button id="mobile-menu-toggle" aria-expanded="false" aria-controls="main-menu">
+                    <span class="sr-only">Toggle menu</span>
+                    <span class="hamburger"></span>
+                </button>
+                <ul id="main-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li>
+                        <a href="#" aria-current="page">Learning Modules</a>
+                        <ul>
+                            <li><a href="module1.html">Introduction to Web Accessibility</a></li>
+                            <li><a href="module2.html">WCAG 2.1 Guidelines</a></li>
+                            <li><a href="module3.html" aria-current="page">Content Creation Best Practices</a></li>
+                            <li><a href="module4.html">Testing and Validation</a></li>
+                            <li><a href="module5.html">Workflow Integration</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../tools/checklist.html">Tools</a></li>
+                    <li><a href="../resources/guidelines.html">Resources</a></li>
+                    <li><a href="../documentation/content-management.html">Documentation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    

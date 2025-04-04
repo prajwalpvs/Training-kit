@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External References - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* References specific styles */
+        .references-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .references-intro {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .reference-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .category-pill {
+            background-color: var(--neutral-200);
+            border-radius: 20px;
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .category-pill:hover, .category-pill:focus {
+            background-color: var(--neutral-300);
+        }
+        
+        .category-pill.active {
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+        }
+        
+        .references-search {
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+        }
+        
+        .references-search input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-sm) calc(var(--spacing-lg) + 20px);
+            border: 1px solid var(--neutral-400);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-600);
+            width: 20px;
+            height: 20px;
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: none;
+        }
+        
+        .clear-search.visible {
+            display: block;
+        }
+        
+        .reference-section {
+            margin-bottom: var(--spacing-xl);
+            scroll-margin-top: 100px;
+        }
+        
+        .section-heading {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .reference-card {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .reference-card:hover, .reference-card:focus-within {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .card-header {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-title {
+            margin: 0;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .card-subtitle {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .card-content {
+            margin-bottom: var(--spacing-md);
+            flex-grow: 1;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-tag {
+            background-color: var(--neutral-300);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+        }
+        
+        .card-footer {
+            margin-top: auto;
+        }
+        
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .resource-link:hover, .resource-link:focus {
+            text-decoration: underline;
+        }
+        
+        .external-icon {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .no-results {
+            padding: var(--spacing-lg);
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            display: none;
+        }
+        
+        .no-results.visible {
+            display: block;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover, .back-to-top:focus {
+            background-color: var(--primary-dark);
+            color: var(--neutral-100);
+            text-decoration: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li><a href="../index.html#resources" class="active">Resources</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li aria-current="page">External References</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>External References</h1>
+                <p>A curated collection of valuable external resources, tools, and communities for web accessibility.</p>
+            </header>
+            
+            <div class="references-container">
+                <div class="references-intro">
+                    <h2>About These References</h2>
+                    <p>This collection provides links to high-quality external resources that can help you expand your knowledge and skills in web accessibility. We've curated these resources to complement the training materials in this toolkit.</p>
+                    <p>Use the category filters and search functionality to find specific resources that match your needs.</p>
+                </div>
+                
+                <div class="reference-categories">
+                    <button class="category-pill active" data-category="all">All</button>
+                    <button class="category-pill" data-category="standards">Standards & Guidelines</button>
+                    <button class="category-pill" data-category="tools">Tools & Testing</button>
+                    <button class="category-pill" data-category="tutorials">Tutorials & Courses</button>
+                    <button class="category-pill" data-category="communities">Communities</button>
+                    <button class="category-pill" data-category="articles">Articles & Blogs</button>
+                </div>
+                
+                <div class="references-search">
+                    <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>
+                    </svg>
+                    <input type="text" id="reference-search" placeholder="Search resources..." aria-label="Search resources">
+                    <button class="clear-search" id="clear-search" aria-label="Clear search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="no-results" id="no-results">
+                    <h3>No resources found</h3>
+                    <p>No resources match your search criteria. Try different keywords or categories.</p>
+                </div>
+                
+                <div id="standards" class="reference-section" data-category="standards">
+                    <h2 class="section-heading">Standards & Guidelines</h2>
+                    <div class="reference-grid">
+                        <article class="reference-card" data-tags="wcag guidelines standards">
+                            <div class="card-header">
+                                <h3 class="card-title">Web Content Accessibility Guidelines (WCAG) 2.1</h3>
+                                <p class="card-subtitle">W3C Recommendation</p>
+                            </div>
+                            <div class="card-content">
+                                <p>The definitive technical standard for web accessibility. WCAG 2.1 explains how to make web content more accessible to people with disabilities.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Standards</span>
+                                    <span class="card-tag">Official</span>
+                                    <span class="card-tag">Technical</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.w3.org/TR/WCAG21/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="wcag quickref guidelines techniques">
+                            <div class="card-header">
+                                <h3 class="card-title">How to Meet WCAG (Quick Reference)</h3>
+                                <p class="card-subtitle">W3C WAI</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A customizable quick reference to Web Content Accessibility Guidelines requirements and techniques. Filter by conformance level, techniques, or content type.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Guidelines</span>
+                                    <span class="card-tag">Reference</span>
+                                    <span class="card-tag">Official</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.w3.org/WAI/WCAG21/quickref/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="aria specification roles states properties">
+                            <div class="card-header">
+                                <h3 class="card-title">WAI-ARIA Authoring Practices</h3>
+                                <p class="card-subtitle">W3C WAI</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A guide for understanding how to use WAI-ARIA to create accessible web applications. Includes design patterns, keyboard interaction, and examples.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Standards</span>
+                                    <span class="card-tag">ARIA</span>
+                                    <span class="card-tag">Technical</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.w3.org/TR/wai-aria-practices-1.1/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                
+                <div id="tools" class="reference-section" data-category="tools">
+                    <h2 class="section-heading">Tools & Testing</h2>
+                    <div class="reference-grid">
+                        <article class="reference-card" data-tags="testing tool evaluation automated">
+                            <div class="card-header">
+                                <h3 class="card-title">WAVE Web Accessibility Evaluation Tool</h3>
+                                <p class="card-subtitle">WebAIM</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A suite of evaluation tools that helps authors make their web content more accessible. Available as a web service and browser extensions.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Testing</span>
+                                    <span class="card-tag">Evaluation</span>
+                                    <span class="card-tag">Free</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://wave.webaim.org/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="color contrast testing ratio">
+                            <div class="card-header">
+                                <h3 class="card-title">WebAIM Contrast Checker</h3>
+                                <p class="card-subtitle">WebAIM</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A tool for checking contrast ratios between foreground and background colors to ensure they meet WCAG requirements for text legibility.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Contrast</span>
+                                    <span class="card-tag">Testing</span>
+                                    <span class="card-tag">Free</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://webaim.org/resources/contrastchecker/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="automated testing axe deque">
+                            <div class="card-header">
+                                <h3 class="card-title">axe DevTools</h3>
+                                <p class="card-subtitle">Deque Systems</p>
+                            </div>
+                            <div class="card-content">
+                                <p>Browser extensions and testing tools that identify accessibility issues during development and provide guidance on how to fix them.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Testing</span>
+                                    <span class="card-tag">Development</span>
+                                    <span class="card-tag">Browser Extension</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.deque.com/axe/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="screen reader testing assistive technology">
+                            <div class="card-header">
+                                <h3 class="card-title">NVDA Screen Reader</h3>
+                                <p class="card-subtitle">NV Access</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A free, open-source screen reader for Windows that allows blind and vision-impaired people to use computers. Essential for testing the accessibility of your content.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Screen Reader</span>
+                                    <span class="card-tag">Testing</span>
+                                    <span class="card-tag">Free</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.nvaccess.org/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                
+                <div id="tutorials" class="reference-section" data-category="tutorials">
+                    <h2 class="section-heading">Tutorials & Courses</h2>
+                    <div class="reference-grid">
+                        <article class="reference-card" data-tags="tutorials w3c wai official">
+                            <div class="card-header">
+                                <h3 class="card-title">Web Accessibility Tutorials</h3>
+                                <p class="card-subtitle">W3C WAI</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A series of in-depth tutorials on specific aspects of web accessibility, including page structure, menus, images, tables, forms, and carousels.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Tutorials</span>
+                                    <span class="card-tag">Official</span>
+                                    <span class="card-tag">Free</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.w3.org/WAI/tutorials/" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="course google udacity free">
+                            <div class="card-header">
+                                <h3 class="card-title">Web Accessibility by Google</h3>
+                                <p class="card-subtitle">Udacity</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A free course that introduces web accessibility concepts and techniques, including focus management, semantics, and ARIA. Taught by Google accessibility experts.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Course</span>
+                                    <span class="card-tag">Free</span>
+                                    <span class="card-tag">Interactive</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.udacity.com/course/web-accessibility--ud891" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        
+                        <article class="reference-card" data-tags="course edx webaim introduction">
+                            <div class="card-header">
+                                <h3 class="card-title">Introduction to Web Accessibility</h3>
+                                <p class="card-subtitle">edX & W3C</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A comprehensive introduction to digital accessibility covering principles, guidelines, and best practices for making web content accessible to everyone.</p>
+                                <div class="card-tags">
+                                    <span class="card-tag">Course</span>
+                                    <span class="card-tag">Official</span>
+                                    <span class="card-tag">Self-paced</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://www.edx.org/course/web-accessibility-introduction" class="resource-link" target="_blank" rel="noopener">
+                                    Visit Resource
+                                    <svg class="external-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                
+                <div id="communities" class="reference-section" data-category="communities">
+                    <h2 class="section-heading">Communities & Organizations</h2>
+                    <div class="reference-grid">
+                        <article class="reference-card" data-tags="community project resources checklist">
+                            <div class="card-header">
+                                <h3 class="card-title">The A11Y Project</h3>
+                                <p class="card-subtitle">Community-driven</p>
+                            </div>
+                            <div class="card-content">
+                                <p>A community-driven effort
