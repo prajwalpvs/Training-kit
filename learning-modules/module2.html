@@ -731,8 +731,8 @@
                             <li><a href="module1.html">Introduction to Web Accessibility</a></li>
                             <li><a href="module2.html" aria-current="page">WCAG 2.1 Guidelines</a></li>
                             <li><a href="module3.html">Content Creation Best Practices</a></li>
-                            <li><a href="module4.html">Testing and Validation</a></li>
-                            <li><a href="module5.html">Workflow Integration</a></li>
+                            <li><span class="nav-coming-soon" aria-disabled="true">Testing and Validation (Coming Soon)</span></li>
+                            <li><span class="nav-coming-soon" aria-disabled="true">Workflow Integration (Coming Soon)</span></li>
                         </ul>
                     </li>
                     <li><a href="../tools/checklist.html">Tools</a></li>
@@ -745,6 +745,13 @@
 
     <main>
         <div class="container">
+            <nav aria-label="Breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li aria-current="page">Module 2: WCAG 2.1 Guidelines Explained</li>
+                </ol>
+            </nav>
             <div class="module-header">
                 <h1>Module 2: WCAG 2.1 Guidelines Explained</h1>
                 <div class="progress-indicator">
@@ -910,4 +917,12 @@
                     </div>
                 </div>
 
-                <div class="guideline
+            </section>
+            <nav class="module-nav-footer" aria-label="Module navigation">
+                <a href="module1.html" class="button secondary">← Prev: Introduction</a>
+                <a href="module3.html" class="button primary">Next: Content Creation →</a>
+            </nav>
+        </div>
+    </main>
+</body>
+</html>

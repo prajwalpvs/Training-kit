@@ -214,16 +214,17 @@ class AccessibilityChecker {
      * algorithm for accurate contrast checking
      */
     checkContrast() {
-        // For a comprehensive check, you would need to:
-        // 1. Get computed styles for text and background
-        // 2. Calculate contrast ratio using WCAG formula
-        // 3. Check against appropriate ratio (4.5:1 for normal text, 3:1 for large text)
-        
-        this.results.info.push({
+        // Full contrast checking requires computing background/foreground colours across
+        // the entire painted DOM (including inherited, layered, and image backgrounds),
+        // which is not reliably possible from JavaScript alone.  We therefore flag this
+        // as a manual-check requirement and point users to a dedicated tool.
+        this.results.warnings.push({
             type: 'contrast',
-            description: 'Basic contrast check only - use a dedicated tool for comprehensive testing',
-            impact: 'info',
-            recommendation: 'Use a tool like the WebAIM Color Contrast Checker for accurate results'
+            description: 'Colour contrast cannot be verified automatically by this tool.',
+            impact: 'high',
+            recommendation: 'Manually check contrast ratios using the WebAIM Contrast Checker ' +
+                '(https://webaim.org/resources/contrastchecker/). ' +
+                'WCAG 2.1 requires 4.5:1 for normal text and 3:1 for large text (Level AA).'
         });
         
         // Check for text using CSS with !important that might override accessibility settings

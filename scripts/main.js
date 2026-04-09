@@ -6,12 +6,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize accessibility settings
     initAccessibilitySettings();
-    
+
     // Initialize keyboard focus detection
     initKeyboardFocus();
-    
+
     // Add skip link to the page
     addSkipLink();
+
+    // Quick-win features
+    stampCompletedModules();
+    animateMetrics();
+    addCopyCodeButtons();
 });
 
 /**
@@ -187,9 +192,95 @@ document.addEventListener('click', function(e) {
     // Update URL
     history.pushState(null, null, href);
     
-    // Focus the target element if it's not focusable
-    if (!targetElement.tabIndex) {
-        targetElement.tabIndex = -1;
+    // Focus the target element for screen reader announcement
+    // tabIndex -1 allows programmatic focus without adding it to the tab order
+    var previousTabIndex = targetElement.getAttribute('tabindex');
+    if (previousTabIndex === null) {
+        targetElement.setAttribute('tabindex', '-1');
+        targetElement.addEventListener('blur', function onBlur() {
+            targetElement.removeAttribute('tabindex');
+            targetElement.removeEventListener('blur', onBlur);
+        });
     }
     targetElement.focus();
 });
+
+// ── Module completion badges ──────────────────────────────────────────────────
+function stampCompletedModules() {
+    let completed = [];
+    try { completed = JSON.parse(localStorage.getItem('toolkit-completed-modules') || '[]'); } catch (_) {}
+    if (!completed.length) return;
+
+    const map = { module1: 'module1.html', module2: 'module2.html', module3: 'module3.html' };
+    document.querySelectorAll('.module-card').forEach(function (card) {
+        const link = card.querySelector('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        for (const id of completed) {
+            if (href && href.includes(map[id])) {
+                card.classList.add('completed');
+                break;
+            }
+        }
+    });
+}
+
+// ── Animated metric counters ──────────────────────────────────────────────────
+function animateMetrics() {
+    const metrics = document.querySelectorAll('.metric-value');
+    if (!metrics.length) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            observer.unobserve(entry.target);
+            const el = entry.target;
+            const raw = el.textContent.trim();
+            const num = parseFloat(raw);
+            if (isNaN(num) || reduceMotion) return;
+            const suffix = raw.replace(String(num), '');
+            let start = 0;
+            const duration = 1200;
+            const step = 16;
+            const increment = num / (duration / step);
+            const timer = setInterval(function () {
+                start = Math.min(start + increment, num);
+                el.textContent = Math.round(start) + suffix;
+                if (start >= num) clearInterval(timer);
+            }, step);
+        });
+    }, { threshold: 0.5 });
+
+    metrics.forEach(function (m) { observer.observe(m); });
+}
+
+// ── Copy-code buttons ─────────────────────────────────────────────────────────
+function addCopyCodeButtons() {
+    document.querySelectorAll('pre > code, pre').forEach(function (el) {
+        const pre = el.tagName === 'PRE' ? el : el.parentElement;
+        if (pre.parentElement && pre.parentElement.classList.contains('code-wrapper')) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-code-btn';
+        btn.textContent = 'Copy';
+        btn.setAttribute('aria-label', 'Copy code to clipboard');
+        btn.addEventListener('click', function () {
+            const text = pre.textContent;
+            navigator.clipboard.writeText(text).then(function () {
+                btn.textContent = 'Copied!';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+            }).catch(function () {
+                btn.textContent = 'Error';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+            });
+        });
+        wrapper.appendChild(btn);
+    });
+}

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -c \"querySelector\\\\|getElementById\" /c/Users/prajw/OneDrive/Desktop/Training-kit-master/Training-kit-master/scripts/*.js)"
+    ]
+  }
+}

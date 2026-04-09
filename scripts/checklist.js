@@ -236,7 +236,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function loadState() {
     try {
       return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    } catch (_) {
+    } catch (e) {
+      console.warn('[Checklist] Could not load saved state:', e);
       return {};
     }
   }
@@ -244,6 +245,12 @@ document.addEventListener('DOMContentLoaded', function () {
   function saveState(s) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-    } catch (_) {}
+    } catch (e) {
+      if (e.name === 'QuotaExceededError') {
+        console.warn('[Checklist] localStorage quota exceeded — progress not saved.');
+      } else {
+        console.warn('[Checklist] Could not save state:', e);
+      }
+    }
   }
 });

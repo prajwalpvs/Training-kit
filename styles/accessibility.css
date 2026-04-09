@@ -18,6 +18,12 @@
     transition: top 0.3s;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .skip-link {
+        transition: none;
+    }
+}
+
 .skip-link:focus {
     top: 0;
 }
@@ -93,9 +99,11 @@ body.high-contrast .metric-card {
 }
 
 /* Dyslexia-friendly Font */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap');
+
 body.dyslexia-font {
-    --font-primary: 'Open Dyslexic', 'Comic Sans MS', sans-serif;
-    --font-heading: 'Open Dyslexic', 'Comic Sans MS', sans-serif;
+    --font-primary: 'Lexend', 'Comic Sans MS', sans-serif;
+    --font-heading: 'Lexend', 'Comic Sans MS', sans-serif;
     letter-spacing: 0.5px;
     word-spacing: 2px;
     line-height: 1.8;
@@ -121,6 +129,10 @@ body.reduce-motion .doc-card:hover {
 }
 
 /* Larger Font Sizes */
+body.font-size-100 {
+    font-size: 16px; /* 100% baseline */
+}
+
 body.font-size-110 {
     font-size: 17.6px; /* 110% of 16px */
 }
