@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Guidelines - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Guidelines specific styles */
+        .guidelines-container {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .guidelines-toc {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .toc-heading {
+            margin-top: 0;
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-300);
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .toc-list li {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .toc-list li a {
+            text-decoration: none;
+            color: var(--primary-color);
+            display: block;
+            padding: var(--spacing-xs) 0;
+        }
+        
+        .toc-list li a:hover {
+            text-decoration: underline;
+        }
+        
+        .toc-sublist {
+            list-style-type: none;
+            padding-left: var(--spacing-lg);
+            margin: var(--spacing-xs) 0;
+        }
+        
+        .toc-sublist li {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .guideline-section {
+            margin-bottom: var(--spacing-xxl);
+            scroll-margin-top: 100px;
+        }
+        
+        .guideline-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .guideline-heading {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .guideline-subsection {
+            margin-bottom: var(--spacing-xl);
+            scroll-margin-top: 100px;
+        }
+        
+        .guideline-subsection:last-child {
+            margin-bottom: 0;
+        }
+        
+        .guideline-card {
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .guideline-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .guideline-title {
+            margin: 0;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .guideline-reference {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        
+        .wcag-tag {
+            background-color: var(--primary-light);
+            color: var(--neutral-100);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .level-tag {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .level-a {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        .level-aa {
+            background-color: #fff8e1;
+            color: #ff6f00;
+        }
+        
+        .level-aaa {
+            background-color: #ffebee;
+            color: #b71c1c;
+        }
+        
+        .guideline-description {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .guideline-info {
+            background-color: var(--neutral-200);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .guideline-info-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .example-heading {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .examples-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .example-box {
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+        }
+        
+        .example-box h4 {
+            margin-top: 0;
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .good-example {
+            background-color: #e8f5e9;
+        }
+        
+        .good-example h4 {
+            color: #1b5e20;
+        }
+        
+        .bad-example {
+            background-color: #ffebee;
+        }
+        
+        .bad-example h4 {
+            color: #b71c1c;
+        }
+        
+        .example-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .code-block {
+            font-family: var(--font-mono);
+            background-color: var(--neutral-800);
+            color: var(--neutral-100);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9rem;
+            margin-top: var(--spacing-sm);
+        }
+        
+        .resources-list {
+            margin-top: var(--spacing-md);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--neutral-100);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover, .back-to-top:focus {
+            background-color: var(--primary-dark);
+            color: var(--neutral-100);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .examples-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li><a href="../index.html#resources" class="active">Resources</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li aria-current="page">Accessibility Guidelines</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>Accessibility Guidelines</h1>
+                <p>Comprehensive guidelines and best practices for creating accessible web content based on WCAG 2.1.</p>
+            </header>
+            
+            <div class="guidelines-container">
+                <div class="guidelines-toc">
+                    <h2 class="toc-heading">Table of Contents</h2>
+                    <ul class="toc-list">
+                        <li><a href="#intro">Introduction</a></li>
+                        <li>
+                            <a href="#perceivable">1. Perceivable</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#text-alternatives">1.1 Text Alternatives</a></li>
+                                <li><a href="#time-based-media">1.2 Time-based Media</a></li>
+                                <li><a href="#adaptable">1.3 Adaptable</a></li>
+                                <li><a href="#distinguishable">1.4 Distinguishable</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#operable">2. Operable</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#keyboard-accessible">2.1 Keyboard Accessible</a></li>
+                                <li><a href="#enough-time">2.2 Enough Time</a></li>
+                                <li><a href="#seizures">2.3 Seizures and Physical Reactions</a></li>
+                                <li><a href="#navigable">2.4 Navigable</a></li>
+                                <li><a href="#input-modalities">2.5 Input Modalities</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#understandable">3. Understandable</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#readable">3.1 Readable</a></li>
+                                <li><a href="#predictable">3.2 Predictable</a></li>
+                                <li><a href="#input-assistance">3.3 Input Assistance</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#robust">4. Robust</a>
+                            <ul class="toc-sublist">
+                                <li><a href="#compatible">4.1 Compatible</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#additional-resources">Additional Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div id="intro" class="guideline-section">
+                    <h2 class="guideline-heading">Introduction</h2>
+                    
+                    <p>These guidelines are based on the Web Content Accessibility Guidelines (WCAG) 2.1, which is the internationally recognized standard for web accessibility. WCAG is organized around four principles:</p>
+                    
+                    <ul>
+                        <li><strong>Perceivable:</strong> Information and user interface components must be presentable to users in ways they can perceive.</li>
+                        <li><strong>Operable:</strong> User interface components and navigation must be operable.</li>
+                        <li><strong>Understandable:</strong> Information and the operation of the user interface must be understandable.</li>
+                        <li><strong>Robust:</strong> Content must be robust enough that it can be interpreted by a wide variety of user agents, including assistive technologies.</li>
+                    </ul>
+                    
+                    <p>These guidelines cover WCAG 2.1 success criteria across three levels of conformance:</p>
+                    
+                    <ul>
+                        <li><strong>Level A:</strong> The most basic web accessibility features. Failure to meet these criteria means some users will find it impossible to access your content.</li>
+                        <li><strong>Level AA:</strong> Addresses the most common barriers for users with disabilities. Most organizations aim for this level compliance. Many laws and regulations reference this level.</li>
+                        <li><strong>Level AAA:</strong> The highest level of accessibility that provides enhanced accessibility for users with specific needs.</li>
+                    </ul>
+                    
+                    <div class="guideline-info">
+                        <p class="guideline-info-title">How to Use These Guidelines</p>
+                        <p>These guidelines are organized by the WCAG principles and success criteria. Each section includes:</p>
+                        <ul>
+                            <li>A description of the guideline</li>
+                            <li>Practical implementation advice</li>
+                            <li>Examples of good and bad practices</li>
+                            <li>Code samples</li>
+                            <li>Testing tips</li>
+                        </ul>
+                        <p>If you're new to accessibility, we recommend starting with Level A criteria and progressively enhancing your content to meet higher levels.</p>
+                    </div>
+                </div>
+                
+                <div id="perceivable" class="guideline-section">
+                    <h2 class="guideline-heading">1. Perceivable</h2>
+                    <p>Information and user interface components must be presentable to users in ways they can perceive. This means that users must be able to perceive all relevant information with at least one of their senses.</p>
+                    
+                    <div id="text-alternatives" class="guideline-subsection">
+                        <h3>1.1 Text Alternatives</h3>
+                        
+                        <div class="guideline-card">
+                            <div class="guideline-card-header">
+                                <div>
+                                    <h4 class="guideline-title">Non-text Content</h4>
+                                    <div class="guideline-reference">
+                                        <span class="wcag-tag">WCAG 1.1.1</span>
+                                        <span class="level-tag level-a">Level A</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-description">
+                                <p>All non-text content that is presented to the user has a text alternative that serves the equivalent purpose, except for the situations listed below.</p>
+                                <ul>
+                                    <li><strong>Controls, Input:</strong> If non-text content is a control or accepts user input, then it has a name that describes its purpose.</li>
+                                    <li><strong>Time-Based Media:</strong> If non-text content is time-based media, then text alternatives at least provide descriptive identification of the non-text content.</li>
+                                    <li><strong>Test:</strong> If non-text content is a test or exercise that would be invalid if presented in text, then text alternatives at least provide descriptive identification of the non-text content.</li>
+                                    <li><strong>Sensory:</strong> If non-text content is primarily intended to create a specific sensory experience, then text alternatives at least provide descriptive identification of the non-text content.</li>
+                                    <li><strong>CAPTCHA:</strong> If the purpose of non-text content is to confirm that content is being accessed by a person rather than a computer, then text alternatives that identify and describe the purpose of the non-text content are provided, and alternative forms of CAPTCHA using output modes for different types of sensory perception are provided to accommodate different disabilities.</li>
+                                    <li><strong>Decoration, Formatting, Invisible:</strong> If non-text content is pure decoration, is used only for visual formatting, or is not presented to users, then it is implemented in a way that it can be ignored by assistive technology.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="guideline-info">
+                                <p class="guideline-info-title">Implementation Guidelines</p>
+                                <ul>
+                                    <li>Provide descriptive alt text for images that convey information</li>
+                                    <li>Use empty alt text (alt="") for decorative images</li>
+                                    <li>For complex images like charts or diagrams, provide extended descriptions in the surrounding text or via a link</li>
+                                    <li>Ensure audio and video content has text alternatives (transcripts, captions)</li>
+                                    <li>Use proper labels for form controls and interactive elements</li>
+                                </ul>
+                            </div>
+                            
+                            <h4 class="example-heading">Examples</h4>
+                            <div class="examples-container">
+                                <div class="example-box good-example">
+                                    <h4>
+                                        <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                        </svg>
+                                        Good Example
+                                    </h4>
+                                    <p>Image with descriptive alt text:</p>
+                                    <div class="code-block">&lt;img src="chart.png" alt="Bar chart showing sales growth of 25% in Q1, 15% in Q2, and 30% in Q3"&gt;</div>
+                                    
+                                    <p>Decorative image with empty alt text:</p>
+                                    <div class="code-block">&lt;img src="decorative-divider.png" alt="" role="presentation"&gt;</div>
+                                </div>
+                                
+                                <div class="example-box bad-example">
+                                    <h4>
+                                        <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                        </svg>
+                                        Bad Example
+                                    </h4>
+                                    <p>Missing alt attribute:</p>
+                                    <div class="code-block">&lt;img src="chart.png"&gt;</div>
+                                    
+                                    <p>Uninformative alt text:</p>
+                                    <div class="code-block">&lt;img src="chart.png" alt="Chart"&gt;</div>
+                                    
+                                    <p>Redundant alt text:</p>
+                                    <div class="code-block">&lt;img src="chart.png" alt="Image of a chart"&gt;</div>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-info">
+                                <p class="guideline-info-title">Testing Tips</p>
+                                <ul>
+                                    <li>Use a screen reader to check if non-text content is properly conveyed</li>
+                                    <li>Disable images in your browser to ensure text alternatives provide equivalent information</li>
+                                    <li>Inspect the HTML to ensure all non-text elements have appropriate text alternatives</li>
+                                    <li>Use automated testing tools to identify missing alt text</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="time-based-media" class="guideline-subsection">
+                        <h3>1.2 Time-based Media</h3>
+                        
+                        <div class="guideline-card">
+                            <div class="guideline-card-header">
+                                <div>
+                                    <h4 class="guideline-title">Captions (Prerecorded)</h4>
+                                    <div class="guideline-reference">
+                                        <span class="wcag-tag">WCAG 1.2.2</span>
+                                        <span class="level-tag level-a">Level A</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-description">
+                                <p>Captions are provided for all prerecorded audio content in synchronized media, except when the media is a media alternative for text and is clearly labeled as such.</p>
+                            </div>
+                            
+                            <div class="guideline-info">
+                                <p class="guideline-info-title">Implementation Guidelines</p>
+                                <ul>
+                                    <li>Provide synchronized captions for all video with audio</li>
+                                    <li>Ensure captions include all spoken dialogue</li>
+                                    <li>Include speaker identification when multiple people are speaking</li>
+                                    <li>Include relevant non-speech information (sound effects, meaningful music)</li>
+                                    <li>Use a video player that supports captions</li>
+                                </ul>
+                            </div>
+                            
+                            <h4 class="example-heading">Examples</h4>
+                            <div class="examples-container">
+                                <div class="example-box good-example">
+                                    <h4>
+                                        <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                        </svg>
+                                        Good Example
+                                    </h4>
+                                    <p>Video with captions:</p>
+                                    <div class="code-block">&lt;video controls&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+  &lt;track kind="captions" src="captions.vtt" srclang="en" label="English" default&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;</div>
+                                </div>
+                                
+                                <div class="example-box bad-example">
+                                    <h4>
+                                        <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                        </svg>
+                                        Bad Example
+                                    </h4>
+                                    <p>Video without captions:</p>
+                                    <div class="code-block">&lt;video controls&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="guideline-card">
+                            <div class="guideline-card-header">
+                                <div>
+                                    <h4 class="guideline-title">Audio Description or Media Alternative (Prerecorded)</h4>
+                                    <div class="guideline-reference">
+                                        <span class="wcag-tag">WCAG 1.2.3</span>
+                                        <span class="level-tag level-a">Level A</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-description">
+                                <p>An alternative for time-based media or audio description of the prerecorded video content is provided for synchronized media, except when the media is a media alternative for text and is clearly labeled as such.</p>
+                            </div>
+                            
+                            <div class="guideline-info">
+                                <p class="guideline-info-title">Implementation Guidelines</p>
+                                <ul>
+                                    <li>Provide audio descriptions for videos that convey visual information essential to understanding the content</li>
+                                    <li>Audio descriptions should narrate important visual elements that are not conveyed through dialogue</li>
+                                    <li>Alternatively, provide a full text transcript that includes descriptions of all visual and auditory information</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="adaptable" class="guideline-subsection">
+                        <h3>1.3 Adaptable</h3>
+                        
+                        <div class="guideline-card">
+                            <div class="guideline-card-header">
+                                <div>
+                                    <h4 class="guideline-title">Info and Relationships</h4>
+                                    <div class="guideline-reference">
+                                        <span class="wcag-tag">WCAG 1.3.1</span>
+                                        <span class="level-tag level-a">Level A</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-description">
+                                <p>Information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text.</p>
+                            </div>
+                            
+                            <div class="guideline-info">
+                                <p class="guideline-info-title">Implementation Guidelines</p>
+                                <ul>
+                                    <li>Use semantic HTML elements that reflect the intended structure of the content</li>
+                                    <li>Use proper heading structure (h1-h6) in a hierarchical order</li>
+                                    <li>Use lists (ul, ol, dl) for list-like content</li>
+                                    <li>Use tables for tabular data, with proper headers</li>
+                                    <li>Use fieldset and legend for grouping form elements</li>
+                                    <li>Associate form labels with their controls</li>
+                                </ul>
+                            </div>
+                            
+                            <h4 class="example-heading">Examples</h4>
+                            <div class="examples-container">
+                                <div class="example-box good-example">
+                                    <h4>
+                                        <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                        </svg>
+                                        Good Example
+                                    </h4>
+                                    <p>Proper heading structure:</p>
+                                    <div class="code-block">&lt;h1&gt;Main Page Title&lt;/h1&gt;
+&lt;section&gt;
+  &lt;h2&gt;Section Heading&lt;/h2&gt;
+  &lt;p&gt;Section content...&lt;/p&gt;
+  &lt;h3&gt;Subsection Heading&lt;/h3&gt;
+  &lt;p&gt;Subsection content...&lt;/p&gt;
+&lt;/section&gt;</div>
+                                    
+                                    <p>Proper form labeling:</p>
+                                    <div class="code-block">&lt;label for="name"&gt;Name:&lt;/label&gt;
+&lt;input type="text" id="name" name="name"&gt;</div>
+                                </div>
+                                
+                                <div class="example-box bad-example">
+                                    <h4>
+                                        <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                        </svg>
+                                        Bad Example
+                                    </h4>
+                                    <p>Fake headings:</p>
+                                    <div class="code-block">&lt;div style="font-weight: bold; font-size: 24px;"&gt;Main Page Title&lt;/div&gt;
+&lt;div style="font-weight: bold; font-size: 18px;"&gt;Section Heading&lt;/div&gt;</div>
+                                    
+                                    <p>Unlabeled form inputs:</p>
+                                    <div class="code-block">&lt;div&gt;Name:&lt;div&gt;Name:&lt;/div&gt;
+                                        &lt;input type="text" name="name"&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div id="distinguishable" class="guideline-subsection">
+                                                                <h3>1.4 Distinguishable</h3>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Use of Color</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 1.4.1</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Always use additional indicators besides color (text, icons, patterns)</li>
+                                                                            <li>Ensure information is understandable when viewed in grayscale</li>
+                                                                            <li>For links within text, use underlines or other visual cues besides color</li>
+                                                                            <li>For form validation, use icons, text, and patterns in addition to color</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <h4 class="example-heading">Examples</h4>
+                                                                    <div class="examples-container">
+                                                                        <div class="example-box good-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Good Example
+                                                                            </h4>
+                                                                            <p>Error indication with color and icon/text:</p>
+                                                                            <div class="code-block">&lt;p class="error"&gt;
+                                          &lt;span aria-hidden="true"&gt;❌&lt;/span&gt;
+                                          &lt;span class="error-text"&gt;Error: Please enter a valid email address&lt;/span&gt;
+                                        &lt;/p&gt;</div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="example-box bad-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Bad Example
+                                                                            </h4>
+                                                                            <p>Using only color to indicate an error:</p>
+                                                                            <div class="code-block">&lt;p style="color: red;"&gt;Please enter a valid email address&lt;/p&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Contrast (Minimum)</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 1.4.3</span>
+                                                                                <span class="level-tag level-aa">Level AA</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>The visual presentation of text and images of text has a contrast ratio of at least 4.5:1, except for the following:</p>
+                                                                        <ul>
+                                                                            <li><strong>Large Text:</strong> Large-scale text and images of large-scale text have a contrast ratio of at least 3:1;</li>
+                                                                            <li><strong>Incidental:</strong> Text or images of text that are part of an inactive user interface component, that are pure decoration, that are not visible to anyone, or that are part of a picture that contains significant other visual content, have no contrast requirement.</li>
+                                                                            <li><strong>Logotypes:</strong> Text that is part of a logo or brand name has no contrast requirement.</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Ensure text has sufficient contrast against its background</li>
+                                                                            <li>Use contrast ratio calculators to verify compliance</li>
+                                                                            <li>For normal text, maintain at least 4.5:1 contrast ratio</li>
+                                                                            <li>For large text (18pt or 14pt bold), maintain at least 3:1 contrast ratio</li>
+                                                                            <li>Remember that contrast requirements apply to text on images, buttons, and form controls</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div id="operable" class="guideline-section">
+                                                            <h2 class="guideline-heading">2. Operable</h2>
+                                                            <p>User interface components and navigation must be operable. This means that users must be able to operate the interface (the interface cannot require interaction that a user cannot perform).</p>
+                                                            
+                                                            <div id="keyboard-accessible" class="guideline-subsection">
+                                                                <h3>2.1 Keyboard Accessible</h3>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Keyboard</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 2.1.1</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>All functionality of the content is operable through a keyboard interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and not just the endpoints.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Ensure all interactive elements can be accessed and operated using the keyboard alone</li>
+                                                                            <li>Use semantic HTML elements for interactive components (<code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>, etc.)</li>
+                                                                            <li>If using custom interactive elements, add keyboard event handlers</li>
+                                                                            <li>Ensure dropdown menus, modals, and other widgets are keyboard accessible</li>
+                                                                            <li>Test with keyboard only (no mouse) to verify accessibility</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <h4 class="example-heading">Examples</h4>
+                                                                    <div class="examples-container">
+                                                                        <div class="example-box good-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Good Example
+                                                                            </h4>
+                                                                            <p>Using semantic HTML:</p>
+                                                                            <div class="code-block">&lt;button type="button"&gt;Submit Form&lt;/button&gt;</div>
+                                                                            
+                                                                            <p>Custom element with keyboard support:</p>
+                                                                            <div class="code-block">&lt;div 
+                                          role="button" 
+                                          tabindex="0" 
+                                          onclick="submitForm()" 
+                                          onkeydown="if(event.key==='Enter'||event.key===' ')submitForm()"
+                                          aria-label="Submit Form"&gt;
+                                          Submit
+                                        &lt;/div&gt;</div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="example-box bad-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Bad Example
+                                                                            </h4>
+                                                                            <p>Non-semantic element without keyboard support:</p>
+                                                                            <div class="code-block">&lt;div onclick="submitForm()"&gt;Submit&lt;/div&gt;</div>
+                                                                            
+                                                                            <p>Mouse-dependent interaction:</p>
+                                                                            <div class="code-block">&lt;div onmouseover="showMenu()" onmouseout="hideMenu()"&gt;Menu&lt;/div&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">No Keyboard Trap</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 2.1.2</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>If keyboard focus can be moved to a component of the page using a keyboard interface, then focus can be moved away from that component using only a keyboard interface, and, if it requires more than unmodified arrow or tab keys or other standard exit methods, the user is advised of the method for moving focus away.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Ensure users can navigate to and away from all interactive elements using the keyboard</li>
+                                                                            <li>Avoid creating "keyboard traps" where focus cannot be moved away from an element</li>
+                                                                            <li>For modal dialogs, trap focus within the dialog while it's open, but allow closing with ESC key</li>
+                                                                            <li>If non-standard keyboard navigation is required, provide instructions</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div id="navigable" class="guideline-subsection">
+                                                                <h3>2.4 Navigable</h3>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Bypass Blocks</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 2.4.1</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>A mechanism is available to bypass blocks of content that are repeated on multiple web pages.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Provide a "Skip to main content" link at the beginning of the page</li>
+                                                                            <li>Use proper heading structure to allow navigation by headings</li>
+                                                                            <li>Use ARIA landmarks to define page regions</li>
+                                                                            <li>Provide a table of contents for long documents</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <h4 class="example-heading">Examples</h4>
+                                                                    <div class="examples-container">
+                                                                        <div class="example-box good-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Good Example
+                                                                            </h4>
+                                                                            <p>Skip link at the beginning of the page:</p>
+                                                                            <div class="code-block">&lt;a href="#main-content" class="skip-link"&gt;Skip to main content&lt;/a&gt;
+                                        
+                                        &lt;header&gt;
+                                          &lt;!-- Navigation and header content --&gt;
+                                        &lt;/header&gt;
+                                        
+                                        &lt;main id="main-content"&gt;
+                                          &lt;!-- Main content --&gt;
+                                        &lt;/main&gt;</div>
+                                                                            
+                                                                            <p>Using ARIA landmarks:</p>
+                                                                            <div class="code-block">&lt;header role="banner"&gt;
+                                          &lt;!-- Site header content --&gt;
+                                        &lt;/header&gt;
+                                        
+                                        &lt;nav role="navigation"&gt;
+                                          &lt;!-- Navigation --&gt;
+                                        &lt;/nav&gt;
+                                        
+                                        &lt;main role="main"&gt;
+                                          &lt;!-- Main content --&gt;
+                                        &lt;/main&gt;
+                                        
+                                        &lt;footer role="contentinfo"&gt;
+                                          &lt;!-- Footer content --&gt;
+                                        &lt;/footer&gt;</div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="example-box bad-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Bad Example
+                                                                            </h4>
+                                                                            <p>No way to bypass repetitive navigation:</p>
+                                                                            <div class="code-block">&lt;div&gt;
+                                          &lt;!-- Logo and site header --&gt;
+                                        &lt;/div&gt;
+                                        
+                                        &lt;div&gt;
+                                          &lt;!-- Large navigation menu --&gt;
+                                        &lt;/div&gt;
+                                        
+                                        &lt;div&gt;
+                                          &lt;!-- Main content --&gt;
+                                        &lt;/div&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div id="understandable" class="guideline-section">
+                                                            <h2 class="guideline-heading">3. Understandable</h2>
+                                                            <p>Information and the operation of the user interface must be understandable. This means that users must be able to understand the information as well as the operation of the user interface.</p>
+                                                            
+                                                            <div id="readable" class="guideline-subsection">
+                                                                <h3>3.1 Readable</h3>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Language of Page</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 3.1.1</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>The default human language of each web page can be programmatically determined.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Specify the primary language of the page using the <code>lang</code> attribute on the <code>&lt;html&gt;</code> element</li>
+                                                                            <li>Use valid language codes according to BCP 47 (e.g., "en" for English, "es" for Spanish)</li>
+                                                                            <li>This helps screen readers pronounce content correctly</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <h4 class="example-heading">Examples</h4>
+                                                                    <div class="examples-container">
+                                                                        <div class="example-box good-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Good Example
+                                                                            </h4>
+                                                                            <p>Specifying page language:</p>
+                                                                            <div class="code-block">&lt;html lang="en"&gt;
+                                          &lt;!-- Page content --&gt;
+                                        &lt;/html&gt;</div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="example-box bad-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Bad Example
+                                                                            </h4>
+                                                                            <p>No language specified:</p>
+                                                                            <div class="code-block">&lt;html&gt;
+                                          &lt;!-- Page content --&gt;
+                                        &lt;/html&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Language of Parts</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 3.1.2</span>
+                                                                                <span class="level-tag level-aa">Level AA</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>The human language of each passage or phrase in the content can be programmatically determined except for proper names, technical terms, words of indeterminate language, and words or phrases that have become part of the vernacular of the immediately surrounding text.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Use the <code>lang</code> attribute on elements containing content in a different language than the page's default language</li>
+                                                                            <li>This ensures screen readers pronounce foreign language content correctly</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <h4 class="example-heading">Examples</h4>
+                                                                    <div class="examples-container">
+                                                                        <div class="example-box good-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Good Example
+                                                                            </h4>
+                                                                            <p>Marking up foreign language phrases:</p>
+                                                                            <div class="code-block">&lt;p&gt;The French expression &lt;span lang="fr"&gt;c'est la vie&lt;/span&gt; means "that's life."&lt;/p&gt;</div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="example-box bad-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Bad Example
+                                                                            </h4>
+                                                                            <p>Foreign language without language indication:</p>
+                                                                            <div class="code-block">&lt;p&gt;The French expression c'est la vie means "that's life."&lt;/p&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div id="robust" class="guideline-section">
+                                                            <h2 class="guideline-heading">4. Robust</h2>
+                                                            <p>Content must be robust enough that it can be interpreted by a wide variety of user agents, including assistive technologies. This means that users must be able to access the content as technologies advance.</p>
+                                                            
+                                                            <div id="compatible" class="guideline-subsection">
+                                                                <h3>4.1 Compatible</h3>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Parsing</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 4.1.1</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>In content implemented using markup languages, elements have complete start and end tags, elements are nested according to their specifications, elements do not contain duplicate attributes, and any IDs are unique, except where the specifications allow these features.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Write valid, well-formed HTML</li>
+                                                                            <li>Use proper opening and closing tags</li>
+                                                                            <li>Ensure proper nesting of elements</li>
+                                                                            <li>Avoid duplicate ID attributes</li>
+                                                                            <li>Validate your HTML using tools like the W3C Validator</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="guideline-card">
+                                                                    <div class="guideline-card-header">
+                                                                        <div>
+                                                                            <h4 class="guideline-title">Name, Role, Value</h4>
+                                                                            <div class="guideline-reference">
+                                                                                <span class="wcag-tag">WCAG 4.1.2</span>
+                                                                                <span class="level-tag level-a">Level A</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-description">
+                                                                        <p>For all user interface components (including but not limited to: form elements, links and components generated by scripts), the name and role can be programmatically determined; states, properties, and values that can be set by the user can be programmatically set; and notification of changes to these items is available to user agents, including assistive technologies.</p>
+                                                                    </div>
+                                                                    
+                                                                    <div class="guideline-info">
+                                                                        <p class="guideline-info-title">Implementation Guidelines</p>
+                                                                        <ul>
+                                                                            <li>Use semantic HTML elements whenever possible</li>
+                                                                            <li>Provide labels for form controls</li>
+                                                                            <li>Use appropriate ARIA roles, states, and properties when creating custom UI components</li>
+                                                                            <li>Ensure custom controls communicate state changes to assistive technologies</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
+                                                                    <h4 class="example-heading">Examples</h4>
+                                                                    <div class="examples-container">
+                                                                        <div class="example-box good-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Good Example
+                                                                            </h4>
+                                                                            <p>Custom checkbox with proper ARIA:</p>
+                                                                            <div class="code-block">&lt;div 
+                                          role="checkbox" 
+                                          aria-checked="false"
+                                          tabindex="0"
+                                          aria-labelledby="custom-checkbox-label"
+                                          onclick="toggleCheckbox(this)"
+                                          onkeydown="if(event.key===' ')toggleCheckbox(this)"&gt;
+                                          &lt;!-- visual checkbox indicator --&gt;
+                                        &lt;/div&gt;
+                                        &lt;span id="custom-checkbox-label"&gt;Accept terms and conditions&lt;/span&gt;</div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="example-box bad-example">
+                                                                            <h4>
+                                                                                <svg class="example-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                                                                                </svg>
+                                                                                Bad Example
+                                                                            </h4>
+                                                                            <p>Custom checkbox without ARIA:</p>
+                                                                            <div class="code-block">&lt;div onclick="toggleCheckbox(this)" class="custom-checkbox"&gt;&lt;/div&gt;
+                                        &lt;span&gt;Accept terms and conditions&lt;/span&gt;</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div id="additional-resources" class="guideline-section">
+                                                            <h2 class="guideline-heading">Additional Resources</h2>
+                                                            
+                                                            <div class="resources-list">
+                                                                <h3>Official WCAG Documentation</h3>
+                                                                <ul>
+                                                                    <li><a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener">WCAG 2.1 Quick Reference</a></li>
+                                                                    <li><a href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener">WCAG 2.1 Standards</a></li>
+                                                                    <li><a href="https://www.w3.org/WAI/tutorials/" target="_blank" rel="noopener">W3C Web Accessibility Tutorials</a></li>
+                                                                </ul>
+                                                                
+                                                                <h3>Testing Tools</h3>
+                                                                <ul>
+                                                                    <li><a href="https://wave.webaim.org/" target="_blank" rel="noopener">WAVE Web Accessibility Evaluation Tool</a></li>
+                                                                    <li><a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM Contrast Checker</a></li>
+                                                                    <li><a href="https://accessibilityinsights.io/" target="_blank" rel="noopener">Accessibility Insights</a></li>
+                                                                    <li><a href="https://www.deque.com/axe/" target="_blank" rel="noopener">Axe Accessibility Testing Tool</a></li>
+                                                                </ul>
+                                                                
+                                                                <h3>Screen Readers for Testing</h3>
+                                                                <ul>
+                                                                    <li><a href="https://www.nvaccess.org/" target="_blank" rel="noopener">NVDA (Free, Windows)</a></li>
+                                                                    <li><a href="https://www.apple.com/accessibility/mac/vision/" target="_blank" rel="noopener">VoiceOver (Built into macOS and iOS)</a></li>
+                                                                    <li><a href="https://www.freedomscientific.com/products/software/jaws/" target="_blank" rel="noopener">JAWS (Commercial, Windows)</a></li>
+                                                                </ul>
+                                                                
+                                                                <h3>Educational Resources</h3>
+                                                                <ul>
+                                                                    <li><a href="https://webaim.org/" target="_blank" rel="noopener">WebAIM</a></li>
+                                                                    <li><a href="https://www.a11yproject.com/" target="_blank" rel="noopener">The A11Y Project</a></li>
+                                                                    <li><a href="https://www.udacity.com/course/web-accessibility--ud891" target="_blank" rel="noopener">Udacity Web Accessibility Course</a></li>
+                                                                    <li><a href="https://a11y.coffee/" target="_blank" rel="noopener">Accessibility.coffee</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <a href="#" class="back-to-top" id="back-to-top" aria-label="Back to top">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                                                            <path d="M7.41 15.41L12 10.83l

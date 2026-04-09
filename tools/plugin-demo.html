@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Accessibility Plugin Demo - Web Accessibility Training Toolkit</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/accessibility.css">
+    <style>
+        /* Plugin Demo Specific Styles */
+        .plugin-demo {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .plugin-interface {
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-md);
+            background-color: var(--neutral-200);
+            padding: var(--spacing-lg);
+        }
+        
+        .wordpress-admin {
+            background-color: #f0f0f1;
+            color: #1d2327;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+        }
+        
+        .wordpress-header {
+            background-color: #1d2327;
+            color: #fff;
+            padding: 0 var(--spacing-md);
+            display: flex;
+            align-items: center;
+            height: 32px;
+        }
+        
+        .wordpress-header .wp-logo {
+            font-size: 20px;
+            margin-right: var(--spacing-sm);
+        }
+        
+        .wordpress-content {
+            padding: var(--spacing-md);
+        }
+        
+        .wordpress-toolbar {
+            background-color: #fff;
+            border-bottom: 1px solid #dcdcde;
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .wp-button {
+            display: inline-block;
+            padding: 6px 10px;
+            background-color: #f6f7f7;
+            border: 1px solid #c3c4c7;
+            border-radius: 3px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .wp-button.primary {
+            background-color: #2271b1;
+            border-color: #2271b1;
+            color: #fff;
+        }
+        
+        .wp-button.primary:hover {
+            background-color: #135e96;
+            border-color: #135e96;
+        }
+        
+        .editor-area {
+            background-color: #fff;
+            border: 1px solid #dcdcde;
+            border-radius: 3px;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .a11y-panel {
+            background-color: #fff;
+            border: 1px solid #dcdcde;
+            border-radius: 3px;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .a11y-panel h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #dcdcde;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .a11y-issue {
+            background-color: #f6f7f7;
+            border-left: 4px solid #d63638;
+            padding: var(--spacing-sm) var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .a11y-issue.warning {
+            border-left-color: #dba617;
+        }
+        
+        .a11y-issue.info {
+            border-left-color: #2271b1;
+        }
+        
+        .a11y-issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .a11y-issue-title {
+            font-weight: 600;
+        }
+        
+        .a11y-issue-tag {
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .a11y-issue-tag.error {
+            background-color: #d63638;
+            color: #fff;
+        }
+        
+        .a11y-issue-tag.warning {
+            background-color: #dba617;
+            color: #fff;
+        }
+        
+        .a11y-issue-tag.info {
+            background-color: #2271b1;
+            color: #fff;
+        }
+        
+        .a11y-issue-description {
+            font-size: 13px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .a11y-issue-fix {
+            font-size: 13px;
+            color: #3c434a;
+        }
+        
+        .plugin-editor-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-md);
+        }
+        
+        .plugin-status {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background-color: #f0f6fc;
+            border-left: 4px solid #2271b1;
+            border-radius: 3px;
+        }
+        
+        .plugin-features {
+            margin-top: var(--spacing-xl);
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .feature-card {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .feature-card h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        .feature-card ul {
+            margin-bottom: 0;
+        }
+        
+        .plugin-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .metric-card {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .plugin-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-300);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .plugin-tab {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .plugin-tab.active {
+            border-bottom-color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Demo interaction elements */
+        #demoEditor {
+            width: 100%;
+            min-height: 200px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            padding: var(--spacing-sm);
+            border: 1px solid #dcdcde;
+            border-radius: 3px;
+            resize: vertical;
+        }
+    </style>
+    <script src="../scripts/main.js" defer></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../index.html">Web Accessibility Training Toolkit</a></h1>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="main-nav">
+                    <li><a href="../index.html#overview">Overview</a></li>
+                    <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                    <li><a href="../index.html#tools" class="active">Tools</a></li>
+                    <li><a href="../index.html#resources">Resources</a></li>
+                    <li><a href="../index.html#documentation">Documentation</a></li>
+                </ul>
+            </nav>
+            <button class="settings-toggle" aria-expanded="false" aria-controls="accessibility-settings">
+                <span class="sr-only">Accessibility Settings</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    <path d="M12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="accessibility-settings" class="a11y-settings" hidden>
+        <div class="container">
+            <h2>Accessibility Settings</h2>
+            <div class="settings-grid">
+                <div class="setting-control">
+                    <label for="font-size">Text Size</label>
+                    <input type="range" id="font-size" min="100" max="200" step="10" value="100">
+                </div>
+                <div class="setting-control">
+                    <label for="contrast">High Contrast</label>
+                    <input type="checkbox" id="contrast">
+                </div>
+                <div class="setting-control">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion">
+                </div>
+                <div class="setting-control">
+                    <label for="dyslexia-font">Dyslexia-friendly Font</label>
+                    <input type="checkbox" id="dyslexia-font">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content" class="container">
+        <section class="section">
+            <nav aria-label="Breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#tools">Tools</a></li>
+                    <li aria-current="page">WordPress Plugin Demo</li>
+                </ol>
+            </nav>
+            
+            <header class="page-header">
+                <h1>WordPress Accessibility Plugin Demo</h1>
+                <p>Experience our WordPress plugin that helps enforce accessibility standards throughout your content creation workflow.</p>
+            </header>
+            
+            <div class="plugin-demo">
+                <div class="plugin-tabs">
+                    <div class="plugin-tab active" data-tab="demo">Interactive Demo</div>
+                    <div class="plugin-tab" data-tab="features">Features</div>
+                    <div class="plugin-tab" data-tab="impact">Impact & Metrics</div>
+                </div>
+                
+                <div id="demo-tab" class="tab-content active">
+                    <p>This interactive demo shows how our WordPress plugin integrates with the block editor to provide real-time accessibility feedback and guidance.</p>
+                    
+                    <div class="plugin-interface">
+                        <div class="wordpress-admin">
+                            <div class="wordpress-header">
+                                <span class="wp-logo">W</span>
+                                <span>WordPress</span>
+                            </div>
+                            
+                            <div class="wordpress-toolbar">
+                                <div class="toolbar-left">
+                                    <span>Page: Accessibility Information</span>
+                                    <button class="wp-button">Add Block</button>
+                                </div>
+                                <div class="toolbar-right">
+                                    <button class="wp-button">Preview</button>
+                                    <button class="wp-button primary">Publish</button>
+                                </div>
+                            </div>
+                            
+                            <div class="wordpress-content">
+                                <div class="plugin-editor-wrapper">
+                                    <div class="main-editor">
+                                        <div class="editor-area">
+                                            <textarea id="demoEditor" placeholder="Enter content here..." aria-label="WordPress content editor">
+<h2>Welcome to Our Website</h2>
+
+<p>Click the image below to learn more about our services.</p>
+
+<img src="sample-image.jpg" />
+
+<p>We offer the following services:</p>
+<div>
+- Web Development
+- Digital Marketing
+- Graphic Design
+</div>
+
+<p>Click <a>here</a> to contact us today!</p>
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="sidebar">
+                                        <div class="a11y-panel">
+                                            <h3>Accessibility Check</h3>
+                                            
+                                            <div class="a11y-issue">
+                                                <div class="a11y-issue-header">
+                                                    <span class="a11y-issue-title">Missing alt text</span>
+                                                    <span class="a11y-issue-tag error">Error</span>
+                                                </div>
+                                                <div class="a11y-issue-description">
+                                                    Image has no alternative text description.
+                                                </div>
+                                                <div class="a11y-issue-fix">
+                                                    <strong>Fix:</strong> Add descriptive alt text to the image.
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="a11y-issue warning">
+                                                <div class="a11y-issue-header">
+                                                    <span class="a11y-issue-title">List formatting</span>
+                                                    <span class="a11y-issue-tag warning">Warning</span>
+                                                </div>
+                                                <div class="a11y-issue-description">
+                                                    Content appears to be a list but isn't using proper list markup.
+                                                </div>
+                                                <div class="a11y-issue-fix">
+                                                    <strong>Fix:</strong> Use proper <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> elements for lists.
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="a11y-issue warning">
+                                                <div class="a11y-issue-header">
+                                                    <span class="a11y-issue-title">Empty link</span>
+                                                    <span class="a11y-issue-tag warning">Warning</span>
+                                                </div>
+                                                <div class="a11y-issue-description">
+                                                    Link has no descriptive text.
+                                                </div>
+                                                <div class="a11y-issue-fix">
+                                                    <strong>Fix:</strong> Add descriptive text to the link.
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="plugin-status">
+                                                <strong>Accessibility Score:</strong> 73/100
+                                                <div style="margin-top: 10px; height: 10px; background-color: #f0f0f0; border-radius: 5px;">
+                                                    <div style="width: 73%; height: 100%; background-color: #dba617; border-radius: 5px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <button id="fixIssuesBtn" class="button primary">Fix All Issues</button>
+                            <button id="resetDemoBtn" class="button secondary">Reset Demo</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="features-tab" class="tab-content">
+                    <div class="plugin-features">
+                        <h3>Key Plugin Features</h3>
+                        <p>Our WordPress Accessibility Plugin helps content creators maintain WCAG 2.1 compliance throughout the content creation process.</p>
+                        
+                        <div class="feature-list">
+                            <div class="feature-card">
+                                <h4>Real-Time Accessibility Checks</h4>
+                                <ul>
+                                    <li>Image alt text verification</li>
+                                    <li>Heading structure analysis</li>
+                                    <li>Color contrast validation</li>
+                                    <li>Form field label verification</li>
+                                    <li>Link text quality assessment</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <h4>Content Structure Enforcement</h4>
+                                <ul>
+                                    <li>Proper list formatting</li>
+                                    <li>Table structure requirements</li>
+                                    <li>Semantic HTML validation</li>
+                                    <li>ARIA attributes guidance</li>
+                                    <li>Landmark regions verification</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <h4>Automated Corrections</h4>
+                                <ul>
+                                    <li>One-click issue resolution</li>
+                                    <li>Smart suggestions for alt text</li>
+                                    <li>Structure conversion tools</li>
+                                    <li>Accessible template insertion</li>
+                                    <li>Guided fixes with explanations</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <h4>Compliance Reporting</h4>
+                                <ul>
+                                    <li>Accessibility score dashboard</li>
+                                    <li>Content audit reports</li>
+                                    <li>Historical compliance tracking</li>
+                                    <li>Issue prioritization</li>
+                                    <li>Export capabilities for documentation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="impact-tab" class="tab-content">
+                    <h3>Impact & Effectiveness Metrics</h3>
+                    <p>Based on data collected from organizations using our WordPress Accessibility Plugin:</p>
+                    
+                    <div class="plugin-metrics">
+                        <div class="metric-card">
+                            <div class="metric-value">93%</div>
+                            <div class="metric-label">Reduction in accessibility errors</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-value">87%</div>
+                            <div class="metric-label">Staff report increased confidence</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-value">76%</div>
+                            <div class="metric-label">Faster content production</div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-value">42%</div>
+                            <div class="metric-label">Reduction in post-publishing fixes</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 40px;">
+                        <h4>Implementation Benefits</h4>
+                        <ul>
+                            <li><strong>Staff Training Integration:</strong> The plugin reinforces accessibility principles learned in training sessions, providing practical application of concepts.</li>
+                            <li><strong>Workflow Efficiency:</strong> By catching issues during content creation rather than after publication, the editing process becomes more streamlined.</li>
+                            <li><strong>Compliance Documentation:</strong> Automated reports help maintain records for accessibility audits and compliance requirements.</li>
+                            <li><strong>Knowledge Building:</strong> Contextual guidance helps content creators learn accessibility principles through practical examples.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="implementation-section">
+                <h2>Implementation Process</h2>
+                <p>The WordPress Accessibility Plugin is designed to be easy to implement while providing comprehensive accessibility support.</p>
+                
+                <div class="implementation-steps">
+                    <ol>
+                        <li>
+                            <h3>Installation & Configuration</h3>
+                            <p>The plugin can be installed directly from the WordPress plugin repository or via manual upload. Initial configuration takes approximately 15-30 minutes.</p>
+                        </li>
+                        
+                        <li>
+                            <h3>User Training</h3>
+                            <p>A 1-hour training session is recommended to familiarize content creators with the plugin features and how to interpret accessibility feedback.</p>
+                        </li>
+                        
+                        <li>
+                            <h3>Custom Rule Configuration</h3>
+                            <p>Organizations can customize the plugin rules to align with their specific accessibility policy requirements and branding guidelines.</p>
+                        </li>
+                        
+                        <li>
+                            <h3>Integration with Existing Content</h3>
+                            <p>The plugin can scan existing content to identify accessibility issues, prioritizing them by impact level for remediation.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h2>Web Accessibility Training Toolkit</h2>
+                    <p>A comprehensive solution for training staff on content accessibility standards and best practices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-nav">
+                        <li><a href="../index.html#overview">Overview</a></li>
+                        <li><a href="../index.html#learning-modules">Learning Modules</a></li>
+                        <li><a href="../index.html#tools">Tools</a></li>
+                        <li><a href="../index.html#resources">Resources</a></li>
+                        <li><a href="../index.html#documentation">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For support or inquiries regarding this toolkit, please contact the accessibility team.</p>
+                    <a href="mailto:accessibility@example.com" class="contact-link">accessibility@example.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Web Accessibility Training Toolkit. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Plugin Demo Interactive Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.plugin-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab content
+                    const tabContents = document.querySelectorAll('.tab-content');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show the selected tab content
+                    const tabId = `${this.dataset.tab}-tab`;
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Fix All Issues button functionality
+            const fixIssuesBtn = document.getElementById('fixIssuesBtn');
+            if (fixIssuesBtn) {
+                fixIssuesBtn.addEventListener('click', function() {
+                    const demoEditor = document.getElementById('demoEditor');
+                    
+                    // Apply fixes to the content
+                    demoEditor.value = `<h2>Welcome to Our Website</h2>
+
+<p>Click the image below to learn more about our services.</p>
+
+<img src="sample-image.jpg" alt="A team of professionals collaborating on a project" />
+
+<p>We offer the following services:</p>
+<ul>
+    <li>Web Development</li>
+    <li>Digital Marketing</li>
+    <li>Graphic Design</li>
+</ul>
+
+<p>Click <a href="contact.html">here to contact us</a> today!</p>`;
+
+                    // Update accessibility panel
+                    const a11yPanel = document.querySelector('.a11y-panel');
+                    if (a11yPanel) {
+                        a11yPanel.innerHTML = `
+                            <h3>Accessibility Check</h3>
+                            
+                            <div class="a11y-issue info">
+                                <div class="a11y-issue-header">
+                                    <span class="a11y-issue-title">All issues resolved</span>
+                                    <span class="a11y-issue-tag info">Info</span>
+                                </div>
+                                <div class="a11y-issue-description">
+                                    No accessibility issues detected in the content.
+                                </div>
+                            </div>
+                            
+                            <div class="plugin-status">
+                                <strong>Accessibility Score:</strong> 100/100
+                                <div style="margin-top: 10px; height: 10px; background-color: #f0f0f0; border-radius: 5px;">
+                                    <div style="width: 100%; height: 100%; background-color: #00a32a; border-radius: 5px;"></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            
+            // Reset Demo button functionality
+            const resetDemoBtn = document.getElementById('resetDemoBtn');
+            if (resetDemoBtn) {
+                resetDemoBtn.addEventListener('click', function() {
+                    location.reload();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

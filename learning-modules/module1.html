@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Web Accessibility | Web Accessibility Training Toolkit</title>
+    <style>
+        /* Base styles and reset */
+        :root {
+            --primary-color: #2c7be5;
+            --secondary-color: #6c757d;
+            --success-color: #00b791;
+            --warning-color: #f0ad4e;
+            --danger-color: #d9534f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --border-radius: 4px;
+            --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --transition: all 0.2s ease-in-out;
+            --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: #1a68d1;
+            text-decoration: underline;
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+
+        button, .button {
+            display: inline-block;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        button:hover, .button:hover {
+            background-color: #1a68d1;
+            text-decoration: none;
+        }
+
+        button:focus, .button:focus {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(44, 123, 229, 0.25);
+        }
+
+        button:disabled, .button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        code {
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            padding: 0.2rem 0.4rem;
+            font-size: 87.5%;
+            color: #e83e8c;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        #mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu-toggle {
+                display: block;
+            }
+            
+            #main-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--box-shadow);
+            }
+            
+            #main-menu.show {
+                display: flex;
+            }
+            
+            #main-menu > li {
+                margin-left: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            #main-menu > li > ul {
+                position: static;
+                display: block;
+                box-shadow: none;
+                border: none;
+                padding-left: 1rem;
+            }
+        }
+
+        .hamburger {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: var(--text-color);
+            position: relative;
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+            left: 0;
+        }
+
+        .hamburger::before {
+            top: -6px;
+        }
+
+        .hamburger::after {
+            bottom: -6px;
+        }
+
+        #main-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #main-menu > li {
+            position: relative;
+            margin-left: 1.5rem;
+        }
+
+        #main-menu > li > a {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        #main-menu > li > a[aria-current="page"] {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        #main-menu > li > ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            min-width: 200px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 10;
+            list-style: none;
+        }
+
+        #main-menu > li:hover > ul,
+        #main-menu > li:focus-within > ul {
+            display: block;
+        }
+
+        #main-menu > li > ul > li > a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text-color);
+        }
+
+        #main-menu > li > ul > li > a:hover,
+        #main-menu > li > ul > li > a[aria-current="page"] {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        /* Main content area */
+        main {
+            padding: 2rem 0;
+        }
+
+        .module-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin: 2rem 0 1rem;
+            color: var(--dark-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--dark-color);
+        }
+
+        .progress-indicator {
+            display: inline-block;
+            background-color: var(--light-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+
+        .progress-indicator .current {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .learning-objectives ul {
+            margin-top: 1rem;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 0.5rem;
+        }
+
+        .accessibility-categories,
+        .barriers-grid,
+        .benefits-grid,
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .category-card,
+        .barrier-card,
+        .benefit-card,
+        .resource-card {
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .category-card:hover,
+        .barrier-card:hover,
+        .benefit-card:hover,
+        .resource-card:hover {
+            box-shadow: var(--box-shadow);
+            transform: translateY(-3px);
+        }
+
+        .category-card img {
+            height: 64px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+
+        .note {
+            background-color: #e6f2ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .note h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .interactive-element {
+            background-color: #f8f9fa;
+            border: 1px dashed var(--border-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+
+        .simulation-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .simulation-controls button {
+            background-color: #f0f0f0;
+            color: var(--text-color);
+        }
+
+        .simulation-controls button[aria-pressed="true"] {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #simulation-area {
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+        }
+
+        .example {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .contrast-example {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .poor-contrast {
+            color: #aaaaaa;
+            background-color: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .good-contrast {
+            color: #000000;
+            background-color: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .quote {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        blockquote {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        blockquote::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            left: 0;
+            top: -1.5rem;
+            color: var(--primary-color);
+            opacity: 0.25;
+        }
+
+        cite {
+            display: block;
+            margin-top: 1rem;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        /* Quiz styles */
+        .quiz {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+        }
+
+        .options {
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .feedback-correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback-incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .correct-answer {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .incorrect-answer {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .quiz-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .quiz-results {
+            padding: 1.5rem;
+            background-color: #e6f2ff;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
+
+        #results-feedback {
+            margin: 1rem 0;
+        }
+
+        /* Module navigation */
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .back-link, .next-module {
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .back-link::before {
+            content: '←';
+            margin-right: 0.5rem;
+        }
+
+        .next-module::after {
+            content: '→';
+            margin-left: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h2, .footer-section h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #9bb8e8;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            border-top: 1px solid #555;
+            padding-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        /* Accessibility-specific styles */
+        .screen-reader-simulation .sample-content {
+            display: none;
+        }
+
+        .sr-interface {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+        }
+
+        .sr-header {
+            font-weight: bold;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .sr-content {
+            padding: 0.5rem 0;
+        }
+
+        .sr-footer {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #555;
+            font-size: 0.875rem;
+            color: #aaa;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .module-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .accessibility-categories,
+            .barriers-grid,
+            .benefits-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .simulation-controls {
+                flex-direction: column;
+            }
+            
+            .module-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav aria-label="Main Navigation">
+                <a href="../index.html" class="logo">Web Accessibility Toolkit</a>
+                <button id="mobile-menu-toggle" aria-expanded="false" aria-controls="main-menu">
+                    <span class="sr-only">Toggle menu</span>
+                    <span class="hamburger"></span>
+                </button>
+                <ul id="main-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li>
+                        <a href="#" aria-current="page">Learning Modules</a>
+                        <ul>
+                            <li><a href="module1.html" aria-current="page">Introduction to Web Accessibility</a></li>
+                            <li><a href="module2.html">WCAG 2.1 Guidelines</a></li>
+                            <li><a href="module3.html">Content Creation Best Practices</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../tools/checklist.html">Tools</a></li>
+                    <li><a href="../resources/guidelines.html">Resources</a></li>
+                    <li><a href="../documentation/content-management.html">Documentation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="module-header">
+                <h1>Module 1: Introduction to Web Accessibility</h1>
+                <div class="progress-indicator">
+                    <span class="current">1</span> of <span class="total">5</span> modules
+                </div>
+            </div>
+
+            <section class="learning-objectives">
+                <h2>Learning Objectives</h2>
+                <p>By the end of this module, you will be able to:</p>
+                <ul>
+                    <li>Define web accessibility and explain its importance</li>
+                    <li>Identify the four main categories of disabilities that affect web use</li>
+                    <li>Understand the legal and ethical reasons for creating accessible content</li>
+                    <li>Recognize common accessibility barriers in web content</li>
+                    <li>Explain how accessible design benefits all users</li>
+                </ul>
+            </section>
+
+            <section class="module-content">
+                <h2>What is Web Accessibility?</h2>
+                <p>Web accessibility means that websites, tools, and technologies are designed and developed so that people with disabilities can use them. More specifically, people can:</p>
+                <ul>
+                    <li>Perceive, understand, navigate, and interact with the Web</li>
+                    <li>Contribute to the Web</li>
+                </ul>
+
+                <p>Web accessibility encompasses all disabilities that affect access to the Web, including:</p>
+                <div class="accessibility-categories">
+                    <div class="category-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzdiZTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMiAxMnMzLTcgMTAtNyAxMCA3IDEwIDctMyA3LTEwIDctMTAtNy0xMC03eiI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiPjwvY2lyY2xlPjwvc3ZnPg==" alt="" aria-hidden="true">
+                        <h3>Visual</h3>
+                        <p>Blindness, low vision, color-blindness</p>
+                    </div>
+                    <div class="category-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzdiZTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNNiAxNGgxMnYtNEg2djR6Ij48L3BhdGg+PHBhdGggZD0iTTE4IDhhMiAyIDAgMCAwLTItMmgtNGEyIDIgMCAwIDAtMiAyIj48L3BhdGg+PHBhdGggZD0iTTYgMTh2LTRoMTJ2NCI+PC9wYXRoPjwvc3ZnPg==" alt="" aria-hidden="true">
+                        <h3>Auditory</h3>
+                        <p>Deafness and hard-of-hearing</p>
+                    </div>
+                    <div class="category-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzdiZTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTggOHMxLjkgMy4xIDEuOSA2LjFjMCAyLjEtMS40IDQtMy41IDQuNy0xLjIuNC0yLjYuNC0zLjggMEMxMC40IDE4LjEgOSAxNi4yIDkgMTQuMWMwLTMgMS45LTYuMSAxLjktNi4xIj48L3BhdGg+PHBhdGggZD0iTTEyIDR2NC41Ij48L3BhdGg+PC9zdmc+" alt="" aria-hidden="true">
+                        <h3>Motor</h3>
+                        <p>Inability to use a mouse, slow response time, limited fine motor control</p>
+                    </div>
+                    <div class="category-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyYzdiZTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4Ij48L2NpcmNsZT48bGluZSB4MT0iMTIiIHkxPSIyIiB4Mj0iMTIiIHkyPSI0Ij48L2xpbmU+PGxpbmUgeDE9IjEyIiB5MT0iMjAiIHgyPSIxMiIgeTI9IjIyIj48L2xpbmU+PGxpbmUgeDE9IjIwIiB5MT0iMTIiIHgyPSIyMiIgeTI9IjEyIj48L2xpbmU+PGxpbmUgeDE9IjIiIHkxPSIxMiIgeDI9IjQiIHkyPSIxMiI+PC9saW5lPjwvc3ZnPg==" alt="" aria-hidden="true">
+                        <h3>Cognitive</h3>
+                        <p>Learning disabilities, distractibility, inability to remember or focus on large amounts of information</p>
+                    </div>
+                </div>
+                
+                <div class="note">
+                    <h3>Did you know?</h3>
+                    <p>According to the World Health Organization, over 1 billion people worldwide live with some form of disability. That's approximately 15% of the global population.</p>
+                </div>
+
+                <h2>Why Accessibility Matters</h2>
+                
+                <h3>Legal Requirements</h3>
+                <p>Many countries have laws requiring web accessibility:</p>
+                <ul>
+                    <li><strong>Americans with Disabilities Act (ADA)</strong> - In the United States, websites are considered "places of public accommodation" and must be accessible</li>
+                    <li><strong>Section 508</strong> - Requires federal agencies to make their electronic and information technology accessible</li>
+                    <li><strong>Accessibility for Ontarians with Disabilities Act (AODA)</strong> - In Ontario, Canada, requiring accessible websites</li>
+                    <li><strong>European Accessibility Act</strong> - EU-wide legislation on accessibility requirements</li>
+                </ul>
+
+                <h3>Ethical Considerations</h3>
+                <p>Beyond legal requirements, creating accessible content is the right thing to do. The web was designed to work for all people, whatever their hardware, software, language, location, or ability. When the web meets this goal, it is accessible to people with a diverse range of hearing, movement, sight, and cognitive ability.</p>
+
+                <h3>Business Benefits</h3>
+                <p>Accessible websites often demonstrate:</p>
+                <ul>
+                    <li>Increased audience reach</li>
+                    <li>Better search engine optimization (SEO)</li>
+                    <li>Improved usability for all users</li>
+                    <li>Enhanced brand reputation</li>
+                    <li>Reduced legal risk</li>
+                </ul>
+
+                <div class="interactive-element">
+                    <h3>Accessibility Simulation</h3>
+                    <p>Experience what it's like to navigate a website with different disabilities:</p>
+                    <div class="simulation-controls">
+                        <button id="simulate-blindness" aria-pressed="false">Screen Reader Simulation</button>
+                        <button id="simulate-colorblind" aria-pressed="false">Color Blindness</button>
+                        <button id="simulate-mobility" aria-pressed="false">Limited Mobility</button>
+                        <button id="reset-simulation">Reset</button>
+                    </div>
+                    <div id="simulation-area">
+                        <div class="sample-content">
+                            <h4>Sample Content</h4>
+                            <p>This is some example content that will change based on the selected simulation. Try clicking one of the buttons above to see how different disabilities affect web browsing.</p>
+                            <a href="#">Sample link</a>
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMzAwIDIwMCI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNlOWVjZWYiPjwvcmVjdD48dGV4dCB4PSIxNTAiIHk9IjEwMCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM2Yzc1N2QiPkEgY2hhcnQgc2hvd2luZyB3ZWIgYWNjZXNzaWJpbGl0eSBzdGF0aXN0aWNzPC90ZXh0Pjwvc3ZnPg==" alt="A chart showing web accessibility statistics">
+                            <form>
+                                <label for="sample-input">Sample input:</label>
+                                <input type="text" id="sample-input">
+                                <button type="button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Common Accessibility Barriers</h2>
+                <p>Many websites and web tools have accessibility barriers that make them difficult or impossible for some people to use. Here are some common issues:</p>
+                
+                <div class="barriers-grid">
+                    <div class="barrier-card">
+                        <h3>Images Without Alt Text</h3>
+                        <p>Screen readers cannot interpret images without alternative text, making this content inaccessible to people who are blind.</p>
+                        <div class="example">
+                            <h4>Example</h4>
+                            <code>&lt;img src="chart.jpg"&gt;</code>
+                            <p>vs.</p>
+                            <code>&lt;img src="chart.jpg" alt="Bar chart showing website traffic increase of 25% after accessibility improvements"&gt;</code>
+                        </div>
+                    </div>
+                    
+                    <div class="barrier-card">
+                        <h3>Poor Color Contrast</h3>
+                        <p>Text with low contrast against its background is difficult to read, especially for people with low vision or color blindness.</p>
+                        <div class="example">
+                            <div class="contrast-example">
+                                <div class="poor-contrast">Low contrast text example</div>
+                                <div class="good-contrast">Good contrast text example</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="barrier-card">
+                        <h3>Keyboard Inaccessibility</h3>
+                        <p>Some users cannot use a mouse and rely on the keyboard. Interactive elements should be usable with keyboard commands.</p>
+                        <div class="example">
+                            <h4>Try it:</h4>
+                            <p>Try navigating this page using only your Tab key, Enter key, and arrow keys.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="barrier-card">
+                        <h3>Missing Form Labels</h3>
+                        <p>Without proper labels, screen reader users cannot identify what information should be entered in form fields.</p>
+                        <div class="example">
+                            <h4>Example</h4>
+                            <code>&lt;input type="text"&gt;</code>
+                            <p>vs.</p>
+                            <code>&lt;label for="name"&gt;Name:&lt;/label&gt;<br>&lt;input type="text" id="name"&gt;</code>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Accessibility Benefits Everyone</h2>
+                <p>Accessible design creates benefits that extend beyond users with disabilities:</p>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3>Mobile Device Users</h3>
+                        <p>Accessibility best practices like responsive design and clear navigation benefit mobile users.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Older Adults</h3>
+                        <p>Age-related impairments like diminished vision or reduced dexterity are addressed by accessible design.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Users with Temporary Limitations</h3>
+                        <p>Someone with a broken arm or lost glasses will benefit from accessible alternatives.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Users with Slow Internet</h3>
+                        <p>Accessible sites often load faster and work better on slower connections.</p>
+                    </div>
+                </div>
+                
+                <div class="quote">
+                    <blockquote>
+                        "The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect."
+                        <cite>Tim Berners-Lee, Inventor of the World Wide Web</cite>
+                    </blockquote>
+                </div>
